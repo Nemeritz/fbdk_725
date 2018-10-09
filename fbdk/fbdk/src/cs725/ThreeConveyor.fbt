@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="ThreeConveyor" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="MergePositions" />
+      </Event>
+      <Event Name="TICK" Comment="Normal Execution Request" >
+        <With Var="msSinceMidnight" />
+        <With Var="MotorForward1" />
+        <With Var="MotorForward2" />
+        <With Var="MotorForward3" />
+        <With Var="ConvLength" />
+        <With Var="PEPositions" />
+      </Event>
+      <Event Name="BagMerge1" >
+        <With Var="BagMerge1ID" />
+        <With Var="BagMerge1Length" />
+      </Event>
+      <Event Name="BagMerge2" >
+        <With Var="BagMerge2ID" />
+        <With Var="BagMerge2Length" />
+      </Event>
+      <Event Name="BagMerge3" >
+        <With Var="BagMerge3ID" />
+        <With Var="BagMerge3Length" />
+      </Event>
+      <Event Name="BagMerge4" >
+        <With Var="BagMerge4ID" />
+        <With Var="BagMerge4Length" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="BagOutX1" />
+        <With Var="BagOutPE1" />
+        <With Var="BagOutX2" />
+        <With Var="BagOutPE2" />
+        <With Var="BagOutX3" />
+        <With Var="BagOutPE3" />
+        <With Var="BagOutPE4" />
+        <With Var="BagOutPE5" />
+        <With Var="BagOutPE6" />
+      </Event>
+      <Event Name="BagOut" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="MergePositions" Type="DINT" ArraySize="3" />
+      <VarDeclaration Name="msSinceMidnight" Type="DINT" />
+      <VarDeclaration Name="MotorForward1" Type="BOOL" />
+      <VarDeclaration Name="MotorForward2" Type="BOOL" />
+      <VarDeclaration Name="MotorForward3" Type="BOOL" />
+      <VarDeclaration Name="BagMerge1ID" Type="DINT" />
+      <VarDeclaration Name="BagMerge1Length" Type="DINT" />
+      <VarDeclaration Name="BagMerge2ID" Type="DINT" />
+      <VarDeclaration Name="BagMerge2Length" Type="DINT" />
+      <VarDeclaration Name="BagMerge3ID" Type="DINT" />
+      <VarDeclaration Name="BagMerge3Length" Type="DINT" />
+      <VarDeclaration Name="ConvLength" Type="INT" />
+      <VarDeclaration Name="PEPositions" Type="DINT" ArraySize="6" />
+      <VarDeclaration Name="BagMerge4ID" Type="DINT" />
+      <VarDeclaration Name="BagMerge4Length" Type="DINT" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="BagOutX3" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagOutPE3" Type="BOOL" />
+      <VarDeclaration Name="BagOutPE4" Type="BOOL" />
+      <VarDeclaration Name="BagOutPE5" Type="BOOL" />
+      <VarDeclaration Name="BagOutPE6" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="C1" Type="Conveyor_Model_WithNetwork" x="538.88885" y="183.33333" />
+    <FB Name="C2" Type="Conveyor_Model_WithNetwork" x="2305.5554" y="183.33333" />
+    <FB Name="C3" Type="Conveyor_Model_WithNetwork" x="4172.222" y="183.33333" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="C1.INIT" dx1="433.3333" />
+      <Connection Source="TICK" Destination="C1.TICK" dx1="422.2222" />
+      <Connection Source="BagMerge1" Destination="C1.BagMerge1" dx1="333.3333" />
+      <Connection Source="BagMerge3" Destination="C1.BagMerge2" dx1="333.3333" />
+      <Connection Source="C1.BagOut" Destination="C2.BagIn" dx1="744.4444" />
+      <Connection Source="C1.CNF" Destination="C2.TICK" dx1="788.88885" />
+      <Connection Source="C1.INITO" Destination="C2.INIT" dx1="827.7778" />
+      <Connection Source="C2.INITO" Destination="C3.INIT" dx1="916.6666" />
+      <Connection Source="C2.CNF" Destination="C3.TICK" dx1="872.22217" />
+      <Connection Source="C2.BagOut" Destination="C3.BagIn" dx1="827.7778" />
+      <Connection Source="C3.INITO" Destination="INITO" dx1="5127.7773" />
+      <Connection Source="C3.CNF" Destination="CNF" dx1="5105.555" />
+      <Connection Source="BagMerge2" Destination="C2.BagMerge1" dx1="2100.0" />
+      <Connection Source="BagMerge4" Destination="C3.BagMerge1" dx1="3966.6665" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="ConvLength" Destination="C1.ConvLength" dx1="327.77777" />
+      <Connection Source="PEPositions" Destination="C1.PEPositions" dx1="333.3333" />
+      <Connection Source="MergePositions" Destination="C1.MergePositions" dx1="288.8889" />
+      <Connection Source="msSinceMidnight" Destination="C1.msSinceMidnight" dx1="255.55554" />
+      <Connection Source="MotorForward1" Destination="C1.MotorForward" dx1="294.44443" />
+      <Connection Source="BagMerge1ID" Destination="C1.BagMerge1ID" dx1="305.55554" />
+      <Connection Source="BagMerge1Length" Destination="C1.BagMerge1Length" dx1="244.44443" />
+      <Connection Source="BagMerge3ID" Destination="C1.BagMerge2ID" dx1="305.55554" />
+      <Connection Source="BagMerge3Length" Destination="C1.BagMerge2Length" dx1="244.44443" />
+      <Connection Source="ConvLength" Destination="C2.ConvLength" dx1="2094.4443" />
+      <Connection Source="PEPositions" Destination="C2.PEPositions" dx1="2100.0" />
+      <Connection Source="MergePositions" Destination="C2.MergePositions" dx1="2055.5554" />
+      <Connection Source="C1.BagOutID" Destination="C2.BagInID" dx1="499.99997" />
+      <Connection Source="C1.BagOutLength" Destination="C2.BagInLength" dx1="461.11108" />
+      <Connection Source="C2.BagOutID" Destination="C3.BagInID" dx1="550.0" />
+      <Connection Source="C2.BagOutLength" Destination="C3.BagInLength" dx1="505.55554" />
+      <Connection Source="msSinceMidnight" Destination="C2.msSinceMidnight" dx1="2022.2222" />
+      <Connection Source="MotorForward2" Destination="C2.MotorForward" dx1="2061.111" />
+      <Connection Source="BagMerge2ID" Destination="C2.BagMerge1ID" dx1="2072.2222" />
+      <Connection Source="BagMerge2Length" Destination="C2.BagMerge1Length" dx1="2011.1111" />
+      <Connection Source="ConvLength" Destination="C3.ConvLength" dx1="3961.1108" />
+      <Connection Source="PEPositions" Destination="C3.PEPositions" dx1="3966.6665" />
+      <Connection Source="MergePositions" Destination="C3.MergePositions" dx1="3922.2222" />
+      <Connection Source="msSinceMidnight" Destination="C3.msSinceMidnight" dx1="3888.8887" />
+      <Connection Source="MotorForward3" Destination="C3.MotorForward" dx1="3927.7776" />
+      <Connection Source="C1.BagOutX" Destination="BagOutX1" dx1="1550.0" />
+      <Connection Source="C2.BagOutX" Destination="BagOutX2" dx1="3316.6665" />
+      <Connection Source="C3.BagOutX" Destination="BagOutX3" dx1="5183.333" />
+      <Connection Source="C1.BagOutPE" Destination="BagOutPE4" dx1="1572.2222" />
+      <Connection Source="C2.BagOutPE" Destination="BagOutPE5" dx1="3338.8887" />
+      <Connection Source="C1.BagOutPE2" Destination="BagOutPE1" dx1="1572.2222" />
+      <Connection Source="C2.BagOutPE2" Destination="BagOutPE2" dx1="3338.8887" />
+      <Connection Source="C3.BagOutPE2" Destination="BagOutPE3" dx1="5205.555" />
+      <Connection Source="BagMerge4ID" Destination="C3.BagMerge1ID" dx1="3938.8887" />
+      <Connection Source="BagMerge4Length" Destination="C3.BagMerge1Length" dx1="3877.7776" />
+      <Connection Source="C3.BagOutPE" Destination="BagOutPE6" dx1="5205.555" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

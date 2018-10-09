@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="ConveyorRenderTwoConveyor" Comment="Basic Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-04" Remarks="Renamed for better indexing." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-11-05" Remarks="Corrected missing ST element in Algorithm REQ." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-30" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="C1BagOutX1" />
+        <With Var="C1BagOutPE1" />
+        <With Var="C1BagOutX2" />
+        <With Var="C1BagOutPE2" />
+        <With Var="C2BagOutX1" />
+        <With Var="C2BagOutPE1" />
+        <With Var="C2BagOutX2" />
+        <With Var="C2BagOutPE2" />
+        <With Var="C3BagOutX1" />
+        <With Var="C3BagOutPE1" />
+        <With Var="C3BagOutX2" />
+        <With Var="C3BagOutPE2" />
+        <With Var="C4BagOutX1" />
+        <With Var="C4BagOutPE1" />
+        <With Var="C4BagOutX2" />
+        <With Var="C4BagOutPE2" />
+        <With Var="C4BagOutX3" />
+        <With Var="C4BagOutPE3" />
+        <With Var="C4BagOutPE5" />
+        <With Var="C4BagOutPE4" />
+        <With Var="C1Rotate" />
+        <With Var="C2Rotate" />
+        <With Var="C3Rotate" />
+        <With Var="C4Rotate" />
+        <With Var="C5Rotate" />
+        <With Var="C6Rotate" />
+        <With Var="C7Rotate" />
+        <With Var="C8Rotate" />
+        <With Var="C9Rotate" />
+        <With Var="C10Rotate" />
+        <With Var="C11Rotate" />
+        <With Var="C4BagOutPE6" />
+        <With Var="C5BagOutX1" />
+        <With Var="C5BagOutPE1" />
+        <With Var="C5BagOutX2" />
+        <With Var="C5BagOutPE2" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="C1BagOutX1" />
+        <With Var="C1BagOutPE1" />
+        <With Var="C1BagOutX2" />
+        <With Var="C1BagOutPE2" />
+        <With Var="C2BagOutX1" />
+        <With Var="C2BagOutPE1" />
+        <With Var="C2BagOutX2" />
+        <With Var="C2BagOutPE2" />
+        <With Var="C3BagOutX1" />
+        <With Var="C3BagOutPE1" />
+        <With Var="C3BagOutX2" />
+        <With Var="C3BagOutPE2" />
+        <With Var="C4BagOutX1" />
+        <With Var="C4BagOutPE1" />
+        <With Var="C4BagOutX2" />
+        <With Var="C4BagOutPE2" />
+        <With Var="C4BagOutX3" />
+        <With Var="C4BagOutPE3" />
+        <With Var="C4BagOutPE4" />
+        <With Var="C4BagOutPE5" />
+        <With Var="C1Rotate" />
+        <With Var="C2Rotate" />
+        <With Var="C3Rotate" />
+        <With Var="C4Rotate" />
+        <With Var="C5Rotate" />
+        <With Var="C6Rotate" />
+        <With Var="C7Rotate" />
+        <With Var="C8Rotate" />
+        <With Var="C9Rotate" />
+        <With Var="C10Rotate" />
+        <With Var="C11Rotate" />
+        <With Var="C4BagOutPE6" />
+        <With Var="C5BagOutX1" />
+        <With Var="C5BagOutPE1" />
+        <With Var="C5BagOutX2" />
+        <With Var="C5BagOutPE2" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="Bag1X" />
+        <With Var="Bag1Y" />
+        <With Var="Bag2X" />
+        <With Var="Bag2Y" />
+        <With Var="Bag3X" />
+        <With Var="Bag3Y" />
+        <With Var="Bag4X" />
+        <With Var="Bag4Y" />
+        <With Var="Bag5X" />
+        <With Var="Bag5Y" />
+        <With Var="Bag6X" />
+        <With Var="Bag6Y" />
+        <With Var="Bag7X" />
+        <With Var="Bag7Y" />
+        <With Var="Bag8X" />
+        <With Var="Bag8Y" />
+        <With Var="Bag9X" />
+        <With Var="Bag9Y" />
+        <With Var="Bag10X" />
+        <With Var="Bag10Y" />
+        <With Var="Bag11X" />
+        <With Var="Bag11Y" />
+        <With Var="Bag12X" />
+        <With Var="Bag12Y" />
+        <With Var="Bag13X" />
+        <With Var="Bag13Y" />
+        <With Var="Bag14X" />
+        <With Var="Bag14Y" />
+        <With Var="Bag15X" />
+        <With Var="Bag15Y" />
+        <With Var="Bag16X" />
+        <With Var="Bag16Y" />
+        <With Var="Bag17X" />
+        <With Var="Bag17Y" />
+        <With Var="Bag18X" />
+        <With Var="Bag18Y" />
+        <With Var="PE1" />
+        <With Var="PE2" />
+        <With Var="PE3" />
+        <With Var="PE4" />
+        <With Var="PE5" />
+        <With Var="PE6" />
+        <With Var="PE7" />
+        <With Var="PE8" />
+        <With Var="PE9" />
+        <With Var="PE10" />
+        <With Var="PE11" />
+        <With Var="PE12" />
+        <With Var="PE13" />
+        <With Var="PE14" />
+        <With Var="C1Rot" />
+        <With Var="C2Rot" />
+        <With Var="C3Rot" />
+        <With Var="C4Rot" />
+        <With Var="C5Rot" />
+        <With Var="C6Rot" />
+        <With Var="C7Rot" />
+        <With Var="C8Rot" />
+        <With Var="C9Rot" />
+        <With Var="C10Rot" />
+        <With Var="C11Rot" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="Bag1X" />
+        <With Var="Bag1Y" />
+        <With Var="Bag2X" />
+        <With Var="Bag2Y" />
+        <With Var="Bag3X" />
+        <With Var="Bag3Y" />
+        <With Var="Bag4X" />
+        <With Var="Bag4Y" />
+        <With Var="Bag5X" />
+        <With Var="Bag5Y" />
+        <With Var="Bag6X" />
+        <With Var="Bag6Y" />
+        <With Var="Bag7X" />
+        <With Var="Bag7Y" />
+        <With Var="Bag8X" />
+        <With Var="Bag8Y" />
+        <With Var="Bag9X" />
+        <With Var="Bag9Y" />
+        <With Var="Bag10X" />
+        <With Var="Bag10Y" />
+        <With Var="Bag11X" />
+        <With Var="Bag11Y" />
+        <With Var="Bag12X" />
+        <With Var="Bag12Y" />
+        <With Var="Bag13X" />
+        <With Var="Bag13Y" />
+        <With Var="Bag14X" />
+        <With Var="Bag14Y" />
+        <With Var="Bag15X" />
+        <With Var="Bag15Y" />
+        <With Var="Bag16X" />
+        <With Var="Bag16Y" />
+        <With Var="Bag17X" />
+        <With Var="Bag17Y" />
+        <With Var="Bag18X" />
+        <With Var="Bag18Y" />
+        <With Var="PE1" />
+        <With Var="PE2" />
+        <With Var="PE3" />
+        <With Var="PE4" />
+        <With Var="PE5" />
+        <With Var="PE6" />
+        <With Var="PE7" />
+        <With Var="PE8" />
+        <With Var="PE9" />
+        <With Var="PE10" />
+        <With Var="PE11" />
+        <With Var="PE12" />
+        <With Var="PE13" />
+        <With Var="PE14" />
+        <With Var="C1Rot" />
+        <With Var="C2Rot" />
+        <With Var="C3Rot" />
+        <With Var="C4Rot" />
+        <With Var="C5Rot" />
+        <With Var="C6Rot" />
+        <With Var="C7Rot" />
+        <With Var="C8Rot" />
+        <With Var="C9Rot" />
+        <With Var="C10Rot" />
+        <With Var="C11Rot" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="C1BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C1BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C1BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C1BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C2BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C2BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C2BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C2BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C3BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C3BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C3BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C3BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C4BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C4BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutX3" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C4BagOutPE3" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutPE4" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutPE5" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutPE6" Type="BOOL" />
+      <VarDeclaration Name="C5BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C5BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C5BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C5BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C1Rotate" Type="BOOL" />
+      <VarDeclaration Name="C2Rotate" Type="BOOL" />
+      <VarDeclaration Name="C3Rotate" Type="BOOL" />
+      <VarDeclaration Name="C4Rotate" Type="BOOL" />
+      <VarDeclaration Name="C5Rotate" Type="BOOL" />
+      <VarDeclaration Name="C6Rotate" Type="BOOL" />
+      <VarDeclaration Name="C7Rotate" Type="BOOL" />
+      <VarDeclaration Name="C8Rotate" Type="BOOL" />
+      <VarDeclaration Name="C9Rotate" Type="BOOL" />
+      <VarDeclaration Name="C10Rotate" Type="BOOL" />
+      <VarDeclaration Name="C11Rotate" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="Bag1X" Type="UINT" />
+      <VarDeclaration Name="Bag1Y" Type="UINT" />
+      <VarDeclaration Name="Bag2X" Type="UINT" />
+      <VarDeclaration Name="Bag2Y" Type="UINT" />
+      <VarDeclaration Name="Bag3X" Type="UINT" />
+      <VarDeclaration Name="Bag3Y" Type="UINT" />
+      <VarDeclaration Name="Bag4X" Type="UINT" />
+      <VarDeclaration Name="Bag4Y" Type="UINT" />
+      <VarDeclaration Name="Bag5X" Type="UINT" />
+      <VarDeclaration Name="Bag5Y" Type="UINT" />
+      <VarDeclaration Name="Bag6X" Type="UINT" />
+      <VarDeclaration Name="Bag6Y" Type="UINT" />
+      <VarDeclaration Name="Bag7X" Type="UINT" />
+      <VarDeclaration Name="Bag7Y" Type="UINT" />
+      <VarDeclaration Name="Bag8X" Type="UINT" />
+      <VarDeclaration Name="Bag8Y" Type="UINT" />
+      <VarDeclaration Name="Bag9X" Type="UINT" />
+      <VarDeclaration Name="Bag9Y" Type="UINT" />
+      <VarDeclaration Name="Bag10X" Type="UINT" />
+      <VarDeclaration Name="Bag10Y" Type="UINT" />
+      <VarDeclaration Name="Bag11X" Type="UINT" />
+      <VarDeclaration Name="Bag11Y" Type="UINT" />
+      <VarDeclaration Name="Bag12X" Type="UINT" />
+      <VarDeclaration Name="Bag12Y" Type="UINT" />
+      <VarDeclaration Name="Bag13X" Type="UINT" />
+      <VarDeclaration Name="Bag13Y" Type="UINT" />
+      <VarDeclaration Name="Bag14X" Type="UINT" />
+      <VarDeclaration Name="Bag14Y" Type="UINT" />
+      <VarDeclaration Name="Bag15X" Type="UINT" />
+      <VarDeclaration Name="Bag15Y" Type="UINT" />
+      <VarDeclaration Name="Bag16X" Type="UINT" />
+      <VarDeclaration Name="Bag16Y" Type="UINT" />
+      <VarDeclaration Name="Bag17X" Type="UINT" />
+      <VarDeclaration Name="Bag17Y" Type="UINT" />
+      <VarDeclaration Name="Bag18X" Type="UINT" />
+      <VarDeclaration Name="Bag18Y" Type="UINT" />
+      <VarDeclaration Name="PE1" Type="WSTRING" />
+      <VarDeclaration Name="PE2" Type="WSTRING" />
+      <VarDeclaration Name="PE3" Type="WSTRING" />
+      <VarDeclaration Name="PE4" Type="WSTRING" />
+      <VarDeclaration Name="PE5" Type="WSTRING" />
+      <VarDeclaration Name="PE6" Type="WSTRING" />
+      <VarDeclaration Name="PE7" Type="WSTRING" />
+      <VarDeclaration Name="PE8" Type="WSTRING" />
+      <VarDeclaration Name="PE9" Type="WSTRING" />
+      <VarDeclaration Name="PE10" Type="WSTRING" />
+      <VarDeclaration Name="PE11" Type="WSTRING" />
+      <VarDeclaration Name="PE12" Type="WSTRING" />
+      <VarDeclaration Name="PE13" Type="WSTRING" />
+      <VarDeclaration Name="PE14" Type="WSTRING" />
+      <VarDeclaration Name="C1Rot" Type="WSTRING" />
+      <VarDeclaration Name="C2Rot" Type="WSTRING" />
+      <VarDeclaration Name="C3Rot" Type="WSTRING" />
+      <VarDeclaration Name="C4Rot" Type="WSTRING" />
+      <VarDeclaration Name="C5Rot" Type="WSTRING" />
+      <VarDeclaration Name="C6Rot" Type="WSTRING" />
+      <VarDeclaration Name="C7Rot" Type="WSTRING" />
+      <VarDeclaration Name="C8Rot" Type="WSTRING" />
+      <VarDeclaration Name="C9Rot" Type="WSTRING" />
+      <VarDeclaration Name="C10Rot" Type="WSTRING" />
+      <VarDeclaration Name="C11Rot" Type="WSTRING" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="numOfBags" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="index" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="bagDetail" Type="BagDetail" ArraySize="18" />
+      <VarDeclaration Name="tcOffset1" Type="INT" />
+      <VarDeclaration Name="tcOffset2" Type="INT" />
+      <VarDeclaration Name="tcOffset3" Type="INT" />
+      <VarDeclaration Name="fcOffset1" Type="INT" />
+      <VarDeclaration Name="fcOffset2" Type="INT" />
+      <VarDeclaration Name="fc1Offset1" Type="INT" />
+      <VarDeclaration Name="fc1Offset2" Type="INT" />
+      <VarDeclaration Name="fc2Offset1" Type="INT" />
+      <VarDeclaration Name="fc2Offset2" Type="INT" />
+    </InternalVars>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="555.55554" y="427.77777" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="922.22217" y="138.88889" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+      </ECState>
+      <ECState Name="REQ" Comment="Normal execution" x="216.66666" y="755.55554" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="922.22217" y="427.77777" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="555.55554" y="138.88889" />
+      <ECTransition Source="START" Destination="REQ" Condition="REQ" x="555.55554" y="600.0" />
+      <ECTransition Source="REQ" Destination="START" Condition="1" x="216.66666" y="427.77777" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <Other Language="Java" Text="System.out.println(&#34;View Initialised&#34;);&#10;Bag1X.value=6000;&#10;Bag1Y.value=6000;&#10;Bag2X.value=6000;&#10;Bag2Y.value=6000;&#10;Bag3X.value=6000;&#10;Bag3Y.value=6000;&#10;Bag4X.value=6000;&#10;Bag4Y.value=6000;&#10;Bag5X.value=6000;&#10;Bag5Y.value=6000;&#10;Bag6X.value=6000;&#10;Bag6Y.value=6000;&#10;Bag7X.value=6000;&#10;Bag7Y.value=6000;&#10;Bag8X.value=6000;&#10;Bag8Y.value=6000;&#10;Bag9X.value=6000;&#10;Bag9Y.value=6000;&#10;Bag10X.value=6000;&#10;Bag10Y.value=6000;&#10;Bag11X.value=6000;&#10;Bag11Y.value=6000;&#10;Bag12X.value=6000;&#10;Bag12Y.value=6000;&#10;Bag13X.value=6000;&#10;Bag13Y.value=6000;&#10;Bag14X.value=6000;&#10;Bag14Y.value=6000;&#10;Bag15X.value=6000;&#10;Bag15Y.value=6000;&#10;Bag16X.value=6000;&#10;Bag16Y.value=6000;&#10;Bag17X.value=6000;&#10;Bag17Y.value=6000;&#10;Bag18X.value=6000;&#10;Bag18Y.value=6000;&#10;&#10;&#10;for(int i = 0; i &#60; 18; i++)&#10;{&#10;    ((BagDetail)bagDetail.value[i]).bagYValue.value=6000;&#10;    ((BagDetail)bagDetail.value[i]).conId.value=6000;&#10;    ((BagDetail)bagDetail.value[i]).bagXValue.value=6000;&#10;}&#10;&#10;fcOffset1.value=49;&#10;fcOffset2.value=201;&#10;fc1Offset1.value=659;&#10;fc1Offset2.value=507;&#10;fc2Offset1.value=659;&#10;fc2Offset2.value=507;&#10;tcOffset1.value=99;&#10;tcOffset2.value=301;&#10;tcOffset3.value=503;&#10;if (C1BagOutPE1.value)&#10;PE1.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE1.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C1BagOutPE2.value)&#10;PE2.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE2.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C2BagOutPE1.value)&#10;PE3.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE3.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C2BagOutPE2.value)&#10;PE4.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE4.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C3BagOutPE1.value)&#10;PE5.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE5.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C3BagOutPE2.value)&#10;PE6.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE6.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C4BagOutPE1.value)&#10;PE7.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE7.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE2.value)&#10;PE8.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE8.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE3.value)&#10;PE9.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE9.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE4.value)&#10;PE10.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE10.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE5.value)&#10;PE11.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE11.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE6.value)&#10;PE12.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE12.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C5BagOutPE1.value)&#10;PE13.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE13.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C5BagOutPE2.value)&#10;PE14.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE14.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C1Rotate.value)&#10;C1Rot.value = &#34;/fb/rt/cs725/FC.gif&#34;;&#10;else&#10;C1Rot.value = &#34;/fb/rt/cs725/FC.png&#34;;&#10;&#10;if (C2Rotate.value)&#10;C2Rot.value = &#34;/fb/rt/cs725/FC.gif&#34;;&#10;else&#10;C2Rot.value = &#34;/fb/rt/cs725/FC.png&#34;;&#10;&#10;if (C3Rotate.value)&#10;C3Rot.value = &#34;/fb/rt/cs725/FC.gif&#34;;&#10;else&#10;C3Rot.value = &#34;/fb/rt/cs725/FC.png&#34;;&#10;&#10;if (C4Rotate.value)&#10;C4Rot.value = &#34;/fb/rt/cs725/FC.gif&#34;;&#10;else&#10;C4Rot.value = &#34;/fb/rt/cs725/FC.png&#34;;&#10;&#10;if (C5Rotate.value)&#10;C5Rot.value = &#34;/fb/rt/cs725/FCU.gif&#34;;&#10;else&#10;C5Rot.value = &#34;/fb/rt/cs725/FCU.png&#34;;&#10;&#10;if (C6Rotate.value)&#10;C6Rot.value = &#34;/fb/rt/cs725/FCU.gif&#34;;&#10;else&#10;C6Rot.value = &#34;/fb/rt/cs725/FCU.png&#34;;&#10;&#10;if (C7Rotate.value)&#10;C7Rot.value = &#34;/fb/rt/cs725/TC.gif&#34;;&#10;else&#10;C7Rot.value = &#34;/fb/rt/cs725/TC.png&#34;;&#10;&#10;if (C8Rotate.value)&#10;C8Rot.value = &#34;/fb/rt/cs725/TC.gif&#34;;&#10;else&#10;C8Rot.value = &#34;/fb/rt/cs725/TC.png&#34;;&#10;&#10;if (C9Rotate.value)&#10;C9Rot.value = &#34;/fb/rt/cs725/TC.gif&#34;;&#10;else&#10;C9Rot.value = &#34;/fb/rt/cs725/TC.png&#34;;&#10;&#10;if (C10Rotate.value)&#10;C10Rot.value = &#34;/fb/rt/cs725/FCU.gif&#34;;&#10;else&#10;C10Rot.value = &#34;/fb/rt/cs725/FCU.png&#34;;&#10;&#10;if (C11Rotate.value)&#10;C11Rot.value = &#34;/fb/rt/cs725/FCU.gif&#34;;&#10;else&#10;C11Rot.value = &#34;/fb/rt/cs725/FCU.png&#34;;&#10;" />
+  </Algorithm>
+  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
+    <Other Language="Java" Text="index.value=0;&#10;&#10;for(int i = 0; i &#60; 5 ; i++)&#10;{&#10;  if(index.value &#60; 16)&#10;  {&#10;   &#10;    if(((DINT)C1BagOutX1.value[i]).value != 0)&#10;    {&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=1;&#10;((BagDetail)bagDetail.value[index.value]).bagYValue.value=fcOffset1.value+((DINT)C1BagOutX1.value[i]).value;   &#10;index.value++;&#10;    } &#10;    if(((DINT)C1BagOutX2.value[i]).value != 0)&#10;    {&#10;&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=1;&#10;((BagDetail)bagDetail.value[index.value]).bagYValue.value=fcOffset2.value+((DINT)C1BagOutX2.value[i]).value;   &#10;index.value++;&#10;    }&#10;    if(((DINT)C2BagOutX1.value[i]).value != 0)&#10;    {&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=2;&#10;((BagDetail)bagDetail.value[index.value]).bagYValue.value=fcOffset1.value+((DINT)C2BagOutX1.value[i]).value;   &#10;index.value++;&#10;    } &#10;    if(((DINT)C2BagOutX2.value[i]).value != 0)&#10;    {&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=2;&#10;((BagDetail)bagDetail.value[index.value]).bagYValue.value=fcOffset2.value+((DINT)C2BagOutX2.value[i]).value;   &#10;index.value++;&#10;    }&#10;    if(((DINT)C3BagOutX1.value[i]).value != 0)&#10;    {&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=3;&#10;((BagDetail)bagDetail.value[index.value]).bagYValue.value=fc1Offset1.value-((DINT)C3BagOutX1.value[i]).value;   &#10;index.value++;&#10;    } &#10;    if(((DINT)C3BagOutX2.value[i]).value != 0)&#10;    {&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=3;&#10;((BagDetail)bagDetail.value[index.value]).bagYValue.value=fc1Offset2.value-((DINT)C3BagOutX2.value[i]).value;   &#10;index.value++;&#10;    }&#10;    if(((DINT)C5BagOutX1.value[i]).value != 0)&#10;    {&#10;	System.out.println(&#34;X1 is&#34; + C5BagOutX1.value[i]);&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=4;&#10;((BagDetail)bagDetail.value[index.value]).bagYValue.value=fc2Offset1.value-((DINT)C5BagOutX1.value[i]).value;   &#10;index.value++;&#10;    } &#10;    if(((DINT)C5BagOutX2.value[i]).value != 0)&#10;    {&#10;	System.out.println(&#34;X2 is&#34; + C5BagOutX1.value[i]);&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=4;&#10;((BagDetail)bagDetail.value[index.value]).bagYValue.value=fc2Offset2.value-((DINT)C5BagOutX2.value[i]).value;   &#10;index.value++;&#10;    }&#10; }&#10;}&#10;for(int i = 0; i &#60; 16 ; i++)&#10;{&#10;  if(index.value &#60; 16)&#10;  {&#10;    if(((DINT)C4BagOutX1.value[i]).value != 0)&#10;    {&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=0;&#10;((BagDetail)bagDetail.value[index.value]).bagXValue.value=tcOffset1.value+((DINT)C4BagOutX1.value[i]).value;   &#10;index.value++;&#10;    } &#10;    if(((DINT)C4BagOutX2.value[i]).value != 0)&#10;    {&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=0;&#10;((BagDetail)bagDetail.value[index.value]).bagXValue.value=tcOffset2.value+((DINT)C4BagOutX2.value[i]).value;   &#10;index.value++;&#10;    }&#10;    if(((DINT)C4BagOutX3.value[i]).value != 0)&#10;    {&#10;        ((BagDetail)bagDetail.value[index.value]).conId.value=0;&#10;((BagDetail)bagDetail.value[index.value]).bagXValue.value=tcOffset3.value+((DINT)C4BagOutX3.value[i]).value;   &#10;index.value++;&#10;    }&#10;  }&#10;}&#10;for(int i = 0; i &#60; 16; i++)&#10;{&#10;    switch(((BagDetail)bagDetail.value[i]).conId.value)&#10;{&#10;case 0: ((BagDetail)bagDetail.value[i]).bagYValue.value = 359;&#10;        break;&#10;case 1:((BagDetail)bagDetail.value[i]).bagXValue.value = 105;&#10;        break;&#10;case 2:((BagDetail)bagDetail.value[i]).bagXValue.value = 307;&#10;        break;&#10;case 3:((BagDetail)bagDetail.value[i]).bagXValue.value = 205;&#10;        break;&#10;case 4:((BagDetail)bagDetail.value[i]).bagXValue.value = 509;&#10;        break;&#10;case 6000: ((BagDetail)bagDetail.value[i]).bagXValue.value = 6000;&#10;           ((BagDetail)bagDetail.value[i]).bagYValue.value = 6000;&#10;        break;&#10;}&#10;}&#10;Bag1X.value=6000;&#10;Bag1Y.value=6000;&#10;Bag2X.value=6000;&#10;Bag2Y.value=6000;&#10;Bag3X.value=6000;&#10;Bag3Y.value=6000;&#10;Bag4X.value=6000;&#10;Bag4Y.value=6000;&#10;Bag5X.value=6000;&#10;Bag5Y.value=6000;&#10;Bag6X.value=6000;&#10;Bag6Y.value=6000;&#10;Bag7X.value=6000;&#10;Bag7Y.value=6000;&#10;Bag8X.value=6000;&#10;Bag8Y.value=6000;&#10;Bag9X.value=6000;&#10;Bag9Y.value=6000;&#10;Bag10X.value=6000;&#10;Bag10Y.value=6000;&#10;Bag11X.value=6000;&#10;Bag11Y.value=6000;&#10;Bag12X.value=6000;&#10;Bag12Y.value=6000;&#10;Bag13X.value=6000;&#10;Bag13Y.value=6000;&#10;Bag14X.value=6000;&#10;Bag14Y.value=6000;&#10;Bag15X.value=6000;&#10;Bag15Y.value=6000;&#10;Bag16X.value=6000;&#10;Bag16Y.value=6000;&#10;Bag17X.value=6000;&#10;Bag17Y.value=6000;&#10;Bag18X.value=6000;&#10;Bag18Y.value=6000;&#10;for(int i = 0; i &#60; 16; i++)&#10;{&#10;    switch(i)&#10;        {&#10;           case 0: Bag1X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag1Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 1: Bag2X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag2Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;   &#10;   case 2: Bag3X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag3Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 3: Bag4X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag4Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 4: Bag5X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag5Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 5: Bag6X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag6Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 6: Bag7X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag7Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 7: Bag8X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag8Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 8: Bag9X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag9Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 9: Bag10X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag10Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;case 10: Bag11X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag11Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 11: Bag12X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag12Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;   &#10;   case 12: Bag13X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag13Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 13: Bag14X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag14Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 14: Bag15X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag15Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 15: Bag16X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag16Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 16: Bag17X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag17Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;   case 17: Bag18X.value = ((BagDetail)bagDetail.value[i]).bagXValue.value;&#10;           Bag18Y.value = ((BagDetail)bagDetail.value[i]).bagYValue.value;&#10;   break;&#10;    }&#10;}&#10;&#10;&#10;for(int i = 0; i &#60; 10; i++)&#10;{&#10;    ((BagDetail)bagDetail.value[i]).bagYValue.value=6000;&#10;    ((BagDetail)bagDetail.value[i]).conId.value=6000;&#10;    ((BagDetail)bagDetail.value[i]).bagXValue.value=6000;&#10;}&#10;&#10;if (C1BagOutPE1.value)&#10;PE1.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE1.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C1BagOutPE2.value)&#10;PE2.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE2.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C2BagOutPE1.value)&#10;PE3.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE3.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C2BagOutPE2.value)&#10;PE4.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE4.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C3BagOutPE1.value)&#10;PE5.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE5.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C3BagOutPE2.value)&#10;PE6.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE6.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C4BagOutPE1.value)&#10;PE7.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE7.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE2.value)&#10;PE8.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE8.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE3.value)&#10;PE9.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE9.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE4.value)&#10;PE10.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE10.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE5.value)&#10;PE11.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE11.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C4BagOutPE6.value)&#10;PE12.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE12.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C5BagOutPE1.value)&#10;PE13.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE13.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;if (C5BagOutPE2.value)&#10;PE14.value = &#34;/fb/rt/cs725/SSG.png&#34;;&#10;else&#10;PE14.value = &#34;/fb/rt/cs725/SSR.png&#34;;&#10;&#10;if (C1Rotate.value)&#10;C1Rot.value = &#34;/fb/rt/cs725/FC.gif&#34;;&#10;else&#10;C1Rot.value = &#34;/fb/rt/cs725/FC.png&#34;;&#10;&#10;if (C2Rotate.value)&#10;C2Rot.value = &#34;/fb/rt/cs725/FC.gif&#34;;&#10;else&#10;C2Rot.value = &#34;/fb/rt/cs725/FC.png&#34;;&#10;&#10;if (C3Rotate.value)&#10;C3Rot.value = &#34;/fb/rt/cs725/FC.gif&#34;;&#10;else&#10;C3Rot.value = &#34;/fb/rt/cs725/FC.png&#34;;&#10;&#10;if (C4Rotate.value)&#10;C4Rot.value = &#34;/fb/rt/cs725/FC.gif&#34;;&#10;else&#10;C4Rot.value = &#34;/fb/rt/cs725/FC.png&#34;;&#10;&#10;if (C5Rotate.value)&#10;C5Rot.value = &#34;/fb/rt/cs725/FCU.gif&#34;;&#10;else&#10;C5Rot.value = &#34;/fb/rt/cs725/FCU.png&#34;;&#10;&#10;if (C6Rotate.value)&#10;C6Rot.value = &#34;/fb/rt/cs725/FCU.gif&#34;;&#10;else&#10;C6Rot.value = &#34;/fb/rt/cs725/FCU.png&#34;;&#10;&#10;if (C7Rotate.value)&#10;C7Rot.value = &#34;/fb/rt/cs725/TC.gif&#34;;&#10;else&#10;C7Rot.value = &#34;/fb/rt/cs725/TC.png&#34;;&#10;&#10;if (C8Rotate.value)&#10;C8Rot.value = &#34;/fb/rt/cs725/TC.gif&#34;;&#10;else&#10;C8Rot.value = &#34;/fb/rt/cs725/TC.png&#34;;&#10;&#10;if (C9Rotate.value)&#10;C9Rot.value = &#34;/fb/rt/cs725/TC.gif&#34;;&#10;else&#10;C9Rot.value = &#34;/fb/rt/cs725/TC.png&#34;;&#10;&#10;if (C10Rotate.value)&#10;C10Rot.value = &#34;/fb/rt/cs725/FCU.gif&#34;;&#10;else&#10;C10Rot.value = &#34;/fb/rt/cs725/FCU.png&#34;;&#10;&#10;if (C11Rotate.value)&#10;C11Rot.value = &#34;/fb/rt/cs725/FCU.gif&#34;;&#10;else&#10;C11Rot.value = &#34;/fb/rt/cs725/FCU.png&#34;;&#10;&#10;//System.out.println(C1BagOutPE1.value);&#10;" />
+  </Algorithm>
+  <Algorithm Name="BAGIN" >
+    <Other Language="Java" Text="//if(numOfBags.value &#60; 10)&#10;{&#10;  // numOfBags.value++;&#10;}&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="TEST_GUARDS" Comment="Test Guard-Only Transitions" >
+  <Identification Standard="61499-1" Classification="Test" Description="Test Guard-Only EC Transitions" />
+  <VersionInfo Organization="Holobloc Inc" Version="0.0" Author="JHC" Date="2008-09-20" />
+  <CompilerInfo header="package fb.rt.test;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="SUM2" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="SUM" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="SUM2" Type="BOOL" Comment="SUM=2 if TRUE, 1 if FALSE" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="SUM" Type="INT" Comment="1 if SUM2 is FALSE, 2 if SUM2 is TRUE" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="261.1111" y="61.111107" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialize SUM to zero" x="1066.6666" y="66.666664" >
+        <ECAction Algorithm="ZERO" />
+      </ECState>
+      <ECState Name="ADD1" Comment="Now SUM = 1" x="1066.6666" y="499.99997" >
+        <ECAction Algorithm="ADDIT" />
+      </ECState>
+      <ECState Name="ADD2" Comment="Now SUM = 2" x="516.6666" y="755.55554" >
+        <ECAction Algorithm="ADDIT" />
+      </ECState>
+      <ECState Name="OUTPUT" Comment="Confirm result" x="1327.7777" y="961.1111" >
+        <ECAction Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="REQ" x="672.22217" y="61.111107" />
+      <ECTransition Source="INIT" Destination="ADD1" Condition="1" x="1066.6666" y="261.1111" />
+      <ECTransition Source="ADD1" Destination="ADD2" Condition="SUM2" x="516.6666" y="499.99997" />
+      <ECTransition Source="ADD1" Destination="OUTPUT" Condition="NOT SUM2" x="1327.7777" y="666.6666" />
+      <ECTransition Source="ADD2" Destination="OUTPUT" Condition="1" x="516.6666" y="961.1111" />
+      <ECTransition Source="OUTPUT" Destination="START" Condition="1" x="261.1111" y="1133.3333" />
+    </ECC>
+  <Algorithm Name="ZERO" Comment="Initialize SUM" >
+    <ST Text="SUM := 0;&#10;" />
+  </Algorithm>
+  <Algorithm Name="ADDIT" Comment="Add 1 to SUM" >
+    <ST Text="SUM := SUM + 1;&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

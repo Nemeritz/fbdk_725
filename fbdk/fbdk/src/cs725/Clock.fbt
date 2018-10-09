@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Clock" Comment="Clock signal generator" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="The University of Auckland" Version="1.0" Author="Cheng Pang" Date="2008-11-09" Remarks="Stable build." />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="START" >
+        <With Var="Period" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CLK" >
+        <With Var="Clock" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="Period" Type="TIME" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="Clock" Type="DINT" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="DLY" Type="E_DELAY" x="1377.7777" y="416.66666" >
+      <Parameter Name="DT" Value="t#100ms" />
+    </FB>
+    <FB Name="CYCLE" Type="E_CYCLE" x="2155.5554" y="661.1111" />
+    <FB Name="Counter" Type="ClockCounter" x="3566.6665" y="1166.6666" >
+      <Parameter Name="INCREMENTBY" Value="5" />
+    </FB>
+    <EventConnections>
+      <Connection Source="DLY.EO" Destination="CYCLE.START" dx1="188.88889" />
+      <Connection Source="START" Destination="DLY.START" dx1="1227.7777" />
+      <Connection Source="START" Destination="Counter.INIT" dx1="3422.2222" />
+      <Connection Source="CYCLE.EO" Destination="Counter.REQ" dx1="788.88885" />
+      <Connection Source="Counter.CNF" Destination="CLK" dx1="4327.778" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="Period" Destination="CYCLE.DT" dx1="2022.2222" />
+      <Connection Source="Counter.CLOCK" Destination="Clock" dx1="4338.8887" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

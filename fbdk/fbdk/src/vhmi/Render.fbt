@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Render" Comment="Function block to display and animate an Image" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="UoA" Version="0.2" Author="Anirudha" Date="2006-01-05" Remarks="Added Layer attribute" />
+  <VersionInfo Organization="UoA" Version="0.1" Author="Anirudha" Date="2005-12-04" Remarks="Added Angle attribute" />
+  <CompilerInfo header="package fb.rt.vhmi;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="name" />
+        <With Var="PosX" />
+        <With Var="PosY" />
+        <With Var="Layer" />
+      </Event>
+      <Event Name="ChangeXY" Comment="Normal Execution Request" >
+        <With Var="PosX" />
+        <With Var="PosY" />
+      </Event>
+      <Event Name="ChangeValidity" >
+        <With Var="Display" />
+      </Event>
+      <Event Name="ChangePic" >
+        <With Var="name" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="name" Type="WSTRING" />
+      <VarDeclaration Name="PosX" Type="UINT" />
+      <VarDeclaration Name="PosY" Type="UINT" />
+      <VarDeclaration Name="Display" Type="BOOL" />
+      <VarDeclaration Name="Layer" Type="UINT" />
+    </InputVars>
+  </InterfaceList>
+  <BasicFB>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="1111.1111" y="550.0" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="1200.0" y="161.1111" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+      </ECState>
+      <ECState Name="ChangeXy" x="183.33333" y="350.0" >
+        <ECAction Algorithm="ChangeXY" Output="CNF" />
+      </ECState>
+      <ECState Name="ChangeValidity" x="1500.0" y="1166.6666" >
+        <ECAction Algorithm="ChangeValidity" Output="CNF" />
+      </ECState>
+      <ECState Name="ChangePic" x="372.2222" y="1133.3333" >
+        <ECAction Algorithm="ChangePic" Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="1488.8888" y="394.44443" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="988.88885" y="333.3333" />
+      <ECTransition Source="START" Destination="ChangeXy" Condition="ChangeXY" x="311.11108" y="683.3333" />
+      <ECTransition Source="START" Destination="ChangeValidity" Condition="ChangeValidity" x="1783.3333" y="722.22217" />
+      <ECTransition Source="ChangeXy" Destination="START" Condition="1" x="550.0" y="594.4444" />
+      <ECTransition Source="ChangeValidity" Destination="START" Condition="1" x="1311.1111" y="788.88885" />
+      <ECTransition Source="START" Destination="START" Condition="1" x="1311.1111" y="533.3333" />
+      <ECTransition Source="START" Destination="ChangePic" Condition="ChangePic" x="366.66666" y="861.1111" />
+      <ECTransition Source="ChangePic" Destination="START" Condition="1" x="855.55554" y="738.88885" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <Other Language="Java" Text="//System.out.print(&#34;Name: &#34;);&#10;//System.out.println(name.value);&#10;//System.out.print(&#34;Position: &#34;);&#10;//System.out.print(PosX.value);&#10;//System.out.print(&#34;,&#34;);&#10;//System.out.print(PosY.value);&#10;ID = ((ImageResource) this.resource).addImage(loadImage(name.value),PosX.value,PosY.value,Layer.value);&#10;((ImageDev) this.getDevice()).frame.repaint();&#10;//String abd = &#34;I am &#34; + name.value + &#34; with ID &#34; + ID;&#10;//System.out.println(abd);&#10;if (Display.value == false)&#10;  service_ChangeValidity(true);&#10;" />
+  </Algorithm>
+  <Algorithm Name="ChangeXY" >
+    <Other Language="Java" Text="((SampleFrame)((ImageDev)(this.getDevice())).frame).redrawXY(ID,PosX.value,PosY.value);&#10;" />
+  </Algorithm>
+  <Algorithm Name="ChangeValidity" >
+    <Other Language="Java" Text="((SampleFrame)((ImageDev)(this.getDevice())).frame).setValidity(ID,Display.value);&#10;" />
+  </Algorithm>
+  <Algorithm Name="ChangePic" >
+    <Other Language="Java" Text="" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

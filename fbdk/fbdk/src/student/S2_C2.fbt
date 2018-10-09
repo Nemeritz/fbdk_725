@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="S2_C2" Comment="Test of sin and cos functions" >
+  <Identification Standard="61499-1" />
+  <VersionInfo Organization="Holobloc Inc" Version="0.0" Author="JHC" Date="2008-01-16" />
+  <CompilerInfo header="package fb.rt.student;" classdef="SimpleFB" >
+    <Compiler Language="Java" Vendor="Sun" Product="JDK" Version="1.6.0" />
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="IN" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="OUT" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="IN" Type="REAL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="OUT" Type="REAL" Comment="SIN(IN)**2 + COS(IN)**2, should be 1.0" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="SINVAL" Type="REAL" />
+      <VarDeclaration Name="COSVAL" Type="REAL" />
+    </InternalVars>
+  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
+    <FBD >
+      <FB Name="S" Type="SIN_REAL" x="144.44444" y="11.111111" />
+      <FB Name="S2" Type="MUL_REAL" x="744.4444" y="116.666664" />
+      <FB Name="C" Type="COS_REAL" x="127.77777" y="522.2222" />
+      <FB Name="C2" Type="MUL_REAL" x="800.0" y="627.7778" />
+      <FB Name="SUM" Type="ADD_REAL" x="1227.7777" y="116.666664" />
+      <DataConnections>
+        <Connection Source="IN" Destination="S.IN" dx1="66.666664" />
+        <Connection Source="IN" Destination="C.IN" dx1="50.0" />
+        <Connection Source="S2.OUT" Destination="SUM.IN1" dx1="38.888885" />
+        <Connection Source="C2.OUT" Destination="SUM.IN2" dx1="38.888885" />
+        <Connection Source="SUM.OUT" Destination="OUT" dx1="1661.1111" />
+        <Connection Source="S.OUT" Destination="SINVAL" dx1="594.4444" />
+        <Connection Source="C.OUT" Destination="COSVAL" dx1="622.22217" />
+        <Connection Source="SINVAL" Destination="S2.IN1" dx1="594.4444" />
+        <Connection Source="SINVAL" Destination="S2.IN2" dx1="594.4444" />
+        <Connection Source="COSVAL" Destination="C2.IN1" dx1="633.3333" />
+        <Connection Source="COSVAL" Destination="C2.IN2" dx1="633.3333" />
+      </DataConnections>
+    </FBD>
+  </Algorithm>
+  </BasicFB>
+</FBType>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE System SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<System Name="DistributionStationWithNetwork" Comment="System Configuration">
+  <Identification Standard="61499-1" />
+  <VersionInfo Date="2003-12-05" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed from NEWSYSTEM." Version="0.3" />
+  <Application Name="APP1">
+    <FBNetwork />
+  </Application>
+  <Device x="105.882355" Name="DEV1" Type="DeviceType" y="11.764706">
+    <Resource x="11.764706" Name="Controller" Type="DistributingStation" y="1082.3529">
+      <FBNetwork>
+        <FB x="3175.0" Name="DistStn" Type="WagoDistributingStation" y="2337.5" />
+        <FB x="1481.2496" Name="SubInputs" Type="SUBSCRIBE_5" y="1099.3055">
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="ID" Value="&#34;224.0.0.1:6777&#34;" />
+        </FB>
+        <FB x="5745.834" Name="PubOutputs" Type="PUBLISH_5" y="1011.80554">
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="ID" Value="&#34;224.0.0.1:6888&#34;" />
+        </FB>
+        <FB x="823.61115" Name="InitSubscriber" Type="SUBSCRIBE_0" y="247.22224">
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="ID" Value="&#34;224.0.0.1:6666&#34;" />
+        </FB>
+        <FB x="111.111145" Name="START" Type="E_RESTART" y="61.111084" />
+        <FB x="5749.9995" Name="InitConfirm" Type="PUBLISH_0" y="250.00018">
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="ID" Value="&#34;224.0.0.1:9999&#34;" />
+        </FB>
+        <EventConnections>
+          <Connection Destination="InitSubscriber.INIT" Source="START.COLD" dx1="33.333332" />
+          <Connection Destination="InitConfirm.INIT" Source="InitSubscriber.INITO" dx1="33.333332" />
+          <Connection Destination="InitConfirm.REQ" Source="InitSubscriber.IND" dx1="2261.111" />
+          <Connection Destination="InitSubscriber.INIT" Source="START.WARM" dx1="33.333332" />
+          <Connection Destination="SubInputs.INIT" Source="InitSubscriber.IND" dx1="33.333332" />
+          <Connection Destination="PubOutputs.INIT" Source="InitSubscriber.IND" dx1="2261.111" />
+          <Connection Destination="DistStn.InputsChange" Source="SubInputs.IND" dx1="975.0" />
+          <Connection Destination="PubOutputs.REQ" Source="SubInputs.INITO" dx1="750.0" />
+          <Connection Destination="PubOutputs.REQ" Source="DistStn.OutputsChange" dx1="750.0" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Destination="DistStn.PusherFront" Source="SubInputs.RD_2" dx1="737.5" />
+          <Connection Destination="DistStn.PusherBack" Source="SubInputs.RD_1" dx1="794.4444" />
+          <Connection Destination="DistStn.ArmAtPickup" Source="SubInputs.RD_3" dx1="637.5" />
+          <Connection Destination="DistStn.ArmAtDropoff" Source="SubInputs.RD_4" dx1="543.75" />
+          <Connection Destination="DistStn.CylinderEmpty" Source="SubInputs.RD_5" dx1="494.44443" />
+          <Connection Destination="PubOutputs.SD_1" Source="DistStn.PusherForward" dx1="812.5" />
+          <Connection Destination="PubOutputs.SD_2" Source="DistStn.ArmSUCKING" dx1="906.25" />
+          <Connection Destination="PubOutputs.SD_3" Source="DistStn.ArmRELEASE" dx1="987.5" />
+          <Connection Destination="PubOutputs.SD_4" Source="DistStn.ArmPICKINGUP" dx1="1087.5" />
+          <Connection Destination="PubOutputs.SD_5" Source="DistStn.ArmDROPPINGOFF" dx1="1175.0" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+</System>

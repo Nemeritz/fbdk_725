@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE System SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<System Name="TEST_BUTTON_LGHT" Comment="System Configuration" >
+  <Identification Standard="61499-1" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.3" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWSYSTEM." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2002-11-05" Remarks="Fixed missing (empty) FBD in Application." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-17" Remarks="Minor cleanup" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <Application Name="APP1" >
+    <FBNetwork >
+    </FBNetwork>
+  </Application>
+  <Device Name="DEV1" Type="FRAME_DEVICE" x="816.6666" y="211.1111" >
+    <Parameter Name="BOUNDS" Value="[100,100,100,100]" />
+    <Parameter Name="GRID" Value="[0,0]" />
+    <Resource Name="RES1" Type="PANEL_RESOURCE" x="172.22221" y="83.33333" >
+      <FBNetwork >
+        <FB Name="LAMP" Type="OUT_BOOL" x="622.22217" y="116.666664" >
+          <Parameter Name="QI" Value="1" />
+          <Parameter Name="IN" Value="1" />
+          <Parameter Name="LABEL" Value="&#34;x&#34;" />
+        </FB>
+        <FB Name="MEM" Type="E_RS" x="2483.3333" y="588.88885" />
+        <FB Name="BTN" Type="IN_PRESS_BUTTON" x="1238.8888" y="277.77777" >
+          <Parameter Name="name" Value="&#34;xxx&#34;" />
+        </FB>
+        <FB Name="display" Type="OUT_BOOL" x="4244.4443" y="422.2222" >
+          <Parameter Name="LABEL" Value="&#34; &#34;" />
+          <Parameter Name="QI" Value="1" />
+        </FB>
+        <FB Name="SW" Type="E_SWITCH" x="1944.4443" y="561.1111" />
+        <EventConnections>
+          <Connection Source="LAMP.INITO" Destination="BTN.INIT" dx1="249.99998" />
+          <Connection Source="START.COLD" Destination="LAMP.INIT" dx1="144.44444" />
+          <Connection Source="BTN.INITO" Destination="LAMP.REQ" dx1="27.777777" dx2="83.33333" dy="-355.55554" />
+          <Connection Source="BTN.INITO" Destination="display.INIT" dx1="1927.7777" />
+          <Connection Source="MEM.EO" Destination="display.REQ" dx1="838.88885" />
+          <Connection Source="SW.EO0" Destination="MEM.S" dx1="155.55554" />
+          <Connection Source="BTN.CNF" Destination="SW.EI" dx1="66.666664" />
+          <Connection Source="SW.EO1" Destination="MEM.R" dx1="127.77777" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="MEM.Q" Destination="display.IN" dx1="466.66666" />
+          <Connection Source="MEM.Q" Destination="SW.G" dx1="122.22221" dx2="111.11111" dy="533.3333" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+</System>

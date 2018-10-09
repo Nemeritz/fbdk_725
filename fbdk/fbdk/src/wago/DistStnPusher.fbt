@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE FBType SYSTEM "HCECC.dtd">
+<FBType Name="DistStnPusher" Comment="Basic Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-04" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed for better indexing." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago; #include &#60;sys/time.h&#62;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="PosChange" Comment="Normal Execution Request">
+        <With Var="PosBack" />
+        <With Var="PosFront" />
+        <With Var="CylinderEmpty" />
+        <With Var="ArmClear" />
+      </Event>
+      <Event Name="ArmStatusChange">
+        <With Var="ArmClear" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="PusherCtrl">
+        <With Var="PusherForward" />
+        <With Var="ItemPresent" />
+      </Event>
+      <Event Name="ItemStatus" Comment="Execution Confirmation">
+        <With Var="PusherForward" />
+        <With Var="ItemPresent" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PosBack" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PosFront" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="CylinderEmpty" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="ArmClear" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="PusherForward" InitialValue="false" Type="BOOL" />
+      <VarDeclaration Name="ItemPresent" InitialValue="false" Type="BOOL" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="pusherTimer" Type="DATE_AND_TIME" />
+      <VarDeclaration Name="timeout" InitialValue="false" Type="BOOL" />
+    </InternalVars>
+    <ECC>
+      <ECState x="606.25" Name="BACK" Comment="Initial State" y="737.5">
+        <ECAction Algorithm="PusherAtBack" />
+      </ECState>
+      <ECState x="3000.0" Name="GOINGBACK" Comment="Normal execution" y="1387.5">
+        <ECAction Output="PusherCtrl" Algorithm="GoBack" />
+      </ECState>
+      <ECState x="1825.0" Name="GOINGBACK_WAIT" Comment="Normal execution" y="1650.0">
+        <ECAction Algorithm="CheckTimeout" />
+      </ECState>
+      <ECState x="1943.75" Name="GOINGFORWARD" y="68.75">
+        <ECAction Output="PusherCtrl" Algorithm="GoForward" />
+      </ECState>
+      <ECState x="3506.25" Name="FRONT" y="762.5">
+        <ECAction Output="ItemStatus" Algorithm="ItemPushedForward" />
+      </ECState>
+      <ECTransition x="893.75" Destination="GOINGFORWARD" Source="BACK" y="337.5" Condition="PosChange&#38;!CylinderEmpty &#38; ArmClear" />
+      <ECTransition x="2968.75" Destination="FRONT" Source="GOINGFORWARD" y="393.75" Condition="PosChange&#38;PosFront" />
+      <ECTransition x="3387.5" Destination="GOINGBACK" Source="FRONT" y="1106.25" Condition="1" />
+      <ECTransition x="2662.5" Destination="GOINGBACK_WAIT" Source="GOINGBACK" y="1493.75" Condition="1" />
+      <ECTransition x="768.75" Destination="BACK" Source="GOINGBACK_WAIT" y="1375.0" Condition="PosChange&#38;PosBack" />
+      <ECTransition x="1916.6666" Destination="GOINGFORWARD" Source="GOINGBACK_WAIT" y="1244.4443" Condition="PosChange&#38;!CylinderEmpty &#38; timeout &#38; ArmClear" />
+      <ECTransition x="1825.0" Destination="GOINGBACK_WAIT" Source="GOINGBACK_WAIT" y="1962.5" Condition="1" />
+    </ECC>
+    <Algorithm Name="GoBack" Comment="Initialization algorithm">
+      <Other Language="C" Text="me-&#62;PusherForward = false;&#10;me-&#62;timeout = false;&#10;gettimeofday(&#38;(me-&#62;pusherTimer), NULL);&#10;" />
+    </Algorithm>
+    <Algorithm Name="GoForward" Comment="Initialization algorithm">
+      <Other Language="C" Prototype="" Text="me-&#62;PusherForward = true;&#10;" />
+    </Algorithm>
+    <Algorithm Name="ItemPushedForward" Comment="Normally executed algorithm">
+      <Other Language="C" Text="me-&#62;ItemPresent = true;&#10;" />
+    </Algorithm>
+    <Algorithm Name="CheckTimeout">
+      <Other Language="C" Text="struct timeval nowtime, timediff;&#10;long long result;&#10;&#10;gettimeofday(&#38;nowtime, NULL);&#10;timersub(&#38;nowtime, &#38;me-&#62;pusherTimer, &#38;timediff);&#10;result = (long long)(timediff.tv_sec) * 1000000 + timediff.tv_usec;&#10;if( result &#62; 5000000 )&#10;me-&#62;timeout = true;&#10;" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

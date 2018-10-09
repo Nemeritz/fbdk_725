@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<FBType Name="WagoDistributingStation" Comment="Composite Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-05" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed from NEWCOMPFB." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="InputsChange">
+        <With Var="PusherBack" />
+        <With Var="PusherFront" />
+        <With Var="ArmAtPickup" />
+        <With Var="ArmAtDropoff" />
+        <With Var="CylinderEmpty" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="OutputsChange">
+        <With Var="PusherAtBack" />
+        <With Var="PusherForward" />
+        <With Var="ArmPICKINGUP" />
+        <With Var="ArmDROPPINGOFF" />
+        <With Var="ArmSUCKING" />
+        <With Var="ArmRELEASE" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PusherBack" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PusherFront" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="ArmAtPickup" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="ArmAtDropoff" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="CylinderEmpty" Type="BOOL" Comment="Input event qualifier" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="PusherForward" InitialValue="false" Type="BOOL" />
+      <VarDeclaration Name="ArmSUCKING" InitialValue="false" Type="BOOL" />
+      <VarDeclaration Name="ArmRELEASE" InitialValue="false" Type="BOOL" />
+      <VarDeclaration Name="ArmPICKINGUP" InitialValue="false" Type="BOOL" />
+      <VarDeclaration Name="ArmDROPPINGOFF" InitialValue="false" Type="BOOL" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork>
+    <FB x="3718.75" Name="DistStnArm" Type="DistStnArm" y="1087.5" />
+    <FB x="1456.25" Name="DistStnPusher" Type="DistStnPusher" y="1087.5" />
+    <EventConnections>
+      <Connection Destination="DistStnPusher.PosChange" Source="InputsChange" dx1="1193.75" />
+      <Connection Destination="DistStnArm.PosChange" Source="InputsChange" dx1="3456.25" />
+      <Connection Destination="OutputsChange" Source="DistStnArm.ArmCtrl" dx1="5187.5" />
+      <Connection Destination="OutputsChange" Source="DistStnPusher.PusherCtrl" dx1="2706.25" />
+      <Connection Destination="DistStnArm.ItemStatus" Source="DistStnPusher.ItemStatus" dx1="368.75" />
+      <Connection dy="-637.5" Destination="DistStnPusher.ArmStatusChange" Source="DistStnArm.ArmStatus" dx2="575.0" dx1="643.75" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Destination="DistStnPusher.PosBack" Source="PusherBack" dx1="1225.0" />
+      <Connection Destination="DistStnPusher.PosFront" Source="PusherFront" dx1="1218.75" />
+      <Connection Destination="DistStnPusher.CylinderEmpty" Source="CylinderEmpty" dx1="1218.75" />
+      <Connection Destination="DistStnArm.PosReadyToSuck" Source="ArmAtPickup" dx1="3400.0" />
+      <Connection Destination="DistStnArm.PosReadyToDrop" Source="ArmAtDropoff" dx1="3400.0" />
+      <Connection Destination="ArmPICKINGUP" Source="DistStnArm.ArmPICKINGUP" dx1="5200.0" />
+      <Connection Destination="ArmDROPPINGOFF" Source="DistStnArm.ArmDROPPINGOFF" dx1="5250.0" />
+      <Connection Destination="ArmSUCKING" Source="DistStnArm.ArmSUCKING" dx1="5168.75" />
+      <Connection Destination="ArmRELEASE" Source="DistStnArm.ArmRELEASE" dx1="5162.5" />
+      <Connection Destination="PusherForward" Source="DistStnPusher.PusherForward" dx1="2700.0" />
+      <Connection Destination="DistStnArm.ItemNeedingPickup" Source="DistStnPusher.ItemPresent" dx1="243.75" />
+      <Connection dy="150.0" Destination="DistStnPusher.ArmClear" Source="DistStnArm.ArmClear" dx2="243.75" dx1="618.75" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

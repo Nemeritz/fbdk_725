@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+<META NAME="GENERATOR" CONTENT="Eclipse HTML Editor">
+<TITLE>FBEditor Help - Editing EC Transitions</TITLE>
+</HEAD>
+<BODY>
+<H2 ALIGN="center">Editing EC Transitions</H2>
+<H3>Adding a Transition to an ECC</H3>
+<P>You can add a transition between any two states of an ECC using <A
+	HREF="dndconn.htm">drag-and-drop editing</A> in the same manner as
+connections in a function block diagram (FBD). The initial transition
+condition is unconditional ("1"), which may lead to a <A HREF="#Self">self-cycle</A>
+or a <A HREF="#Guard-Only">guard-only cycle</A>, so an <A HREF="#Dialog">EC
+Transition Dialog</A> is opened to check for this possibility and correct
+the transition condition if necessary as ilustrated below.</P>
+<CENTER><IMG SRC="dlgtran0.gif" ALT=""></CENTER>
+<H3>Deleting a Transition</H3>
+<P>You can delete a transition by using the <B>Delete</B> item of
+its popup menu or by using the <B>Alt+Del</B> keychord.</P>
+<H3><A NAME="Dialog">The EC Transition Dialog</A></H3>
+<P>For editing an existing transition, you invoke this dialog by
+double-clicking an existing EC transition or clicking the <B>Edit</B>
+item of its popup menu. The dialog contains a drop-down list for
+selecting the event (if any) in the transition condition. An editable
+drop-down list lets you select a Boolean variable as a guard condition,
+or to type in a Boolean expression in the IEC 61131-3 ST (Structured
+Text) language as the guard condition (if any).<BR>
+</P>
+<P ALIGN="center"><IMG SRC="dlgtran.gif" ALT=""><BR>
+</P>
+<P>You can close the dialog without making any changes to the action
+by pressing the <B>Cancel </B>button or the <IMG SRC="close.png"
+	ALIGN="middle" ALT=""> in the upper right corner of the dialog.
+If you press the <B>OK </B>button, the requested changes (if any) will
+be made and the dialog will close.</P>
+<P><IMG SRC="../note.gif" ALT="">The FBEditor does not detect
+whether the guard condition is a proper Boolean expression; this will
+only be caught by the compiler when the <IMG SRC="SaveAs16.gif" ALT=""><A
+	HREF="saveas.htm">SaveAs... =&gt;Java</A> option is exercised.</P>
+<H3>Empty Transitions</H3>
+<P>If both the Event and Guard Condition fields are empty when you
+press the <B>OK </B>button, an error message will be displayed and the
+dialog will not close.</P>
+<CENTER><IMG SRC="dlgtran2.gif" ALT=""></CENTER>
+<H3><A NAME="Self">Self-Cycles</A></H3>
+<P>A <I>self-cycle</I> exists when there is a transition from an EC
+action back to itself. If there is no event associated with such a
+transition, there is a possibility that the process that is executing
+the ECC may enter an infinite loop (or, in the case of the FBRT runtime
+provided with the FBDK, cause a stack overflow).</P>
+<P>Consider the following example, using the <TT>test/TEST_GUARDS.fbt</TT>
+file as a basis:</P>
+<CENTER>
+<TABLE BORDER="1">
+	<TR>
+		<TD ALIGN="center" VALIGN="middle">The initial ECC.</TD>
+		<TD><IMG SRC="TEST_GUARDS_ecc.png" ALT=""></TD>
+	</TR>
+	<TR>
+		<TD ALIGN="center" VALIGN="middle">The transition dialog
+		resulting from connecting a self-cycle at state <TT>INIT</TT>.</TD>
+		<TD ALIGN="center"><IMG SRC="TEST_GUARDS_self1.png" ALT=""></TD>
+	</TR>
+	<TR>
+		<TD ALIGN="center" VALIGN="middle">The self-cycle diagnosis
+		resulting from trying to save the self-cycle (by pressing the <B>OK</B>
+		button) with an unconditional transition.</TD>
+		<TD ALIGN="center"><IMG SRC="TEST_GUARDS_self2.png" ALT=""></TD>
+	</TR>
+	<TR>
+		<TD ALIGN="center" VALIGN="middle">The self-cycle diagnosis
+		resulting from trying to save the self-cycle with a guard only.</TD>
+		<TD ALIGN="center"><IMG SRC="TEST_GUARDS_self3.png" ALT=""></TD>
+	</TR>
+	<TR>
+		<TD ALIGN="center" VALIGN="middle">A correct self-cycle, gated by
+		an event and possibly also a guard condition.</TD>
+		<TD ALIGN="center"><IMG SRC="TEST_GUARDS_self4.png" ALT=""></TD>
+	</TR>
+	<TR>
+		<TD ALIGN="center" VALIGN="middle">The resulting ECC (note that
+		the self-cycle is drawn with a double line).</TD>
+		<TD ALIGN="center"><IMG SRC="TEST_GUARDS_ecc2.png" ALT=""></TD>
+	</TR>
+</TABLE>
+</CENTER>
+
+
+<H3><A NAME="Guard-Only">Guard-Only Cycles</A></H3>
+<P>A <I>guard-only cycle</I> is the general case of a <A
+	HREF="#Self">self-cycle</A>, where a path exists from an EC start,
+through other EC states and back to itself through a path consisting of
+transitions with guard-only conditions (i.e., transitions not containing
+an event). This also poses the possibility that the process that is
+executing the ECC may enter an infinite loop or cause a stack overflow
+in the FBRT.</P>
+<P>For instance, if an unconditional transition is attempted from
+the <TT>START</TT> to the <TT>ADD1</TT> state in the <TT>TEST_GUARDS</TT>
+example above, the following diagnostic message results:</P>
+<CENTER><IMG SRC="TEST_GUARDS_go.png"></CENTER>
+<HR>
+<P ALIGN="center"><I>Last updated: 2008-10-02.</I><BR>
+&copy;2006, 2008 <A HREF="http://www.holobloc.com" TARGET="_blank">Holobloc
+Inc</A><BR>
+All rights reserved.</P>
+</BODY>
+</HTML>

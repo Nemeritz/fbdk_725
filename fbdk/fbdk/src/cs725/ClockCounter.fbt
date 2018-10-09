@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="ClockCounter" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="XPMUser" Date="2010-02-06" Remarks="Template" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="INCREMENTBY" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="INCREMENTBY" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="CLOCK" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="CLOCK" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="INCREMENTBY" Type="INT" Comment="Clock * ScaleUpFactor = CLOCK output" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="CLOCK" Type="DINT" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="552.9412" y="429.4117" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="923.5294" y="141.1765" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+      </ECState>
+      <ECState Name="REQ" Comment="Normal execution" x="217.647" y="752.9412" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="731.1476" y="204.8375" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="797.5924" y="348.3232" />
+      <ECTransition Source="START" Destination="REQ" Condition="REQ" x="447.8488" y="648.3352" />
+      <ECTransition Source="REQ" Destination="START" Condition="1" x="372.8767" y="512.7991" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <ST Text="CLOCK := 0;&#10;" />
+  </Algorithm>
+  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
+    <ST Text="CLOCK := CLOCK + (INCREMENTBY);&#10;&#10;IF CLOCK >= 10000 THEN&#10;  CLOCK := 1;&#10;END_IF;&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="SUBLLP8" Comment="Eight-variable logic proxy to local Subscriber with interface of the globl one" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-11-27" Remarks="Saved for CODEC_TEST" />
+  <CompilerInfo header="package fb.rt.vnet;import fb.rt.net.*;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Service Initialization" >
+        <With Var="QI" />
+        <With Var="ID" />
+      </Event>
+      <Event Name="RSP" Comment="Service Response" >
+        <With Var="QI" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="QO" />
+        <With Var="STATUS" />
+      </Event>
+      <Event Name="IND" Comment="Service Indication" >
+        <With Var="QO" />
+        <With Var="STATUS" />
+        <With Var="RD_1" />
+        <With Var="RD_2" />
+        <With Var="RD_3" />
+        <With Var="RD_4" />
+        <With Var="RD_5" />
+        <With Var="RD_6" />
+        <With Var="RD_7" />
+        <With Var="RD_8" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="QI" Type="BOOL" Comment="Event Input Qualifier" />
+      <VarDeclaration Name="ID" Type="WSTRING" Comment="Connection Identifier" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" Comment="Event Output Qualifier" />
+      <VarDeclaration Name="STATUS" Type="WSTRING" Comment="Service Status" />
+      <VarDeclaration Name="RD_1" Type="BOOL" Comment="Subscribed Data" />
+      <VarDeclaration Name="RD_2" Type="BOOL" Comment="Subscribed Data" />
+      <VarDeclaration Name="RD_3" Type="BOOL" Comment="Subscribed Data" />
+      <VarDeclaration Name="RD_4" Type="BOOL" Comment="Subscribed Data" />
+      <VarDeclaration Name="RD_5" Type="BOOL" Comment="Subscribed Data" />
+      <VarDeclaration Name="RD_6" Type="BOOL" Comment="Subscribed Data" />
+      <VarDeclaration Name="RD_7" Type="BOOL" Comment="Subscribed Data" />
+      <VarDeclaration Name="RD_8" Type="BOOL" Comment="Subscribed Data" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="SUBL" Type="SUBL_8" x="1117.6471" y="458.8235" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="SUBL.INIT" dx1="1011.7647" />
+      <Connection Source="SUBL.INITO" Destination="INITO" dx1="1576.4706" />
+      <Connection Source="SUBL.IND" Destination="IND" dx1="1541.1764" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="ID" Destination="SUBL.ID" dx1="1041.1764" />
+      <Connection Source="SUBL.RD_1" Destination="RD_1" dx1="1570.5883" />
+      <Connection Source="SUBL.RD_2" Destination="RD_2" dx1="1570.5883" />
+      <Connection Source="SUBL.RD_3" Destination="RD_3" dx1="1570.5883" />
+      <Connection Source="SUBL.RD_4" Destination="RD_4" dx1="1570.5883" />
+      <Connection Source="SUBL.RD_5" Destination="RD_5" dx1="1570.5883" />
+      <Connection Source="SUBL.RD_6" Destination="RD_6" dx1="1570.5883" />
+      <Connection Source="SUBL.RD_7" Destination="RD_7" dx1="1570.5883" />
+      <Connection Source="SUBL.RD_8" Destination="RD_8" dx1="1570.5883" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

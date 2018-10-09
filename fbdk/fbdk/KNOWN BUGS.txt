@@ -1,0 +1,7 @@
+* Bags that are inserted too closely will merge
+* PEs may not detect really really small gaps between bags
+* Sometimes phantom bags may appear
+* FBDK should be restarted if you want to re-run the simulation with more than one device
+* There may be issues with BAG 4 (on OS X) - NOTE: NO SUPPORT PROVIDED FOR PLATFORMS OUTSIDE LAB ENVIRONMENT
+* YOU MUST SAVE THE XML AND JAVA, DO NOT COMPLAIN IF YOU FORGET TO SAVE
+* FBDK has to be restarted to re-load compiled Java, if things start being weird, just restart FBDK

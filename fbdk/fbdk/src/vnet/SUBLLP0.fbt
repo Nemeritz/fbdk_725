@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="SUBLLP0" Comment="Eight-variable logic proxy to local Subscriber with interface of the globl one" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="MLU" Version="0.0" Author="VVV" Date="2002-11-12" />
+  <CompilerInfo header="package fb.rt.net;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Service Initialization" >
+        <With Var="QI" />
+        <With Var="ID" />
+      </Event>
+      <Event Name="RSP" Comment="Service Response" >
+        <With Var="QI" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="QO" />
+        <With Var="STATUS" />
+      </Event>
+      <Event Name="IND" Comment="Service Indication" >
+        <With Var="QO" />
+        <With Var="STATUS" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="QI" Type="BOOL" Comment="Event Input Qualifier" />
+      <VarDeclaration Name="ID" Type="WSTRING" Comment="Connection Identifier" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" Comment="Event Output Qualifier" />
+      <VarDeclaration Name="STATUS" Type="WSTRING" Comment="Service Status" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="SUBL" Type="SUBL_0" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="SUBL.INIT" />
+      <Connection Source="SUBL.INITO" Destination="INITO" />
+      <Connection Source="SUBL.IND" Destination="IND" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="ID" Destination="SUBL.ID" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

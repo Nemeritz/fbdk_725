@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="RingTokenNetworkTwo" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.template;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="Request1" />
+        <With Var="Request2" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="Request1" />
+        <With Var="Request2" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="Grant1" />
+        <With Var="Grant2" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="Grant1" />
+        <With Var="Grant2" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="Request1" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="Request2" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="Grant1" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="Grant2" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="RTM1" Type="RingTokenMember" x="783.3333" y="972.22217" />
+    <FB Name="RTM2" Type="RingTokenMemberHead" x="2144.4443" y="1283.3333" />
+    <EventConnections>
+      <Connection Source="RTM1.INITO" Destination="RTM2.INIT" dx1="722.22217" />
+      <Connection Source="INIT" Destination="RTM1.INIT" dx1="677.7778" />
+      <Connection Source="RTM2.INITO" Destination="INITO" dx1="2794.4443" />
+      <Connection Source="RTM2.CNF" Destination="CNF" dx1="2772.2222" />
+      <Connection Source="REQ" Destination="RTM1.REQ" dx1="672.22217" />
+      <Connection Source="RTM1.CNF" Destination="RTM2.REQ" dx1="633.3333" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="RTM1.Grant" Destination="Grant1" dx1="1444.4443" />
+      <Connection Source="RTM2.Grant" Destination="Grant2" dx1="2805.5554" />
+      <Connection Source="Request2" Destination="RTM2.Request" dx1="1972.2222" />
+      <Connection Source="Request1" Destination="RTM1.Request" dx1="611.1111" />
+      <Connection Source="RTM1.TokenOut" Destination="RTM2.TokenIn" dx1="483.3333" />
+      <Connection Source="RTM2.TokenOut" Destination="RTM1.TokenIn" dx1="394.44443" dx2="249.99998" dy="961.1111" />
+      <Connection Source="RTM2.TokenOut" Destination="RTM1.TokenFeedback" dx1="72.22222" dx2="72.22222" dy="755.55554" />
+      <Connection Source="RTM1.TokenOut" Destination="RTM2.TokenFeedback" dx1="344.44443" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

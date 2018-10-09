@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Conveyor_View_Small" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;import fb.rt.vhmi.*;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="C1BagOutX1" />
+        <With Var="C1BagOutPE1" />
+        <With Var="C1BagOutX2" />
+        <With Var="C1BagOutPE2" />
+        <With Var="C2BagOutX1" />
+        <With Var="C2BagOutPE1" />
+        <With Var="C2BagOutX2" />
+        <With Var="C2BagOutPE2" />
+        <With Var="C3BagOutX1" />
+        <With Var="C3BagOutPE1" />
+        <With Var="C3BagOutX2" />
+        <With Var="C3BagOutPE2" />
+        <With Var="C4BagOutX1" />
+        <With Var="C4BagOutPE1" />
+        <With Var="C4BagOutX2" />
+        <With Var="C4BagOutPE2" />
+        <With Var="C4BagOutX3" />
+        <With Var="C4BagOutPE3" />
+        <With Var="C4BagOutPE4" />
+        <With Var="C4BagOutPE5" />
+        <With Var="C1Rotate" />
+        <With Var="C2Rotate" />
+        <With Var="C3Rotate" />
+        <With Var="C4Rotate" />
+        <With Var="C5Rotate" />
+        <With Var="C6Rotate" />
+        <With Var="C7Rotate" />
+        <With Var="C8Rotate" />
+        <With Var="C9Rotate" />
+        <With Var="C10Rotate" />
+        <With Var="C11Rotate" />
+        <With Var="C4BagOutPE6" />
+        <With Var="C5BagOutX1" />
+        <With Var="C5BagOutPE1" />
+        <With Var="C5BagOutX2" />
+        <With Var="C5BagOutPE2" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="C1BagOutX1" />
+        <With Var="C1BagOutPE1" />
+        <With Var="C1BagOutX2" />
+        <With Var="C1BagOutPE2" />
+        <With Var="C2BagOutX1" />
+        <With Var="C2BagOutPE1" />
+        <With Var="C2BagOutX2" />
+        <With Var="C2BagOutPE2" />
+        <With Var="C3BagOutX1" />
+        <With Var="C3BagOutPE1" />
+        <With Var="C3BagOutX2" />
+        <With Var="C3BagOutPE2" />
+        <With Var="C4BagOutX1" />
+        <With Var="C4BagOutPE1" />
+        <With Var="C4BagOutX2" />
+        <With Var="C4BagOutPE2" />
+        <With Var="C4BagOutX3" />
+        <With Var="C4BagOutPE3" />
+        <With Var="C4BagOutPE4" />
+        <With Var="C4BagOutPE5" />
+        <With Var="C1Rotate" />
+        <With Var="C2Rotate" />
+        <With Var="C3Rotate" />
+        <With Var="C4Rotate" />
+        <With Var="C5Rotate" />
+        <With Var="C6Rotate" />
+        <With Var="C7Rotate" />
+        <With Var="C8Rotate" />
+        <With Var="C9Rotate" />
+        <With Var="C10Rotate" />
+        <With Var="C11Rotate" />
+        <With Var="C4BagOutPE6" />
+        <With Var="C5BagOutX1" />
+        <With Var="C5BagOutPE1" />
+        <With Var="C5BagOutX2" />
+        <With Var="C5BagOutPE2" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="C1BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C1BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C1BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C1BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C2BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C2BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C2BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C2BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C3BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C3BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C3BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C3BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C4BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C4BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutX3" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C4BagOutPE3" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutPE4" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutPE5" Type="BOOL" />
+      <VarDeclaration Name="C4BagOutPE6" Type="BOOL" />
+      <VarDeclaration Name="C5BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C5BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="C5BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="C5BagOutPE2" Type="BOOL" />
+      <VarDeclaration Name="C1Rotate" Type="BOOL" />
+      <VarDeclaration Name="C2Rotate" Type="BOOL" />
+      <VarDeclaration Name="C3Rotate" Type="BOOL" />
+      <VarDeclaration Name="C4Rotate" Type="BOOL" />
+      <VarDeclaration Name="C5Rotate" Type="BOOL" />
+      <VarDeclaration Name="C6Rotate" Type="BOOL" />
+      <VarDeclaration Name="C7Rotate" Type="BOOL" />
+      <VarDeclaration Name="C8Rotate" Type="BOOL" />
+      <VarDeclaration Name="C9Rotate" Type="BOOL" />
+      <VarDeclaration Name="C10Rotate" Type="BOOL" />
+      <VarDeclaration Name="C11Rotate" Type="BOOL" />
+    </InputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="RenderView" Type="ConveyorRenderTwoConveyor" x="466.66666" y="111.11111" />
+    <FB Name="Bag" Type="BagView" x="1655.5555" y="11.111111" />
+    <FB Name="PE" Type="PEView" x="2594.4443" y="61.111107" >
+      <Parameter Name="PosX1" Value="132" />
+      <Parameter Name="PosX2" Value="132" />
+      <Parameter Name="PosY1" Value="170" />
+      <Parameter Name="PosY2" Value="322" />
+      <Parameter Name="PosX3" Value="334" />
+      <Parameter Name="PosX4" Value="334" />
+      <Parameter Name="PosY3" Value="170" />
+      <Parameter Name="PosY4" Value="322" />
+      <Parameter Name="PosX5" Value="232" />
+      <Parameter Name="PosX6" Value="232" />
+      <Parameter Name="PosY5" Value="538" />
+      <Parameter Name="PosY6" Value="386" />
+      <Parameter Name="PosX7" Value="270" />
+      <Parameter Name="PosY7" Value="386" />
+      <Parameter Name="PosY8" Value="386" />
+      <Parameter Name="PosY9" Value="386" />
+      <Parameter Name="PosX8" Value="472" />
+      <Parameter Name="PosX9" Value="674" />
+      <Parameter Name="PosX10" Value="154" />
+      <Parameter Name="PosY10" Value="386" />
+      <Parameter Name="PosX11" Value="356" />
+      <Parameter Name="PosY11" Value="386" />
+      <Parameter Name="PosX13" Value="536" />
+      <Parameter Name="PosY13" Value="538" />
+      <Parameter Name="PosX14" Value="536" />
+      <Parameter Name="PosY14" Value="386" />
+      <Parameter Name="PosX12" Value="558" />
+      <Parameter Name="PosY12" Value="386" />
+    </FB>
+    <FB Name="TC1" Type="TwoConveyorInput" x="3711.111" y="2722.2222" >
+      <Parameter Name="PosX1" Value="100" />
+      <Parameter Name="PosY1" Value="50" />
+      <Parameter Name="PosX2" Value="100" />
+      <Parameter Name="PosY2" Value="202" />
+    </FB>
+    <FB Name="TC2" Type="TwoConveyorInput" x="4783.333" y="2722.2222" >
+      <Parameter Name="PosX1" Value="302" />
+      <Parameter Name="PosY1" Value="50" />
+      <Parameter Name="PosX2" Value="302" />
+      <Parameter Name="PosY2" Value="202" />
+    </FB>
+    <FB Name="TC3" Type="TwoConveyorInput" x="3711.111" y="4227.778" >
+      <Parameter Name="PosX1" Value="200" />
+      <Parameter Name="PosY1" Value="386" />
+      <Parameter Name="PosX2" Value="200" />
+      <Parameter Name="PosY2" Value="538" />
+    </FB>
+    <FB Name="TC5" Type="ThreeConveyorInput" x="5638.8887" y="4272.222" >
+      <Parameter Name="PosX1" Value="100" />
+      <Parameter Name="PosY1" Value="354" />
+      <Parameter Name="PosX2" Value="302" />
+      <Parameter Name="PosY2" Value="354" />
+      <Parameter Name="PosX3" Value="504" />
+      <Parameter Name="PosY3" Value="354" />
+    </FB>
+    <FB Name="TC4" Type="TwoConveyorInput" x="4744.4443" y="4227.778" >
+      <Parameter Name="PosX1" Value="504" />
+      <Parameter Name="PosY1" Value="386" />
+      <Parameter Name="PosX2" Value="504" />
+      <Parameter Name="PosY2" Value="538" />
+    </FB>
+    <EventConnections>
+      <Connection Source="INIT" Destination="RenderView.INIT" dx1="361.11108" />
+      <Connection Source="REQ" Destination="RenderView.REQ" dx1="355.55554" />
+      <Connection Source="RenderView.INITO" Destination="Bag.INIT" dx1="83.33333" />
+      <Connection Source="RenderView.CNF" Destination="Bag.ChangeXY" dx1="83.33333" />
+      <Connection Source="Bag.INITO" Destination="PE.INIT" dx1="605.55554" />
+      <Connection Source="RenderView.CNF" Destination="PE.ChangePic" dx1="405.55554" />
+      <Connection Source="PE.INITO" Destination="TC1.INIT" dx1="61.111107" />
+      <Connection Source="TC1.INITO" Destination="TC2.INIT" dx1="61.111107" />
+      <Connection Source="TC2.INITO" Destination="TC3.INIT" dx1="61.111107" dx2="338.8889" dy="-111.11111" />
+      <Connection Source="TC5.INITO" Destination="INITO" dx1="6322.222" />
+      <Connection Source="RenderView.CNF" Destination="TC1.ChangePic" dx1="2250.0" />
+      <Connection Source="RenderView.CNF" Destination="TC2.ChangePic" dx1="3116.6665" />
+      <Connection Source="RenderView.CNF" Destination="TC3.ChangePic" dx1="2183.3333" />
+      <Connection Source="RenderView.CNF" Destination="TC5.ChangePic" dx1="3144.4443" />
+      <Connection Source="TC3.INITO" Destination="TC4.INIT" dx1="216.66666" />
+      <Connection Source="TC4.INITO" Destination="TC5.INIT" dx1="155.55554" />
+      <Connection Source="RenderView.CNF" Destination="TC4.ChangePic" dx1="3083.3333" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="RenderView.Bag1X" Destination="Bag.PosX1" dx1="561.1111" />
+      <Connection Source="RenderView.Bag1Y" Destination="Bag.PosY1" dx1="538.88885" />
+      <Connection Source="RenderView.Bag2X" Destination="Bag.PosX2" dx1="533.3333" />
+      <Connection Source="RenderView.Bag2Y" Destination="Bag.PosY2" dx1="511.11108" />
+      <Connection Source="RenderView.Bag3X" Destination="Bag.PosX3" dx1="499.99997" />
+      <Connection Source="RenderView.Bag3Y" Destination="Bag.PosY3" dx1="488.88885" />
+      <Connection Source="RenderView.Bag4X" Destination="Bag.PosX4" dx1="483.3333" />
+      <Connection Source="RenderView.Bag4Y" Destination="Bag.PosY4" dx1="461.11108" />
+      <Connection Source="RenderView.Bag5X" Destination="Bag.PosX5" dx1="438.8889" />
+      <Connection Source="RenderView.Bag5Y" Destination="Bag.PosY5" dx1="438.8889" />
+      <Connection Source="RenderView.Bag6X" Destination="Bag.PosX6" dx1="433.3333" />
+      <Connection Source="RenderView.Bag6Y" Destination="Bag.PosY6" dx1="411.11108" />
+      <Connection Source="RenderView.Bag7X" Destination="Bag.PosX7" dx1="400.0" />
+      <Connection Source="RenderView.Bag7Y" Destination="Bag.PosY7" dx1="388.8889" />
+      <Connection Source="RenderView.Bag8X" Destination="Bag.PosX8" dx1="383.3333" />
+      <Connection Source="RenderView.Bag8Y" Destination="Bag.PosY8" dx1="366.66666" />
+      <Connection Source="RenderView.Bag9X" Destination="Bag.PosX9" dx1="361.11108" />
+      <Connection Source="RenderView.Bag9Y" Destination="Bag.PosY9" dx1="338.8889" />
+      <Connection Source="RenderView.Bag10X" Destination="Bag.PosX10" dx1="333.3333" />
+      <Connection Source="RenderView.Bag10Y" Destination="Bag.PosY10" dx1="316.66666" />
+      <Connection Source="RenderView.Bag11X" Destination="Bag.PosX11" dx1="111.11111" />
+      <Connection Source="RenderView.Bag11Y" Destination="Bag.PosY11" dx1="94.44444" />
+      <Connection Source="RenderView.Bag12X" Destination="Bag.PosX12" dx1="105.55555" />
+      <Connection Source="RenderView.Bag12Y" Destination="Bag.PosY12" dx1="138.88889" />
+      <Connection Source="RenderView.Bag13X" Destination="Bag.PosX13" dx1="133.33333" />
+      <Connection Source="RenderView.Bag13Y" Destination="Bag.PosY13" dx1="111.11111" />
+      <Connection Source="RenderView.Bag14X" Destination="Bag.PosX14" dx1="83.33333" />
+      <Connection Source="RenderView.Bag14Y" Destination="Bag.PosY14" dx1="94.44444" />
+      <Connection Source="RenderView.Bag15X" Destination="Bag.PosX15" dx1="116.666664" />
+      <Connection Source="RenderView.Bag15Y" Destination="Bag.PosY15" dx1="111.11111" />
+      <Connection Source="RenderView.Bag16X" Destination="Bag.PosX16" dx1="83.33333" />
+      <Connection Source="RenderView.Bag16Y" Destination="Bag.PosY16" dx1="83.33333" />
+      <Connection Source="RenderView.Bag17X" Destination="Bag.PosX17" dx1="66.666664" />
+      <Connection Source="RenderView.Bag17Y" Destination="Bag.PosY17" dx1="83.33333" />
+      <Connection Source="RenderView.Bag18X" Destination="Bag.PosX18" dx1="88.888885" />
+      <Connection Source="RenderView.Bag18Y" Destination="Bag.PosY18" dx1="83.33333" />
+      <Connection Source="C1BagOutX1" Destination="RenderView.C1BagOutX1" dx1="244.44443" />
+      <Connection Source="C1BagOutX2" Destination="RenderView.C1BagOutX2" dx1="244.44443" />
+      <Connection Source="C2BagOutX1" Destination="RenderView.C2BagOutX1" dx1="244.44443" />
+      <Connection Source="C2BagOutX2" Destination="RenderView.C2BagOutX2" dx1="244.44443" />
+      <Connection Source="C1BagOutPE1" Destination="RenderView.C1BagOutPE1" dx1="222.22221" />
+      <Connection Source="C1BagOutPE2" Destination="RenderView.C1BagOutPE2" dx1="222.22221" />
+      <Connection Source="C2BagOutPE1" Destination="RenderView.C2BagOutPE1" dx1="222.22221" />
+      <Connection Source="C2BagOutPE2" Destination="RenderView.C2BagOutPE2" dx1="222.22221" />
+      <Connection Source="C3BagOutX1" Destination="RenderView.C3BagOutX1" dx1="244.44443" />
+      <Connection Source="C3BagOutPE1" Destination="RenderView.C3BagOutPE1" dx1="222.22221" />
+      <Connection Source="C3BagOutX2" Destination="RenderView.C3BagOutX2" dx1="244.44443" />
+      <Connection Source="C3BagOutPE2" Destination="RenderView.C3BagOutPE2" dx1="222.22221" />
+      <Connection Source="C4BagOutX1" Destination="RenderView.C4BagOutX1" dx1="244.44443" />
+      <Connection Source="C4BagOutPE1" Destination="RenderView.C4BagOutPE1" dx1="222.22221" />
+      <Connection Source="C4BagOutX2" Destination="RenderView.C4BagOutX2" dx1="244.44443" />
+      <Connection Source="C4BagOutPE2" Destination="RenderView.C4BagOutPE2" dx1="222.22221" />
+      <Connection Source="C4BagOutX3" Destination="RenderView.C4BagOutX3" dx1="244.44443" />
+      <Connection Source="C4BagOutPE3" Destination="RenderView.C4BagOutPE3" dx1="222.22221" />
+      <Connection Source="RenderView.PE1" Destination="PE.name1" dx1="938.88885" />
+      <Connection Source="RenderView.PE2" Destination="PE.name2" dx1="961.1111" />
+      <Connection Source="RenderView.PE3" Destination="PE.name3" dx1="983.3333" />
+      <Connection Source="RenderView.PE4" Destination="PE.name4" dx1="961.1111" />
+      <Connection Source="RenderView.PE5" Destination="PE.name5" dx1="983.3333" />
+      <Connection Source="RenderView.PE6" Destination="PE.name6" dx1="994.4444" />
+      <Connection Source="RenderView.PE7" Destination="PE.name7" dx1="1005.55554" />
+      <Connection Source="RenderView.PE8" Destination="PE.name8" dx1="1016.6666" />
+      <Connection Source="RenderView.PE9" Destination="PE.name9" dx1="1038.8888" />
+      <Connection Source="RenderView.PE10" Destination="PE.name10" dx1="1066.6666" />
+      <Connection Source="RenderView.PE11" Destination="PE.name11" dx1="1088.8888" />
+      <Connection Source="RenderView.PE12" Destination="PE.name12" dx1="1138.8888" />
+      <Connection Source="C4BagOutPE4" Destination="RenderView.C4BagOutPE4" dx1="222.22221" />
+      <Connection Source="C4BagOutPE5" Destination="RenderView.C4BagOutPE5" dx1="222.22221" />
+      <Connection Source="RenderView.C1Rot" Destination="TC1.name1" dx1="1972.2222" />
+      <Connection Source="RenderView.C2Rot" Destination="TC1.name2" dx1="2005.5554" />
+      <Connection Source="RenderView.C3Rot" Destination="TC2.name1" dx1="2911.111" />
+      <Connection Source="RenderView.C4Rot" Destination="TC2.name2" dx1="2955.5554" />
+      <Connection Source="RenderView.C7Rot" Destination="TC5.name1" dx1="4155.555" />
+      <Connection Source="RenderView.C8Rot" Destination="TC5.name2" dx1="4105.555" />
+      <Connection Source="RenderView.C9Rot" Destination="TC5.name3" dx1="4077.7776" />
+      <Connection Source="C1Rotate" Destination="RenderView.C1Rotate" dx1="294.44443" />
+      <Connection Source="C2Rotate" Destination="RenderView.C2Rotate" dx1="294.44443" />
+      <Connection Source="C3Rotate" Destination="RenderView.C3Rotate" dx1="294.44443" />
+      <Connection Source="C4Rotate" Destination="RenderView.C4Rotate" dx1="294.44443" />
+      <Connection Source="C5Rotate" Destination="RenderView.C5Rotate" dx1="294.44443" />
+      <Connection Source="C6Rotate" Destination="RenderView.C6Rotate" dx1="294.44443" />
+      <Connection Source="C7Rotate" Destination="RenderView.C7Rotate" dx1="294.44443" />
+      <Connection Source="C8Rotate" Destination="RenderView.C8Rotate" dx1="294.44443" />
+      <Connection Source="C9Rotate" Destination="RenderView.C9Rotate" dx1="294.44443" />
+      <Connection Source="RenderView.PE13" Destination="PE.name13" dx1="1033.3333" />
+      <Connection Source="RenderView.PE14" Destination="PE.name14" dx1="1050.0" />
+      <Connection Source="C10Rotate" Destination="RenderView.C10Rotate" dx1="277.77777" />
+      <Connection Source="C11Rotate" Destination="RenderView.C11Rotate" dx1="277.77777" />
+      <Connection Source="C4BagOutPE6" Destination="RenderView.C4BagOutPE6" dx1="222.22221" />
+      <Connection Source="C5BagOutX1" Destination="RenderView.C5BagOutX1" dx1="244.44443" />
+      <Connection Source="C5BagOutPE1" Destination="RenderView.C5BagOutPE1" dx1="222.22221" />
+      <Connection Source="C5BagOutX2" Destination="RenderView.C5BagOutX2" dx1="244.44443" />
+      <Connection Source="C5BagOutPE2" Destination="RenderView.C5BagOutPE2" dx1="222.22221" />
+      <Connection Source="RenderView.C5Rot" Destination="TC3.name2" dx1="2072.2222" />
+      <Connection Source="RenderView.C6Rot" Destination="TC3.name1" dx1="2022.2222" />
+      <Connection Source="RenderView.C10Rot" Destination="TC4.name2" dx1="3050.0" />
+      <Connection Source="RenderView.C11Rot" Destination="TC4.name1" dx1="3088.8887" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

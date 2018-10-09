@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="HMI_BUTTONS" Comment="Human machine interface for input" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.festo1;import fb.rt.hmi.*;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="SIZE1" />
+        <With Var="SIZE2" />
+        <With Var="SIZE3" />
+        <With Var="SIZE4" />
+        <With Var="SIZE5" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="RESET" Comment="Execution Confirmation" >
+      </Event>
+      <Event Name="START" Comment="Execution Confirmation" >
+      </Event>
+      <Event Name="STOP" Comment="Execution Confirmation" >
+      </Event>
+      <Event Name="ACK" Comment="Execution Confirmation" >
+      </Event>
+      <Event Name="SENSE" Comment="Execution Confirmation" >
+        <With Var="SINGLE" />
+        <With Var="NOT_EPT" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="SIZE1" Type="DINT" ArraySize="4" />
+      <VarDeclaration Name="SIZE2" Type="DINT" ArraySize="4" />
+      <VarDeclaration Name="SIZE3" Type="DINT" ArraySize="4" />
+      <VarDeclaration Name="SIZE4" Type="DINT" ArraySize="4" />
+      <VarDeclaration Name="SIZE5" Type="DINT" ArraySize="4" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="SINGLE" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="NOT_EPT" Type="BOOL" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="START_PB" Type="IN_EVENT_CAI1" x="317.6471" y="376.4706" />
+    <FB Name="RESET_PB" Type="IN_EVENT_CAI1" x="1141.1764" y="376.4706" />
+    <FB Name="STOP_PB" Type="IN_EVENT_CAI1" x="2735.2939" y="376.4706" />
+    <FB Name="ACK_PB" Type="IN_EVENT_CAI1" x="1941.1764" y="376.4706" />
+    <FB Name="SEMIAUTO" Type="IN_BOOL_1" x="3641.1765" y="376.4706" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="START_PB.INIT" dx1="211.7647" />
+      <Connection Source="START_PB.INITO" Destination="RESET_PB.INIT" dx1="29.4118" dx2="29.4118" dy="-1" />
+      <Connection Source="RESET_PB.INITO" Destination="ACK_PB.INIT" dx1="47.0588" />
+      <Connection Source="ACK_PB.INITO" Destination="STOP_PB.INIT" dx1="29.4118" dx2="29.4118" dy="-1" />
+      <Connection Source="STOP_PB.INITO" Destination="SEMIAUTO.INIT" dx1="70.5882" />
+      <Connection Source="SEMIAUTO.INITO" Destination="INITO" dx1="4141.1763" />
+      <Connection Source="RESET_PB.IND" Destination="RESET" dx1="1782.3529" />
+      <Connection Source="START_PB.IND" Destination="START" dx1="958.8235" />
+      <Connection Source="STOP_PB.IND" Destination="STOP" dx1="3358.8235" />
+      <Connection Source="ACK_PB.IND" Destination="ACK" dx1="2541.1765" />
+      <Connection Source="SEMIAUTO.IND" Destination="SENSE" dx1="4158.8232" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="1" Destination="RESET_PB.QI" dx1="1076.4706" />
+      <Connection Source="1" Destination="START_PB.QI" dx1="252.9412" />
+      <Connection Source="1" Destination="STOP_PB.QI" dx1="2670.5881" />
+      <Connection Source="1" Destination="ACK_PB.QI" dx1="1876.4706" />
+      <Connection Source="1" Destination="SEMIAUTO.QI" dx1="3576.4705" />
+      <Connection Source="&#34;RESET&#34;" Destination="RESET_PB.LABEL" dx1="964.7059" />
+      <Connection Source="&#34;START&#34;" Destination="START_PB.LABEL" dx1="141.1765" />
+      <Connection Source="&#34;STOP&#34;" Destination="STOP_PB.LABEL" dx1="2576.4705" />
+      <Connection Source="&#34;MANUAL&#34;" Destination="SEMIAUTO.LABEL" dx1="3441.1765" />
+      <Connection Source="&#34;ACKN&#34;" Destination="ACK_PB.LABEL" dx1="1788.2352" />
+      <Connection Source="SEMIAUTO.OUT" Destination="SINGLE" dx1="4170.5884" />
+      <Connection Source="SIZE1" Destination="START_PB.BOUND" dx1="188.2353" />
+      <Connection Source="SIZE2" Destination="RESET_PB.BOUND" dx1="1011.7647" />
+      <Connection Source="SIZE3" Destination="ACK_PB.BOUND" dx1="1811.7646" />
+      <Connection Source="SIZE4" Destination="STOP_PB.BOUND" dx1="2605.8823" />
+      <Connection Source="SIZE5" Destination="SEMIAUTO.BOUND" dx1="3511.7646" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

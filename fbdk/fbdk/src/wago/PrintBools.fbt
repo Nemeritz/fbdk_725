@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<FBType Name="PrintBools" Comment="Basic Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-04" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed for better indexing." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" Comment="Normal Execution Request">
+        <With Var="In0" />
+        <With Var="In1" />
+        <With Var="In2" />
+        <With Var="In3" />
+        <With Var="In4" />
+        <With Var="In5" />
+        <With Var="In6" />
+        <With Var="In7" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CNF" Comment="Execution Confirmation" />
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="In0" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="In1" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="In2" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="In3" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="In4" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="In5" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="In6" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="In7" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+    </InputVars>
+  </InterfaceList>
+  <BasicFB>
+    <ECC>
+      <ECState x="541.83014" Name="START" Comment="Initial State" y="429.4117" />
+      <ECState x="217.647" Name="REQ" Comment="Normal execution" y="752.9412">
+        <ECAction Output="CNF" Algorithm="PrintBools" />
+      </ECState>
+      <ECTransition x="552.9412" Destination="REQ" Source="START" y="600.0" Condition="REQ" />
+      <ECTransition x="217.647" Destination="START" Source="REQ" y="429.4117" Condition="1" />
+    </ECC>
+    <Algorithm Name="PrintBools" Comment="Normally executed algorithm">
+      <Other Language="C" Text="if( me-&#62;In0 ) printf(&#34;1&#34;); else printf(&#34;0&#34;);&#10;if( me-&#62;In1 ) printf(&#34;1&#34;); else printf(&#34;0&#34;);&#10;if( me-&#62;In2 ) printf(&#34;1&#34;); else printf(&#34;0&#34;);&#10;if( me-&#62;In3 ) printf(&#34;1&#34;); else printf(&#34;0&#34;);&#10;if( me-&#62;In4 ) printf(&#34;1&#34;); else printf(&#34;0&#34;);&#10;if( me-&#62;In5 ) printf(&#34;1&#34;); else printf(&#34;0&#34;);&#10;if( me-&#62;In6 ) printf(&#34;1&#34;); else printf(&#34;0&#34;);&#10;if( me-&#62;In7 ) printf(&#34;1&#34;); else printf(&#34;0&#34;);&#10;printf(&#34;\n&#34;);" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

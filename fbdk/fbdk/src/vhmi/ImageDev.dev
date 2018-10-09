@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE DeviceType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<DeviceType Name="ImageDev" Comment="Device Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="UoA" Version="0.0" Author="Anirudha" Date="2006-01-11" Remarks="Added Length and Height" />
+  <CompilerInfo header="package fb.rt.vhmi; import fb.rt.events.*;" >
+  </CompilerInfo>
+  <VarDeclaration Name="Length" Type="INT" />
+  <VarDeclaration Name="Height" Type="INT" />
+  <ResourceTypeName Name="ImageResourceVV" />
+</DeviceType>

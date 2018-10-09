@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+<META NAME="GENERATOR" CONTENT="Eclipse HTML Editor">
+<TITLE>Adapter Types</TITLE>
+</HEAD>
+<BODY>
+<H2 ALIGN="center">Build and Test an Adapter Interface Type</H2>
+<OL>
+	<LI>Start the <B>FBEditor</B> application by running the <A
+		HREF="custom.htm#FBEditor"><TT>editor.bat</TT></A> file.</LI>
+	<LI>Create a new adapter interface type in the editor by:
+	<UL>
+		<LI>Opening a file containing an existing adapter interface type,
+		for instance the <TT>MECH_ADP.adp</TT> file in the <TT>src\mva</TT>
+		folder, or</LI>
+		<LI>Clicking the <IMG SRC="New16a.gif"><B>New... =&gt;
+		<IMG SRC="fb16.gif">AdapterType</B> menu item. Here is how the
+		screen will look if you do this:</LI>
+	</UL>
+	<CENTER><IMG SRC="newadp.png"></CENTER>
+	</LI>
+	<LI>Edit the adapter's elements:
+	<UL>
+		<LI><A HREF="propsfrm.htm">Edit the adapter's properties</A>.</LI>
+		<LI><A HREF="intfcfrm.htm">Edit the adapter interface</A>.</LI>
+		<LI><A HREF="seqs.htm">Edit the adapter's service sequences</A>
+		to document the expected socket/plug interactions.</LI>
+	</UL>
+	</LI>
+	<LI>When your editing is complete, save your work with the <IMG
+		SRC="SaveAs16.gif"><A HREF="saveas.htm">Save As...</A> button.
+	<UL>
+		<LI><IMG SRC="../note.gif">It is a good idea to <B>save
+		your work</B> from time to time while editing, too!</LI>
+	</UL>
+	</LI>
+	<LI>Generate and compile a Java<SUP>TM</SUP> source file with the
+	<IMG SRC="SaveAs16.gif"><A HREF="saveas.htm">Save As...</A>
+	button.</LI>
+	<LI>Adapters cannot be tested independently of their use as plugs
+	and sockets, so you will have to create special <A HREF="howtocom.htm">composite
+	function block types</A> and a <A HREF="howtosys.htm">system
+	configuration</A> to do this testing. For an example see the <A
+		HREF="TEST_ADP_SYS.htm"><TT>TEST_ADP_SYS</TT></A> configuration.</LI>
+</OL>
+<HR>
+<P ALIGN="center"><I>Last updated: 2008-10-03.</I><BR>
+&copy;2006, 2008 <A HREF="http://www.holobloc.com" TARGET="_blank">Holobloc
+Inc</A><BR>
+All rights reserved.<BR>
+<FONT SIZE="-2" FACE="sans-serif">Java and JDK are trademarks or
+registered trademarks of Sun Microsystems, Inc. in the United States and
+other countries.</FONT></P>
+</BODY>
+</HTML>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="TwoConveyorInput" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;import fb.rt.vhmi.*;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="name1" />
+        <With Var="name2" />
+        <With Var="PosX1" />
+        <With Var="PosY1" />
+        <With Var="PosX2" />
+        <With Var="PosY2" />
+      </Event>
+      <Event Name="ChangeXY" Comment="Normal Execution Request" >
+        <With Var="PosX1" />
+        <With Var="PosY1" />
+        <With Var="PosX2" />
+        <With Var="PosY2" />
+      </Event>
+      <Event Name="ChangeValidity" >
+      </Event>
+      <Event Name="ChangePic" >
+        <With Var="name1" />
+        <With Var="name2" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="name1" Type="WSTRING" />
+      <VarDeclaration Name="name2" Type="WSTRING" />
+      <VarDeclaration Name="PosX1" Type="UINT" />
+      <VarDeclaration Name="PosY1" Type="UINT" />
+      <VarDeclaration Name="PosX2" Type="UINT" />
+      <VarDeclaration Name="PosY2" Type="UINT" />
+    </InputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="FC1" Type="RenderComp" x="1344.4443" y="33.333332" >
+      <Parameter Name="Display" Value="1" />
+      <Parameter Name="Layer" Value="0" />
+    </FB>
+    <FB Name="FC2" Type="RenderComp" x="2677.7776" y="38.888885" >
+      <Parameter Name="Display" Value="1" />
+      <Parameter Name="Layer" Value="0" />
+    </FB>
+    <EventConnections>
+      <Connection Source="INIT" Destination="FC1.INIT" dx1="1238.8888" />
+      <Connection Source="ChangeXY" Destination="FC1.ChangeXY" dx1="1150.0" />
+      <Connection Source="ChangeValidity" Destination="FC1.ChangeValidity" dx1="1088.8888" />
+      <Connection Source="ChangePic" Destination="FC1.ChangePic" dx1="1144.4445" />
+      <Connection Source="FC1.INITO" Destination="FC2.INIT" dx1="777.7778" />
+      <Connection Source="ChangeXY" Destination="FC2.ChangeXY" dx1="2483.3333" />
+      <Connection Source="ChangeValidity" Destination="FC2.ChangeValidity" dx1="2422.2222" />
+      <Connection Source="ChangePic" Destination="FC2.ChangePic" dx1="2477.7776" />
+      <Connection Source="FC2.INITO" Destination="INITO" dx1="3244.4443" />
+      <Connection Source="FC2.CNF" Destination="CNF" dx1="3222.2222" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="PosX1" Destination="FC1.PosX" dx1="1211.1111" />
+      <Connection Source="PosY1" Destination="FC1.PosY" dx1="1211.1111" />
+      <Connection Source="PosX2" Destination="FC2.PosX" dx1="2544.4443" />
+      <Connection Source="PosY2" Destination="FC2.PosY" dx1="2544.4443" />
+      <Connection Source="name1" Destination="FC1.name" dx1="1200.0" />
+      <Connection Source="name2" Destination="FC2.name" dx1="2533.3333" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

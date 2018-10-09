@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="SENS_VIEW" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.vhmi;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="VALUE" />
+        <With Var="X" />
+        <With Var="Y" />
+        <With Var="Layer" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="VALUE" />
+        <With Var="X" />
+        <With Var="Y" />
+        <With Var="Layer" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="VALUE" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="X" Type="UINT" />
+      <VarDeclaration Name="Y" Type="UINT" />
+      <VarDeclaration Name="Layer" Type="UINT" />
+    </InputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="SEL" Type="SEL_SENS" x="472.2222" y="150.0" />
+    <FB Name="Show" Type="Render" x="1211.1111" y="116.666664" >
+      <Parameter Name="Display" Value="1" />
+    </FB>
+    <EventConnections>
+      <Connection Source="INIT" Destination="SEL.INIT" dx1="366.66666" />
+      <Connection Source="REQ" Destination="SEL.REQ" dx1="361.11108" />
+      <Connection Source="SEL.INITO" Destination="Show.INIT" dx1="38.888885" />
+      <Connection Source="SEL.CNF" Destination="Show.ChangePic" dx1="166.66666" />
+      <Connection Source="Show.INITO" Destination="INITO" dx1="1777.7777" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="X" Destination="Show.PosX" dx1="1144.4445" />
+      <Connection Source="Y" Destination="Show.PosY" dx1="1144.4445" />
+      <Connection Source="SEL.NAME" Destination="Show.name" dx1="183.33333" />
+      <Connection Source="VALUE" Destination="SEL.VALUE" dx1="327.77777" />
+      <Connection Source="Layer" Destination="Show.Layer" dx1="1088.8888" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

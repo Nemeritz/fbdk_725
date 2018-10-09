@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="MyRender" Comment="Function block to display and animate an Image" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="UoA" Version="0.2" Author="Anirudha" Date="2006-01-05" Remarks="Added Layer attribute" />
+  <VersionInfo Organization="UoA" Version="0.1" Author="Anirudha" Date="2005-12-04" Remarks="Added Angle attribute" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="name" />
+        <With Var="PosX" />
+        <With Var="PosY" />
+        <With Var="Layer" />
+      </Event>
+      <Event Name="ChangeXY" Comment="Normal Execution Request" >
+        <With Var="PosX" />
+        <With Var="PosY" />
+      </Event>
+      <Event Name="ChangeValidity" >
+        <With Var="Display" />
+      </Event>
+      <Event Name="ChangePic" >
+        <With Var="name" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="tempName" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="tempName" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="name" Type="WSTRING" />
+      <VarDeclaration Name="PosX" Type="UINT" />
+      <VarDeclaration Name="PosY" Type="UINT" />
+      <VarDeclaration Name="Display" Type="BOOL" />
+      <VarDeclaration Name="Layer" Type="UINT" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="tempName" Type="WSTRING" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="1111.1111" y="550.0" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="1200.0" y="161.1111" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+      </ECState>
+      <ECState Name="ChangePic" x="1088.8888" y="1361.1111" >
+        <ECAction Algorithm="ChangePic" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="1488.8888" y="394.44443" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="988.88885" y="333.3333" />
+      <ECTransition Source="START" Destination="ChangePic" Condition="ChangePic" x="877.7778" y="922.22217" />
+      <ECTransition Source="ChangePic" Destination="START" Condition="1" x="1572.2222" y="966.6666" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <Other Language="Java" Text="tempName.value = &#34;/fb/rt/cs405/SSG.png&#34;;&#10;System.out.println(&#34;My Render Init&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="ChangeXY" >
+    <ST Text="" />
+  </Algorithm>
+  <Algorithm Name="ChangeValidity" >
+    <ST Text="" />
+  </Algorithm>
+  <Algorithm Name="ChangePic" >
+    <Other Language="Java" Text="if(!tempName.value.equals(name.value))&#10;{&#10;      //System.out.println(&#34;My Out Render ChangePic = &#34; + name + &#34;    &#34; + tempName);&#10;      tempName.value = name.value;&#10;     // System.out.println(&#34;My Render ChangePic = &#34; + name + &#34;    &#34; + tempName);&#10;      CNF.serviceEvent(this);&#10;}&#10;//System.out.println(&#34;My Out1234567 Render ChangePic = &#34; + name + &#34;    &#34; + tempName);&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

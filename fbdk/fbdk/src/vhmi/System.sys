@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE System SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<System Name="System" Comment="System Configuration" >
+  <Identification Standard="61499-1" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.3" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWSYSTEM." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2002-11-05" Remarks="Fixed missing (empty) FBD in Application." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-17" Remarks="Minor cleanup" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <Application Name="APP1" >
+    <FBNetwork >
+    </FBNetwork>
+  </Application>
+  <Device Name="STATION_2" Type="ImageDev" x="1027.7777" y="150.0" >
+    <Parameter Name="Length" Value="750" />
+    <Parameter Name="Height" Value="750" />
+    <Resource Name="image" Type="ImageResource" x="1011.1111" y="750.0" >
+      <FBNetwork >
+        <FB Name="Coordinates_ARM" Type="SUBL_2" x="2288.889" y="694.4444" />
+        <FB Name="Main_Stand" Type="Render" x="1733.3333" y="44.444443" >
+          <Parameter Name="Display" Value="1" />
+          <Parameter Name="Layer" Value="0" />
+          <Parameter Name="name" Value="&#34;Sation 2 - Main Stand 1-4 - FV.JPG&#34;" />
+        </FB>
+        <FB Name="Piston" Type="Render" x="4527.778" y="127.77777" />
+        <FB Name="Piston_shell" Type="Render" x="5077.7773" y="150.0" />
+        <FB Name="Pincer_1" Type="Render" x="5116.6665" y="1705.5555" />
+        <FB Name="Pincer_2" Type="Render" x="5611.111" y="1711.1111" />
+        <FB Name="Collector_1" Type="Render" x="5572.222" y="155.55554" />
+        <FB Name="Pallet_1" Type="Render" x="4494.4443" y="1716.6666" />
+        <FB Name="Main_Arm" Type="Render" x="3561.111" y="111.11111" >
+          <Parameter Name="name" Value="&#34;Sation 2 - Arm 1-4 - FV.JPG&#34;" />
+          <Parameter Name="Display" Value="1" />
+          <Parameter Name="Layer" Value="1" />
+        </FB>
+        <FB Name="Init_Value" Type="Init_Sation_2_FV" x="516.6666" y="1472.2222" >
+          <Parameter Name="Main_Stand_XI" Value="350" />
+          <Parameter Name="Main_Stand_YI" Value="350" />
+          <Parameter Name="Main_Arm_XI" Value="150" />
+          <Parameter Name="Main_Arm_YI" Value="400" />
+          <Parameter Name="Piston_XI" Value="0" />
+          <Parameter Name="Piston_YI" Value="0" />
+          <Parameter Name="Pistion_Shell_XI" Value="0" />
+          <Parameter Name="Pistion_Shell_YI" Value="0" />
+          <Parameter Name="Pincer_1_XI" Value="0" />
+          <Parameter Name="Pincer_1_YI" Value="0" />
+          <Parameter Name="Pincer_2_XI" Value="0" />
+          <Parameter Name="Pincer_2_YI" Value="0" />
+          <Parameter Name="Collector_1_XI" Value="0" />
+          <Parameter Name="Collector_1_YI" Value="0" />
+          <Parameter Name="Collector_2_XI" Value="0" />
+          <Parameter Name="Collector_2_YI" Value="0" />
+          <Parameter Name="Pallet_1_XI" Value="0" />
+          <Parameter Name="Pallet_1_YI" Value="0" />
+          <Parameter Name="Pallet_2_XI" Value="0" />
+          <Parameter Name="Pallet_2_YI" Value="0" />
+        </FB>
+        <FB Name="Selector_1" Type="XY_Selector" x="2872.2222" y="972.22217" />
+        <EventConnections>
+          <Connection Source="Init_Value.INITO" Destination="Main_Stand.INIT" dx1="44.444443" />
+          <Connection Source="START.COLD" Destination="Init_Value.INIT" dx1="27.777777" />
+          <Connection Source="Init_Value.INITO" Destination="Coordinates_ARM.INIT" dx1="772.22217" />
+          <Connection Source="Selector_1.INITO" Destination="Main_Arm.INIT" dx1="27.777777" />
+          <Connection Source="Init_Value.INITO" Destination="Selector_1.INIT" dx1="1216.6666" />
+          <Connection Source="Coordinates_ARM.IND" Destination="Selector_1.REQ" dx1="38.888885" />
+          <Connection Source="Selector_1.CNF" Destination="Main_Arm.ChangeXY" dx1="88.888885" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="Selector_1.Out_X" Destination="Main_Arm.PosX" dx1="138.88889" />
+          <Connection Source="Selector_1.Out_Y" Destination="Main_Arm.PosY" dx1="188.88889" />
+          <Connection Source="Coordinates_ARM.RD_1" Destination="Selector_1.Change_X" dx1="161.1111" />
+          <Connection Source="Coordinates_ARM.RD_2" Destination="Selector_1.Change_Y" dx1="161.1111" />
+          <Connection Source="Init_Value.Main_Stand_XO" Destination="Main_Stand.PosX" dx1="77.77777" />
+          <Connection Source="Init_Value.Main_Stand_YO" Destination="Main_Stand.PosY" dx1="111.11111" />
+          <Connection Source="Init_Value.Main_Arm_XO" Destination="Selector_1.Init_X" dx1="183.33333" />
+          <Connection Source="Init_Value.Main_Arm_YO" Destination="Selector_1.Init_Y" dx1="272.2222" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+  <Device Name="Frame" Type="FRAME_DEVICE" x="944.4444" y="772.22217" >
+    <Parameter Name="BOUNDS" Value="[0,301,300,100]" />
+    <Parameter Name="GRID" Value="[1,1]" />
+    <Resource Name="panel" Type="PANEL_RESOURCE" x="916.6666" y="1083.3333" >
+      <FBNetwork >
+        <FB Name="Y_ARM" Type="FB_SLIDER" x="583.3333" y="1088.8888" >
+          <Parameter Name="IVAL" Value="0" />
+          <Parameter Name="DIR" Value="0" />
+        </FB>
+        <FB Name="Coordinates_ARM" Type="PUBL_2" x="1272.2222" y="1088.8888" />
+        <EventConnections>
+          <Connection Source="Y_ARM.IND" Destination="Coordinates_ARM.REQ" dx1="133.33333" />
+          <Connection Source="Y_ARM.INITO" Destination="Coordinates_ARM.INIT" dx1="238.88889" />
+          <Connection Source="START.COLD" Destination="Y_ARM.INIT" dx1="94.44444" />
+        </EventConnections>
+        <DataConnections>
+          <Connection Source="Y_ARM.OUT" Destination="Coordinates_ARM.SD_2" dx1="66.666664" />
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+</System>

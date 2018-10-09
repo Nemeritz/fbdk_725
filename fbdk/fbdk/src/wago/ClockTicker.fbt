@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<FBType Name="ClockTicker" Comment="Basic Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-04" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed for better indexing." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago; #include &#60;sys/time.h&#62;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="Init" Comment="Initialization Request">
+        <With Var="Period" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="InitO" Comment="Initialization Confirm" />
+      <Event Name="Tick" Comment="Execution Confirmation" />
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="Period" Type="LINT" Comment="Period in us" />
+    </InputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="ClockTimedOut" Type="BOOL" />
+      <VarDeclaration Name="theclock" Type="DATE_AND_TIME" />
+    </InternalVars>
+    <ECC>
+      <ECState x="266.66666" Name="START" Comment="Initial State" y="144.44444" />
+      <ECState x="916.6666" Name="INIT" Comment="Initialization" y="138.88889">
+        <ECAction Output="InitO" Algorithm="StartTimer" />
+      </ECState>
+      <ECState x="916.6666" Name="REQ" Comment="Normal execution" y="572.2222">
+        <ECAction Algorithm="CheckTimer" />
+      </ECState>
+      <ECState x="938.88885" Name="TIMEOUT" y="1011.1111">
+        <ECAction Output="Tick" />
+      </ECState>
+      <ECTransition x="588.88885" Destination="INIT" Source="START" y="138.88889" Condition="Init" />
+      <ECTransition x="622.22217" Destination="REQ" Source="INIT" y="433.3333" Condition="1" />
+      <ECTransition x="1211.1111" Destination="TIMEOUT" Source="REQ" y="777.7778" Condition="ClockTimedOut" />
+      <ECTransition x="633.3333" Destination="REQ" Source="TIMEOUT" y="788.88885" Condition="1" />
+      <ECTransition x="383.3333" Destination="REQ" Source="REQ" y="572.2222" Condition="1" />
+    </ECC>
+    <Algorithm Name="StartTimer" Comment="Initialization algorithm">
+      <Other Language="C" Text="gettimeofday(&#38;me-&#62;theclock, NULL);&#10;" />
+    </Algorithm>
+    <Algorithm Name="CheckTimer" Comment="Normally executed algorithm">
+      <Other Language="C" Text="struct timeval timenow, timediff;&#10;long long result;&#10;&#10;gettimeofday(&#38;timenow, NULL);&#10;timersub(&#38;timenow, &#38;me-&#62;theclock, &#38;timediff);&#10;result = (long long)(timediff.tv_sec) * 1000000 + timediff.tv_usec;&#10;&#10;if( result &#62; me-&#62;Period )&#10;{&#10; me-&#62;ClockTimedOut = true;&#10; gettimeofday(&#38;me-&#62;theclock, NULL);&#10;}&#10;" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

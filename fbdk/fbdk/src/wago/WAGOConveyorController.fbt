@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<FBType Name="WAGOConveyorController" Comment="Composite Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-05" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed from NEWCOMPFB." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" />
+      <Event Name="GO" Comment="Normal Execution Request" />
+      <Event Name="STOP" Comment="Normal Execution Request" />
+      <Event Name="ERROR" Comment="Normal Execution Request" />
+      <Event Name="ERROR_CLEARED" Comment="Normal Execution Request" />
+      <Event Name="BAGIN">
+        <With Var="BagDataIn" />
+      </Event>
+      <Event Name="BAGMERGE">
+        <With Var="BagMergeIn" />
+      </Event>
+      <Event Name="PEDetectChange" Comment="Instance of Time">
+        <With Var="PE0Detect" />
+        <With Var="PE1Detect" />
+        <With Var="PE2Detect" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" />
+      <Event Name="MotorStart" />
+      <Event Name="MotorStop" />
+      <Event Name="PE0DetectBag" />
+      <Event Name="PE1DetectBag" />
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="ConvID" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="PE0Detect" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PE1Detect" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PE2Detect" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="EncCount" Type="INT" />
+      <VarDeclaration Name="Length" Type="INT" />
+      <VarDeclaration Name="RatedSpeed" Type="INT" />
+      <VarDeclaration Name="Incline" Type="INT" />
+    </InputVars>
+  </InterfaceList>
+  <FBNetwork>
+    <FB x="655.8823" Name="CONVEYOR" Type="WAGOConveyorControllerECC" Comment="" y="419.9346">
+      <Parameter Name="Type" Value="1" />
+      <Parameter Name="EntryDevs" Value="1" />
+      <Parameter Name="UpdateDevs" Value="1" />
+      <Parameter Name="ExitDevs" Value="1" />
+    </FB>
+    <FB x="4155.558" Name="PE0" Type="WAGOPEController" y="200.00024">
+      <Parameter Name="PEID" Value="0" />
+      <Parameter Name="Position" Value="500" />
+    </FB>
+    <FB x="2560.5576" Name="PE1" Type="WAGOPEController" y="613.8893">
+      <Parameter Name="PEID" Value="1" />
+      <Parameter Name="Position" Value="1500" />
+    </FB>
+    <FB x="2488.8892" Name="PE2" Type="WAGOPEController" y="2599.9993">
+      <Parameter Name="PEID" Value="2" />
+      <Parameter Name="Position" Value="2500" />
+    </FB>
+    <EventConnections>
+      <Connection Destination="CONVEYOR.Init" Source="Init" dx1="1244.4443" />
+      <Connection dy="0.0" Destination="InitO" Source="CONVEYOR.InitO" dx2="572.2222" dx1="77.77777" />
+      <Connection Destination="CONVEYOR.Go" Source="Go" dx1="1244.4443" />
+      <Connection Destination="CONVEYOR.Stop" Source="Stop" dx1="1244.4443" />
+      <Connection Destination="CONVEYOR.Error" Source="Error" dx1="1244.4443" />
+      <Connection Destination="CONVEYOR.Error_Cleared" Source="Error_Cleared" dx1="1244.4443" />
+      <Connection Destination="MotorStart" Source="CONVEYOR.MotorStart" dx1="1244.4443" />
+      <Connection Destination="MotorStop" Source="CONVEYOR.MotorStop" dx1="1244.4443" />
+      <Connection dy="77.77777" Destination="CONVEYOR.BagDetected" Source="PE0.DetectBag" dx2="572.2222" dx1="77.77777" />
+      <Connection dy="-233.33333" Destination="CONVEYOR.BagDetected" Source="PE1.DetectBag" dx2="572.2222" dx1="77.77777" />
+      <Connection dy="-233.33333" Destination="CONVEYOR.BagDetected" Source="PE2.DetectBag" dx2="572.2222" dx1="77.77777" />
+      <Connection dy="50.0" Destination="PE0.DetectChange" Source="PEDetectChange" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="PE1.DetectChange" Source="PEDetectChange" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="PE2.DetectChange" Source="PEDetectChange" dx2="77.77777" dx1="77.77777" />
+    </EventConnections>
+    <DataConnections>
+      <Connection dy="50.0" Destination="CONVEYOR.EncCount" Source="EncCount" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="CONVEYOR.Length" Source="Length" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="CONVEYOR.RatedSpeed" Source="RatedSpeed" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="CONVEYOR.Incline" Source="Incline" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="CONVEYOR.ID" Source="ConvID" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="PE0.ConvID" Source="ConvID" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="PE1.ConvID" Source="ConvID" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="PE2.ConvID" Source="ConvID" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="PE0.Detect" Source="PE0Detect" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="PE1.Detect" Source="PE1Detect" dx2="77.77777" dx1="77.77777" />
+      <Connection dy="50.0" Destination="PE2.Detect" Source="PE2Detect" dx2="77.77777" dx1="77.77777" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

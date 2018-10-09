@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+<TITLE>FBDK - Configuring</TITLE>
+</HEAD>
+<BODY>
+<CENTER>
+<H2>Configuring the FBDK<BR></BR>
+<FONT SIZE="+0">[<A HREF="#Starting">Starting the FBEditor</A>] [<A
+	HREF="#ini">The <TT>editor.ini</TT> File</A>] [<A HREF="FBEditor.html">Return
+to FBEditor Help</A>]</FONT></H2>
+<TABLE BORDER="1" WIDTH="400">
+	<TR>
+		<TD>The procedures described below have only been tested with the
+		Windows&trade; XP and <A HREF="http://www.ubuntu.com/" TARGET="_blank">Ubuntu</A><SUP>&reg;</SUP>
+		Linux<SUP>&reg;</SUP> operating systems and may have to be modified
+		for other operating systems.</TD>
+	</TR>
+</TABLE>
+</CENTER>
+<A NAME="Starting"></A>
+<H3>Starting the FBEditor</H3>
+<UL>
+	<LI>After the <A
+		HREF="http://java.sun.com/javase/downloads/index.jsp" TARGET="_blank">JDK&trade;
+	6</A> has been installed, the FBEditor can be started on Windows systems by
+	double-clicking on the icon of the <TT>editor.jar</TT> file or
+	selecting the <B>Open</B> option of its pop-up menu.</LI>
+	<LI>The FBEditor can also be started on either Windows or Ubuntu
+	Linux by double-clicking on the icon of the <TT>fbeditor.bat</TT> file
+	or selecting the <B>Open</B> option of its pop-up menu (you have to
+	make <code>fbeditor.bat</code> executable on Linux systems, e.g., with
+	its properties dialog on Ubuntu).</LI>
+	<LI>The <TT>fbeditor.bat</TT> file can also be invoked in a
+	command prompt window.</LI>
+	<LI><A NAME="assoc"></A>On Windows systems, files containing IEC
+	61499 library elements, e.g., <TT>*.fbt</TT> and <TT>*.res</TT> files,
+	can be opened by double-clicking by associating their file types with
+	the <TT>fbeditor.bat</TT> file.</LI>
+	<LI>On Windows systems, IEC 61499 library files can also be opened
+	by dragging their icons onto the icon of the <TT>fbeditor.bat</TT>
+	file.</LI>
+	<LI><IMG SRC="../note.gif" ALT="">If <TT>fbeditor.bat</TT>
+	is not located in an <TT>fbdk</TT> subdirectory of your home directory,
+	e.g., <TT>C:\fbdk</TT>, you should edit the first line of <TT>fbeditor.bat</TT>
+	to change the working directory to the home of the <TT>fbeditor.bat</TT>
+	file.</LI>
+</UL>
+<A NAME="ini"></A>
+<H3>The <TT>editor.ini</TT> File</H3>
+<P>This file contains parameter key/value pairs in a format suitable
+for reading with the <A
+	HREF="http://java.sun.com/javase/6/docs/api/java/util/Properties.html#load(java.io.Reader)"><CODE>java.util.Properties.load()</CODE></A>
+method. The allowed parameter keys and values are given in the following
+table. If no value for a parameter is given in the <TT>editor.ini</TT>
+file, the default value applies. The default values shown are known to
+work with <A HREF="http://www.ubuntu.com/" TARGET="_blank">Ubuntu</A>
+Linux. Different values for these parameters will need to be given for
+different Java&trade; Development Kit (JDK&trade;) and Java Runtime
+Environment (JRE) installations in Windows operating systems.</P>
+<P><IMG SRC="../note.gif">The easiest way to customize these
+settings is to use the FBEditor's <A HREF="preferences.htm">Preferences
+Dialog.</A></P>
+<TABLE BORDER="1">
+	<TBODY>
+		<TR>
+		</TR>
+		<TR>
+			<TH>Key</TH>
+			<TH>Value</TH>
+			<TH>Default</TH>
+		</TR>
+		<TR>
+			<TD ALIGN="center" VALIGN="middle"><TT>bounds</TT></TD>
+			<TD VALIGN="middle">Initial bounds (in pixels) for instances of
+			<TT>FRAME_DEVICE</TT> and <TT>RMT_FRAME</TT>.</TD>
+			<TD ALIGN="center"><TT>100,100,200,200</TT></TD>
+		</TR>
+		<TR>
+			<TD ALIGN="center" VALIGN="middle"><TT>browser</TT></TD>
+			<TD VALIGN="middle">The command to run the Web browser for help
+			files.</TD>
+			<TD ALIGN="center" VALIGN="middle"><TT>firefox</TT></TD>
+		</TR>
+		<TR>
+			<TD ALIGN="center" VALIGN="middle"><TT>java</TT></TD>
+			<TD VALIGN="middle">The command to run the Java&trade; Runtime
+			Environment (JRE) executable.</TD>
+			<TD ALIGN="center" VALIGN="middle"><TT>java</TT></TD>
+		</TR>
+		<TR>
+			<TD ALIGN="center" VALIGN="middle"><TT>javac</TT></TD>
+			<TD VALIGN="middle">The command to execute the Java compiler.</TD>
+			<TD ALIGN="center" VALIGN="middle"><TT>javac</TT></TD>
+		</TR>
+		<TR>
+			<TD ALIGN="center" VALIGN="middle"><TT>log</TT></TD>
+			<TD VALIGN="middle">When value is <TT>ON</TT>, logging of
+			management commands is enabled when launching system configurations
+			or FB instance tests; when value is <TT>OFF</TT>, logging is
+			disabled.</TD>
+			<TD ALIGN="center"><TT>OFF</TT></TD>
+		</TR>
+		<TR>
+			<TD ALIGN="center" VALIGN="middle"><TT>lookAndFeel</TT></TD>
+			<TD VALIGN="middle"><A HREF="customlaf.htm">Customized Look
+			and Feel</A></TD>
+			<TD ALIGN="center"><TT>Metal</TT></TD>
+		</TR>
+		<TR>
+			<TD ALIGN="center" VALIGN="middle"><TT>timeout</TT></TD>
+			<TD VALIGN="middle">The initial timeout period for management
+			commands to remote devices.</TD>
+			<TD ALIGN="center"><TT>t#2s</TT></TD>
+		</TR>
+	</TBODY>
+</TABLE>
+<P ALIGN="center"><I>Last updated: 2008-10-03.</I><BR>
+&copy;2006-2008 <A HREF="http://www.holobloc.com" TARGET="_blank">Holobloc
+Inc</A>. All rights reserved.<BR>
+<FONT SIZE="-2" FACE="sans-serif">Java and JDK are trademarks or
+registered trademarks of Sun Microsystems, Inc. in the United States and
+other countries.<BR>
+Windows is a registered trademark of Microsoft Corporation in the United
+States and other countries.<BR>
+Ubuntu is a registered trademark of Canonical Ltd.<BR>
+Linux is the registered trademark of Linus Torvalds in the U.S. and
+other countries.</FONT></P>
+</BODY>
+</HTML>

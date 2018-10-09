@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<FBType Name="DistStnArm" Comment="Basic Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-04" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed for better indexing." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago; #include &#60;sys/time.h&#62;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="PosChange" Comment="Normal Execution Request">
+        <With Var="PosReadyToSuck" />
+        <With Var="PosReadyToDrop" />
+        <With Var="ItemNeedingPickup" />
+      </Event>
+      <Event Name="ItemStatus">
+        <With Var="ItemNeedingPickup" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="ArmCtrl">
+        <With Var="ArmPICKINGUP" />
+        <With Var="ArmDROPPINGOFF" />
+        <With Var="ArmSUCKING" />
+        <With Var="ArmRELEASE" />
+      </Event>
+      <Event Name="ArmStatus" Comment="Execution Confirmation">
+        <With Var="ArmClear" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PosReadyToSuck" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PosReadyToDrop" InitialValue="false" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="ItemNeedingPickup" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="ArmPICKINGUP" InitialValue="false" Type="BOOL" />
+      <VarDeclaration Name="ArmDROPPINGOFF" InitialValue="false" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="ArmSUCKING" InitialValue="false" Type="BOOL" />
+      <VarDeclaration Name="ArmRELEASE" InitialValue="false" Type="BOOL" />
+      <VarDeclaration Name="ArmClear" InitialValue="true" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="ReleaseDelay" Type="INT" />
+    </InternalVars>
+    <ECC>
+      <ECState x="562.5" Name="WAITING" Comment="Initial State" y="812.5">
+        <ECAction Output="ArmCtrl" Algorithm="DoNothing" />
+        <ECAction Output="ArmStatus" />
+      </ECState>
+      <ECState x="3000.0" Name="DROPPINGOFF" Comment="Normal execution" y="1387.5">
+        <ECAction Output="ArmCtrl" Algorithm="GoToDropOff" />
+      </ECState>
+      <ECState x="1437.5" Name="DROP" Comment="Normal execution" y="1906.25">
+        <ECAction Output="ArmCtrl" Algorithm="DropItem" />
+        <ECAction Output="ArmStatus" />
+      </ECState>
+      <ECState x="1943.75" Name="PICKINGUP" y="68.75">
+        <ECAction Output="ArmCtrl" Algorithm="GoToPickup" />
+        <ECAction Output="ArmStatus" />
+      </ECState>
+      <ECState x="3506.25" Name="SUCK" y="762.5">
+        <ECAction Output="ArmCtrl" Algorithm="PickupItem" />
+      </ECState>
+      <ECState x="1335.2938" Name="ReleaseWait" y="1300.0005">
+        <ECAction Algorithm="ReleaseWait" />
+      </ECState>
+      <ECTransition x="893.75" Destination="PICKINGUP" Source="WAITING" y="337.5" Condition="ItemStatus&#38;ItemNeedingPickup" />
+      <ECTransition x="2968.75" Destination="SUCK" Source="PICKINGUP" y="393.75" Condition="PosChange&#38;PosReadyToSuck" />
+      <ECTransition x="3387.5" Destination="DROPPINGOFF" Source="SUCK" y="1106.25" Condition="1" />
+      <ECTransition x="2537.5" Destination="DROP" Source="DROPPINGOFF" y="1637.5" Condition="PosChange&#38;PosReadyToDrop" />
+      <ECTransition x="1341.1765" Destination="ReleaseWait" Source="DROP" y="1605.8823" Condition="1" />
+      <ECTransition x="688.2353" Destination="WAITING" Source="ReleaseWait" y="1070.5883" Condition="ReleaseDelay = 0" />
+      <ECTransition x="1305.8823" Destination="ReleaseWait" Source="ReleaseWait" y="805.8823" Condition="ReleaseDelay != 0" />
+    </ECC>
+    <Algorithm Name="GoToDropOff" Comment="Initialization algorithm">
+      <Other Language="C" Text="me-&#62;ArmPICKINGUP = false;&#10;me-&#62;ArmDROPPINGOFF = true;&#10;" />
+    </Algorithm>
+    <Algorithm Name="GoToPickup" Comment="Initialization algorithm">
+      <Other Language="C" Text="me-&#62;ArmPICKINGUP = true;&#10;me-&#62;ArmDROPPINGOFF = false;&#10;&#10;me-&#62;ArmClear = false;&#10;" />
+    </Algorithm>
+    <Algorithm Name="PickupItem" Comment="Normally executed algorithm">
+      <Other Language="C" Text="me-&#62;ArmSUCKING = true;&#10;me-&#62;ArmRELEASE = false;&#10;" />
+    </Algorithm>
+    <Algorithm Name="CheckTimeout">
+      <Other Language="C" Text="//struct timeval nowtime, timediff;&#10;//long long result;&#10;&#10;//gettimeofday(&#38;nowtime, NULL);&#10;//timersub(&#38;nowtime, &#38;me-&#62;armTimer, &#38;timediff);&#10;//result = (long long)(timediff.tv_sec) * 1000000 + timediff.tv_usec;&#10;//if( result &#62; 1000000 )&#10;//me-&#62;timeout = true;&#10;" />
+    </Algorithm>
+    <Algorithm Name="DropItem">
+      <Other Language="C" Text="me-&#62;ArmSUCKING = false;&#10;me-&#62;ArmRELEASE = true;&#10;me-&#62;ReleaseDelay = 5;&#10;&#10;//gettimeofday(&#38;me-&#62;armTimer, NULL);&#10;//timersub(&#38;_nowTime, &#38;_armTimer, &#38;timediff);&#10;&#10;&#10;// and now we are clear&#10;&#10;me-&#62;ArmClear = true;&#10;" />
+    </Algorithm>
+    <Algorithm Name="DoNothing">
+      <Other Language="C" Text="me-&#62;ArmPICKINGUP = false;&#10;me-&#62;ArmDROPPINGOFF = false;&#10;me-&#62;ArmSUCKING = false;&#10;me-&#62;ArmRELEASE = false;&#10;me-&#62;ArmClear = true;&#10;" />
+    </Algorithm>
+    <Algorithm Name="ReleaseWait">
+      <Other Language="C" Text="if( me-&#62;ReleaseDelay &#62; 0 ) &#10;    (me-&#62;ReleaseDelay)--;" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

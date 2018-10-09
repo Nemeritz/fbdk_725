@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="TwoConveyor" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+      </Event>
+      <Event Name="TICK" Comment="Normal Execution Request" >
+        <With Var="msSinceMidnight" />
+        <With Var="MotorRotate1" />
+        <With Var="MotorRotate2" />
+        <With Var="ConvLength" />
+      </Event>
+      <Event Name="BagIn" >
+        <With Var="BagInID" />
+        <With Var="BagInLength" />
+        <With Var="PEPositions" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="BagOutX1" />
+        <With Var="BagOutPE1" />
+        <With Var="BagOutX2" />
+        <With Var="BagOutPE2" />
+      </Event>
+      <Event Name="BagOut" >
+        <With Var="BagOutID" />
+        <With Var="BagOutLength" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="BagInID" Type="DINT" />
+      <VarDeclaration Name="BagInLength" Type="DINT" />
+      <VarDeclaration Name="msSinceMidnight" Type="DINT" />
+      <VarDeclaration Name="MotorRotate1" Type="BOOL" />
+      <VarDeclaration Name="MotorRotate2" Type="BOOL" />
+      <VarDeclaration Name="ConvLength" Type="INT" />
+      <VarDeclaration Name="PEPositions" Type="DINT" ArraySize="6" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="BagOutID" Type="DINT" />
+      <VarDeclaration Name="BagOutLength" Type="DINT" />
+      <VarDeclaration Name="BagOutX1" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagOutPE1" Type="BOOL" />
+      <VarDeclaration Name="BagOutX2" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagOutPE2" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="C1" Type="Conveyor_Model_WithNetwork" x="811.1111" y="200.0" />
+    <FB Name="C5" Type="Conveyor_Model_WithNetwork" x="2527.7776" y="200.0" />
+    <EventConnections>
+      <Connection Source="TICK" Destination="C1.TICK" dx1="694.4444" />
+      <Connection Source="BagIn" Destination="C1.BagIn" dx1="683.3333" />
+      <Connection Source="C5.CNF" Destination="CNF" dx1="3461.111" />
+      <Connection Source="C5.INITO" Destination="INITO" dx1="3483.3333" />
+      <Connection Source="C5.BagOut" Destination="BagOut" dx1="3505.5554" />
+      <Connection Source="INIT" Destination="C1.INIT" dx1="705.55554" />
+      <Connection Source="C1.INITO" Destination="C5.INIT" dx1="527.7778" />
+      <Connection Source="C1.CNF" Destination="C5.TICK" dx1="516.6666" />
+      <Connection Source="C1.BagOut" Destination="C5.BagIn" dx1="499.99997" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="BagInID" Destination="C1.BagInID" dx1="655.55554" />
+      <Connection Source="BagInLength" Destination="C1.BagInLength" dx1="588.88885" />
+      <Connection Source="msSinceMidnight" Destination="C1.msSinceMidnight" dx1="527.7778" />
+      <Connection Source="MotorRotate1" Destination="C1.MotorForward" dx1="583.3333" />
+      <Connection Source="C5.BagOutID" Destination="BagOutID" dx1="3533.3333" />
+      <Connection Source="C5.BagOutLength" Destination="BagOutLength" dx1="3594.4443" />
+      <Connection Source="ConvLength" Destination="C1.ConvLength" dx1="600.0" />
+      <Connection Source="PEPositions" Destination="C1.PEPositions" dx1="605.55554" />
+      <Connection Source="ConvLength" Destination="C5.ConvLength" dx1="2316.6665" />
+      <Connection Source="PEPositions" Destination="C5.PEPositions" dx1="2322.2222" />
+      <Connection Source="C1.BagOutPE" Destination="BagOutPE1" dx1="1844.4443" />
+      <Connection Source="msSinceMidnight" Destination="C5.msSinceMidnight" dx1="2244.4443" />
+      <Connection Source="C1.BagOutX" Destination="BagOutX1" dx1="1822.2222" />
+      <Connection Source="C1.BagOutID" Destination="C5.BagInID" dx1="466.66666" />
+      <Connection Source="C1.BagOutLength" Destination="C5.BagInLength" dx1="394.44443" />
+      <Connection Source="MotorRotate2" Destination="C5.MotorForward" dx1="2300.0" />
+      <Connection Source="C5.BagOutX" Destination="BagOutX2" dx1="3538.8887" />
+      <Connection Source="C5.BagOutPE" Destination="BagOutPE2" dx1="3561.111" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="BTN_LGHT_IO" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.vhmi;import fb.rt.hmi.*;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="LED" />
+        <With Var="Name" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="LED" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="PRESSED" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="PRESSED" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="LED" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="Name" Type="WSTRING" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="PRESSED" Type="BOOL" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="MEM" Type="E_RS" x="2644.4443" y="388.8889" />
+    <FB Name="SW" Type="E_SWITCH" x="2011.1111" y="388.8889" />
+    <FB Name="BTN" Type="IN_OUT_DIS_PRESS_BUTTON" x="827.7778" y="366.66666" />
+    <EventConnections>
+      <Connection Source="MEM.EO" Destination="CNF" dx1="2916.6665" />
+      <Connection Source="SW.EO1" Destination="MEM.R" dx1="166.66666" />
+      <Connection Source="SW.EO0" Destination="MEM.S" dx1="138.88889" />
+      <Connection Source="INIT" Destination="BTN.INIT" dx1="722.22217" />
+      <Connection Source="REQ" Destination="BTN.REQ" dx1="716.6666" />
+      <Connection Source="BTN.CNF" Destination="SW.EI" dx1="88.888885" />
+      <Connection Source="BTN.INITO" Destination="INITO" dx1="1816.6666" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="MEM.Q" Destination="PRESSED" dx1="3000.0" />
+      <Connection Source="MEM.Q" Destination="SW.G" dx1="172.22221" dx2="172.22221" dy="205.55554" />
+      <Connection Source="LED" Destination="BTN.on" dx1="722.22217" />
+      <Connection Source="Name" Destination="BTN.LABEL" dx1="700.0" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Conveyor_Model_WithNetwork" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="User" Date="2010-12-08" Remarks="template" />
+  <CompilerInfo header="package fb.rt.cs725;import fb.rt.hmi.*;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="ConvLength" />
+        <With Var="PEPositions" />
+        <With Var="MergePositions" />
+      </Event>
+      <Event Name="TICK" Comment="Normal Execution Request" >
+        <With Var="msSinceMidnight" />
+        <With Var="MotorForward" />
+      </Event>
+      <Event Name="BagIn" >
+        <With Var="BagInID" />
+        <With Var="BagInLength" />
+      </Event>
+      <Event Name="BagMerge1" >
+        <With Var="BagMerge1ID" />
+        <With Var="BagMerge1Length" />
+      </Event>
+      <Event Name="BagMerge2" >
+        <With Var="BagMerge2ID" />
+        <With Var="BagMerge2Length" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="MotorFeedback" />
+        <With Var="EncCount" />
+        <With Var="BagOutX" />
+        <With Var="BagOutPE" />
+        <With Var="BagOutPE2" />
+      </Event>
+      <Event Name="BagOut" >
+        <With Var="BagOutID" />
+        <With Var="BagOutLength" />
+      </Event>
+      <Event Name="BagDivertOut" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="ConvLength" Type="INT" />
+      <VarDeclaration Name="PEPositions" Type="DINT" ArraySize="6" />
+      <VarDeclaration Name="MergePositions" Type="DINT" ArraySize="3" />
+      <VarDeclaration Name="BagInID" Type="DINT" />
+      <VarDeclaration Name="BagInLength" Type="DINT" />
+      <VarDeclaration Name="msSinceMidnight" Type="DINT" />
+      <VarDeclaration Name="MotorForward" Type="BOOL" />
+      <VarDeclaration Name="BagMerge1ID" Type="DINT" />
+      <VarDeclaration Name="BagMerge1Length" Type="DINT" />
+      <VarDeclaration Name="BagMerge2ID" Type="DINT" />
+      <VarDeclaration Name="BagMerge2Length" Type="DINT" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotorFeedback" Type="BOOL" />
+      <VarDeclaration Name="BagOutID" Type="DINT" />
+      <VarDeclaration Name="BagOutLength" Type="DINT" />
+      <VarDeclaration Name="EncCount" Type="DINT" />
+      <VarDeclaration Name="BagOutX" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagOutPE" Type="BOOL" />
+      <VarDeclaration Name="BagOutPE2" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="FB0" Type="Conveyor_Belt_Model" x="1561.1111" y="11.111111" >
+      <Parameter Name="Accel" Value="2.0" />
+      <Parameter Name="Decel" Value="4.0" />
+      <Parameter Name="Vmax" Value="1.5" />
+      <Parameter Name="EncoderInc" Value="500" />
+    </FB>
+    <FB Name="FB1" Type="Conveyor_Photoeyes_Model" x="4116.6665" y="11.111111" >
+      <Parameter Name="Incline" Value="0" />
+      <Parameter Name="AngularDisplacement" Value="0" />
+      <Parameter Name="ConvID" Value="1" />
+      <Parameter Name="PECount" Value="2" />
+      <Parameter Name="BagInAngle" Value="0" />
+      <Parameter Name="BagInWidth" Value="30" />
+      <Parameter Name="BagInOffset" Value="0" />
+      <Parameter Name="BagMerge1Angle" Value="0" />
+      <Parameter Name="BagMerge1Width" Value="30" />
+      <Parameter Name="BagMerge2Angle" Value="0" />
+      <Parameter Name="BagMerge2Width" Value="30" />
+    </FB>
+    <EventConnections>
+      <Connection Source="INIT" Destination="FB0.INIT" dx1="1455.5555" />
+      <Connection Source="TICK" Destination="FB0.TICK" dx1="1444.4443" />
+      <Connection Source="FB0.CNF" Destination="FB1.Tick" dx1="66.666664" dx2="1744.4443" dy="166.66666" />
+      <Connection Source="FB0.INITO" Destination="FB1.Init" dx1="88.888885" dx2="1961.1111" dy="94.44444" />
+      <Connection Source="BagIn" Destination="FB1.BagIn" dx1="3988.8887" />
+      <Connection Source="FB1.BagOut" Destination="BagOut" dx1="5183.333" />
+      <Connection Source="FB1.BagDivertOut" Destination="BagDivertOut" dx1="5255.555" />
+      <Connection Source="BagMerge1" Destination="FB1.BagMerge1" dx1="3911.1108" />
+      <Connection Source="BagMerge2" Destination="FB1.BagMerge2" dx1="3911.1108" />
+      <Connection Source="FB1.InitO" Destination="INITO" dx1="5155.555" />
+      <Connection Source="FB1.Cnf" Destination="CNF" dx1="5138.8887" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="ConvLength" Destination="FB1.ConvLength" dx1="3905.5554" />
+      <Connection Source="PEPositions" Destination="FB1.PEPositions" dx1="3911.1108" />
+      <Connection Source="MergePositions" Destination="FB1.MergePositions" dx1="3866.6665" />
+      <Connection Source="BagInID" Destination="FB1.BagInID" dx1="3961.1108" dx2="310.0" dy="2050.0" />
+      <Connection Source="BagInLength" Destination="FB1.BagInLength" dx1="3894.4443" dx2="330.0" dy="2272.2222" />
+      <Connection Source="FB1.BagOutID" Destination="BagOutID" dx1="5211.111" />
+      <Connection Source="FB1.BagOutLength" Destination="BagOutLength" dx1="5272.222" />
+      <Connection Source="msSinceMidnight" Destination="FB0.msSinceMidnight" dx1="1277.7777" />
+      <Connection Source="MotorForward" Destination="FB0.MotorForward" dx1="1333.3333" />
+      <Connection Source="FB0.MotorFeedback" Destination="MotorFeedback" dx1="2550.0" />
+      <Connection Source="FB0.EncCount" Destination="EncCount" dx1="2477.7776" />
+      <Connection Source="BagMerge1ID" Destination="FB1.BagMerge1ID" dx1="3883.3333" dx2="370.0" dy="2605.5554" />
+      <Connection Source="BagMerge1Length" Destination="FB1.BagMerge1Length" dx1="3822.2222" dx2="390.0" dy="2827.7776" />
+      <Connection Source="BagMerge2ID" Destination="FB1.BagMerge2ID" dx1="3883.3333" dx2="410.0" dy="3050.0" />
+      <Connection Source="BagMerge2Length" Destination="FB1.BagMerge2Length" dx1="3822.2222" dx2="430.0" dy="3272.2222" />
+      <Connection Source="FB1.BagXPosData" Destination="BagOutX" dx1="5200.0" />
+      <Connection Source="FB1.Out_PC" Destination="BagOutPE" dx1="5216.6665" />
+      <Connection Source="FB0.EncCount" Destination="FB1.EncCount" dx1="1383.3333" />
+      <Connection Source="FB1.Out_P2" Destination="BagOutPE2" dx1="5238.8887" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

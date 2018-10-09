@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="ThreeConCtl" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="Candidate" />
+        <With Var="Block" />
+        <With Var="PE" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="Block" />
+        <With Var="Candidate" />
+        <With Var="PE" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="MotoRotate1" />
+        <With Var="MotoRotate2" />
+        <With Var="MotoRotate3" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="MotoRotate1" />
+        <With Var="MotoRotate2" />
+        <With Var="MotoRotate3" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="START" >
+      </Event>
+      <Event Name="STOP" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="Candidate" Type="BOOL" />
+      <VarDeclaration Name="Block" Type="BOOL" />
+      <VarDeclaration Name="PE" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotoRotate1" Type="BOOL" />
+      <VarDeclaration Name="MotoRotate2" Type="BOOL" />
+      <VarDeclaration Name="MotoRotate3" Type="BOOL" />
+      <VarDeclaration Name="BlockCon" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="FC11" Type="ConveyorCTL" x="233.33333" y="77.77777" />
+    <FB Name="FC12" Type="ConveyorCTL" x="1350.0" y="688.88885" >
+      <Parameter Name="PE" Value="0" />
+      <Parameter Name="Block" Value="0" />
+      <Parameter Name="Candidate" Value="0" />
+    </FB>
+    <FB Name="FC13" Type="ConveyorCTL" x="2550.0" y="1894.4443" >
+      <Parameter Name="PE" Value="0" />
+      <Parameter Name="Block" Value="0" />
+      <Parameter Name="Candidate" Value="0" />
+    </FB>
+    <EventConnections>
+      <Connection Source="INIT" Destination="FC11.INIT" dx1="127.77777" />
+      <Connection Source="REQ" Destination="FC11.REQ" dx1="122.22221" />
+      <Connection Source="FC11.INITO" Destination="FC12.INIT" dx1="527.7778" />
+      <Connection Source="FC12.INITO" Destination="FC13.INIT" dx1="477.77777" />
+      <Connection Source="FC13.INITO" Destination="INITO" dx1="3261.111" />
+      <Connection Source="FC13.CNF" Destination="CNF" dx1="3238.8887" />
+      <Connection Source="FC11.STOP" Destination="STOP" dx1="944.4444" />
+      <Connection Source="FC11.START" Destination="START" dx1="961.1111" />
+      <Connection Source="REQ" Destination="FC12.REQ" dx1="1238.8888" />
+      <Connection Source="REQ" Destination="FC13.REQ" dx1="2438.889" />
+      <Connection Source="FC11.CNF" Destination="CNF" dx1="922.22217" />
+      <Connection Source="FC12.CNF" Destination="CNF" dx1="2038.8888" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="FC13.MotoRotate" Destination="MotoRotate3" dx1="3349.9998" />
+      <Connection Source="FC12.MotoRotate" Destination="MotoRotate2" dx1="2150.0" />
+      <Connection Source="FC11.MotoRotate" Destination="MotoRotate1" dx1="1033.3333" />
+      <Connection Source="PE" Destination="FC11.PE" dx1="144.44444" />
+      <Connection Source="Block" Destination="FC11.Block" dx1="111.11111" />
+      <Connection Source="FC11.BlockCon" Destination="BlockCon" dx1="988.88885" />
+      <Connection Source="Candidate" Destination="FC11.Candidate" dx1="44.444443" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

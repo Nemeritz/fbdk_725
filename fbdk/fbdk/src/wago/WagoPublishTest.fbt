@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<FBType Name="WagoPublishTest" Comment="Composite Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-05" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed from NEWCOMPFB." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" />
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" />
+    </EventOutputs>
+  </InterfaceList>
+  <FBNetwork>
+    <FB x="2383.3333" Name="PrintInputs" Type="PrintBools" Comment="" y="1413.3328" />
+    <FB x="5163.335" Name="PrintOutputs" Type="PrintBools" y="1428.8887" />
+    <FB x="1255.0023" Name="SubInputs" Type="SUBSCRIBE_5" y="1143.3339">
+      <Parameter Name="QI" Value="1" />
+      <Parameter Name="ID" Value="&#34;224.0.0.1:6788&#34;" />
+    </FB>
+    <FB x="3921.669" Name="SubOutputs" Type="SUBSCRIBE_5" y="1160.0005">
+      <Parameter Name="QI" Value="1" />
+      <Parameter Name="ID" Value="&#34;224.0.0.1:6888&#34;" />
+    </FB>
+    <EventConnections>
+      <Connection Destination="SubInputs.INIT" Source="INIT" dx1="1043.75" />
+      <Connection Destination="SubOutputs.INIT" Source="INIT" dx1="1043.75" />
+      <Connection Destination="PrintInputs.REQ" Source="SubInputs.IND" dx1="355.55554" />
+      <Connection Destination="PrintOutputs.REQ" Source="SubOutputs.IND" dx1="388.8889" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Destination="PrintInputs.In0" Source="SubInputs.RD_1" dx1="177.77777" />
+      <Connection Destination="PrintInputs.In1" Source="SubInputs.RD_2" dx1="177.77777" />
+      <Connection Destination="PrintInputs.In2" Source="SubInputs.RD_3" dx1="177.77777" />
+      <Connection Destination="PrintInputs.In3" Source="SubInputs.RD_4" dx1="177.77777" />
+      <Connection Destination="PrintInputs.In4" Source="SubInputs.RD_5" dx1="177.77777" />
+      <Connection Destination="PrintOutputs.In0" Source="SubOutputs.RD_1" dx1="177.77777" />
+      <Connection Destination="PrintOutputs.In1" Source="SubOutputs.RD_2" dx1="177.77777" />
+      <Connection Destination="PrintOutputs.In2" Source="SubOutputs.RD_3" dx1="177.77777" />
+      <Connection Destination="PrintOutputs.In3" Source="SubOutputs.RD_4" dx1="177.77777" />
+      <Connection Destination="PrintOutputs.In4" Source="SubOutputs.RD_5" dx1="177.77777" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

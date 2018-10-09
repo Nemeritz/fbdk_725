@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="RenderComp" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;import fb.rt.vhmi.*;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="name" />
+        <With Var="PosX" />
+        <With Var="PosY" />
+        <With Var="Layer" />
+      </Event>
+      <Event Name="ChangeXY" Comment="Normal Execution Request" >
+        <With Var="PosX" />
+        <With Var="PosY" />
+      </Event>
+      <Event Name="ChangeValidity" >
+        <With Var="Display" />
+      </Event>
+      <Event Name="ChangePic" >
+        <With Var="name" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="name" Type="WSTRING" />
+      <VarDeclaration Name="PosX" Type="UINT" />
+      <VarDeclaration Name="PosY" Type="UINT" />
+      <VarDeclaration Name="Display" Type="BOOL" />
+      <VarDeclaration Name="Layer" Type="UINT" />
+    </InputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="MyRen" Type="MyRender" x="994.4444" y="438.8889" />
+    <FB Name="Ren" Type="Render" x="2300.0" y="472.2222" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="MyRen.INIT" dx1="888.88885" />
+      <Connection Source="MyRen.INITO" Destination="Ren.INIT" dx1="116.666664" />
+      <Connection Source="Ren.INITO" Destination="INITO" dx1="2866.6665" />
+      <Connection Source="ChangeXY" Destination="Ren.ChangeXY" dx1="2105.5554" />
+      <Connection Source="ChangeValidity" Destination="Ren.ChangeValidity" dx1="2044.4443" />
+      <Connection Source="ChangePic" Destination="MyRen.ChangePic" dx1="794.4444" />
+      <Connection Source="MyRen.CNF" Destination="Ren.ChangePic" dx1="294.44443" />
+      <Connection Source="Ren.CNF" Destination="CNF" dx1="2844.4443" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="MyRen.tempName" Destination="Ren.name" dx1="461.11108" />
+      <Connection Source="name" Destination="MyRen.name" dx1="866.6666" />
+      <Connection Source="PosX" Destination="Ren.PosX" dx1="2183.3333" />
+      <Connection Source="PosY" Destination="Ren.PosY" dx1="2183.3333" />
+      <Connection Source="Display" Destination="Ren.Display" dx1="2155.5554" />
+      <Connection Source="Layer" Destination="Ren.Layer" dx1="2177.7776" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

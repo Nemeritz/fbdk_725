@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Conveyor_Photoeyes_Model" Comment="Basic Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="Gareth" Date="2010-11-05" Remarks="Template" />
+  <CompilerInfo header="package fb.rt.cs725; import java.lang.Math;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="Init" Comment="Initialization Request" >
+        <With Var="ConvLength" />
+        <With Var="AngularDisplacement" />
+        <With Var="ConvID" />
+        <With Var="PECount" />
+        <With Var="PEPositions" />
+        <With Var="MergePositions" />
+        <With Var="DivertPositions" />
+        <With Var="Incline" />
+      </Event>
+      <Event Name="Tick" Comment="Normal Execution Request" >
+        <With Var="EncCount" />
+        <With Var="DiverterStatus" />
+      </Event>
+      <Event Name="BagIn" >
+        <With Var="EncCount" />
+        <With Var="BagInID" />
+        <With Var="BagInAngle" />
+        <With Var="BagInLength" />
+        <With Var="BagInWidth" />
+        <With Var="BagInOffset" />
+      </Event>
+      <Event Name="BagMerge1" >
+        <With Var="EncCount" />
+        <With Var="BagMerge1ID" />
+        <With Var="BagMerge1Angle" />
+        <With Var="BagMerge1Length" />
+        <With Var="BagMerge1Width" />
+      </Event>
+      <Event Name="BagMerge2" >
+        <With Var="EncCount" />
+        <With Var="BagMerge2ID" />
+        <With Var="BagMerge2Angle" />
+        <With Var="BagMerge2Length" />
+        <With Var="BagMerge2Width" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="InitO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="Cnf" Comment="Execution Confirmation" >
+        <With Var="PEDetects" />
+        <With Var="BagCount" />
+        <With Var="BagIDData" />
+        <With Var="BagXPosData" />
+        <With Var="BagYPosData" />
+        <With Var="BagAngleData" />
+        <With Var="BagLengthData" />
+        <With Var="Out_PC" />
+        <With Var="Out_P2" />
+        <With Var="Out_P3" />
+        <With Var="Status" />
+        <With Var="StatusData1" />
+        <With Var="StatusData2" />
+        <With Var="StatusData3" />
+      </Event>
+      <Event Name="BagOut" >
+        <With Var="BagOutID" />
+        <With Var="BagOutAngle" />
+        <With Var="BagOutLength" />
+        <With Var="BagOutWidth" />
+        <With Var="BagOutOffset" />
+      </Event>
+      <Event Name="BagDivertOut" >
+        <With Var="BagDivertID" />
+        <With Var="BagDivertAngle" />
+        <With Var="BagDivertLength" />
+        <With Var="BagDivertWidth" />
+        <With Var="BagDivertOffset" />
+      </Event>
+      <Event Name="temp" >
+        <With Var="Status" />
+        <With Var="StatusData1" />
+        <With Var="StatusData2" />
+        <With Var="StatusData3" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="ConvLength" Type="INT" Comment="Currently in px, later in mm" />
+      <VarDeclaration Name="AngularDisplacement" Type="INT" />
+      <VarDeclaration Name="ConvID" Type="INT" />
+      <VarDeclaration Name="PECount" Type="INT" />
+      <VarDeclaration Name="PEPositions" Type="DINT" ArraySize="6" />
+      <VarDeclaration Name="MergePositions" Type="DINT" ArraySize="3" />
+      <VarDeclaration Name="DivertPositions" Type="DINT" ArraySize="4" />
+      <VarDeclaration Name="Incline" Type="INT" />
+      <VarDeclaration Name="EncCount" Type="DINT" />
+      <VarDeclaration Name="DiverterStatus" Type="BOOL" ArraySize="4" />
+      <VarDeclaration Name="BagInID" Type="DINT" />
+      <VarDeclaration Name="BagInAngle" Type="DINT" />
+      <VarDeclaration Name="BagInLength" Type="DINT" />
+      <VarDeclaration Name="BagInWidth" Type="DINT" />
+      <VarDeclaration Name="BagInOffset" Type="DINT" Comment="Needed when diverting in" />
+      <VarDeclaration Name="BagMerge1ID" Type="DINT" />
+      <VarDeclaration Name="BagMerge1Angle" Type="DINT" />
+      <VarDeclaration Name="BagMerge1Length" Type="DINT" />
+      <VarDeclaration Name="BagMerge1Width" Type="DINT" />
+      <VarDeclaration Name="BagMerge2ID" Type="DINT" />
+      <VarDeclaration Name="BagMerge2Angle" Type="DINT" />
+      <VarDeclaration Name="BagMerge2Length" Type="DINT" />
+      <VarDeclaration Name="BagMerge2Width" Type="DINT" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="PEDetects" Type="BOOL" ArraySize="6" Comment="Output event qualifier" />
+      <VarDeclaration Name="BagOutID" Type="DINT" />
+      <VarDeclaration Name="BagOutAngle" Type="DINT" />
+      <VarDeclaration Name="BagOutLength" Type="DINT" />
+      <VarDeclaration Name="BagOutWidth" Type="DINT" />
+      <VarDeclaration Name="BagOutOffset" Type="DINT" />
+      <VarDeclaration Name="BagDivertID" Type="DINT" />
+      <VarDeclaration Name="BagDivertAngle" Type="DINT" />
+      <VarDeclaration Name="BagDivertLength" Type="DINT" />
+      <VarDeclaration Name="BagDivertWidth" Type="DINT" />
+      <VarDeclaration Name="BagDivertOffset" Type="DINT" />
+      <VarDeclaration Name="BagCount" Type="INT" />
+      <VarDeclaration Name="BagIDData" Type="INT" ArraySize="20" />
+      <VarDeclaration Name="BagXPosData" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagYPosData" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagAngleData" Type="INT" ArraySize="20" />
+      <VarDeclaration Name="BagLengthData" Type="INT" ArraySize="20" />
+      <VarDeclaration Name="Out_PC" Type="BOOL" />
+      <VarDeclaration Name="Out_P2" Type="BOOL" />
+      <VarDeclaration Name="Out_P3" Type="BOOL" />
+      <VarDeclaration Name="Status" Type="STRING" />
+      <VarDeclaration Name="StatusData1" Type="DINT" />
+      <VarDeclaration Name="StatusData2" Type="DINT" />
+      <VarDeclaration Name="StatusData3" Type="DINT" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="ModelHeadPtr" Type="INT" />
+      <VarDeclaration Name="ModelTailPtr" Type="INT" />
+      <VarDeclaration Name="looper" Type="INT" />
+      <VarDeclaration Name="ModelDSPtr" Type="INT" />
+      <VarDeclaration Name="BagExited" Type="BOOL" />
+      <VarDeclaration Name="BagDiverted" Type="BOOL" />
+      <VarDeclaration Name="BagModelLLCID" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagModelPLCTrackStatus" Type="INT" ArraySize="20" />
+      <VarDeclaration Name="BagModelBagLength" Type="DINT" ArraySize="20" />
+      <VarDeclaration Name="BagRemoveModelPtr" Type="INT" Comment="Which index to remove" />
+      <VarDeclaration Name="ConvRadius" Type="REAL" />
+      <VarDeclaration Name="currentBagAngle" Type="REAL" ArraySize="20" Comment="Angle that the tangent of the curve makes with the positve x-axis" />
+      <VarDeclaration Name="BagModelBagAngle" Type="DINT" ArraySize="20" Comment="Angular displacement of the bag around its center relative to the tangent to the curve" />
+      <VarDeclaration Name="BagModelBagCenterX" Type="DINT" ArraySize="20" Comment="x-position of bag center" />
+      <VarDeclaration Name="BagModelBagCenterY" Type="DINT" ArraySize="20" Comment="y-position of bag center" />
+      <VarDeclaration Name="BagModelBagWidth" Type="DINT" ArraySize="20" Comment="width of bag" />
+      <VarDeclaration Name="BagModelBagScalarProj" Type="DINT" ArraySize="20" Comment="Scalar projection magintude of the point bagCenter to the most DS point of the bag onto the x-axis" />
+      <VarDeclaration Name="BagModelBagCenterXT" Type="DINT" ArraySize="20" Comment="Transformed x-position of the bag" />
+      <VarDeclaration Name="BagModelBagCenterYT" Type="DINT" ArraySize="20" Comment="Transformed y-position of the bag" />
+    </InternalVars>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="1211.1111" y="927.7778" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="1250.0" y="194.44444" >
+        <ECAction Algorithm="INIT" Output="InitO" />
+      </ECState>
+      <ECState Name="TICK" Comment="Normal execution" x="227.77777" y="911.1111" >
+        <ECAction Algorithm="TICK" Output="Cnf" />
+        <ECAction Algorithm="CheckDiverters" />
+      </ECState>
+      <ECState Name="BagIn" x="2133.3333" y="594.4444" >
+        <ECAction Algorithm="BagIn" Output="temp" />
+      </ECState>
+      <ECState Name="BagMerge" x="2350.0" y="1150.0" >
+        <ECAction Algorithm="BagMerge1" Output="temp" />
+      </ECState>
+      <ECState Name="BagExited" x="516.6666" y="1361.1111" >
+        <ECAction Algorithm="BagExited" Output="BagOut" />
+      </ECState>
+      <ECState Name="BagDiverted" x="472.2222" y="1861.1111" >
+        <ECAction Algorithm="BagDiverted" Output="BagDivertOut" />
+      </ECState>
+      <ECState Name="BagMerge2" x="1944.4443" y="1777.7777" >
+        <ECAction Algorithm="BagMerge2" Output="temp" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="Init" x="1061.1111" y="550.0" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="1311.1111" y="561.1111" />
+      <ECTransition Source="START" Destination="TICK" Condition="Tick" x="711.1111" y="1127.7777" />
+      <ECTransition Source="BagIn" Destination="START" Condition="1" x="1722.2222" y="827.7778" />
+      <ECTransition Source="BagMerge" Destination="START" Condition="1" x="1822.2222" y="1122.2222" />
+      <ECTransition Source="BagExited" Destination="BagDiverted" Condition="BagDiverted" x="755.55554" y="1605.5555" />
+      <ECTransition Source="BagDiverted" Destination="BagExited" Condition="BagExited" x="422.2222" y="1611.1111" />
+      <ECTransition Source="BagExited" Destination="START" Condition="1" x="1005.55554" y="1172.2222" />
+      <ECTransition Source="BagDiverted" Destination="START" Condition="1" x="1244.4443" y="1500.0" />
+      <ECTransition Source="TICK" Destination="BagExited" Condition="BagExited" x="405.55554" y="1116.6666" />
+      <ECTransition Source="TICK" Destination="BagDiverted" Condition="BagDiverted" x="211.1111" y="1522.2222" />
+      <ECTransition Source="START" Destination="BagIn" Condition="BagIn" x="1638.8888" y="694.4444" />
+      <ECTransition Source="START" Destination="BagMerge" Condition="BagMerge1" x="1783.3333" y="944.4444" />
+      <ECTransition Source="TICK" Destination="START" Condition="1" x="705.55554" y="750.0" />
+      <ECTransition Source="START" Destination="BagMerge2" Condition="BagMerge2" x="1633.3333" y="1294.4443" />
+      <ECTransition Source="BagMerge2" Destination="START" Condition="1" x="1572.2222" y="1427.7777" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <Other Language="Java" Text="ModelHeadPtr.value=(short)(0);&#10;ModelTailPtr.value=(short)(0);&#10;ModelDSPtr.value=(short)(-1);&#10;&#10;for(looper.value=(short)(0); looper.value&#60;=19; looper.value++){&#10;((INT)BagModelPLCTrackStatus.value[looper.value]).value=(short)(0);&#10;};&#10;&#10;&#10;//TempPEPositions[0]).value=(short)(4500);&#10;//TempPEPositions[1]).value=(short)(2500);&#10;//TempPEPositions[2]).value=(short)(1500);&#10;&#10;if((AngularDisplacement.value!=0)){&#10;ConvRadius.value=(((ConvLength.value)*360)/(float)(2*3.14*(Math.abs((int)AngularDisplacement.value))));&#10;};&#10;&#10;System.out.println(&#34;Conveyor Photoeyes Initialised&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="TICK" Comment="Normally executed algorithm" >
+    <Other Language="Java" Text="//System.out.println(&#34;In Tick&#34;);&#10;INT index = new INT();&#10;INT bagPtr =  new INT();&#10;INT upperLimit = new INT();&#10;INT pePtr = new INT();&#10;DINT tempOrd = new DINT();//ULINTtempOrdinateof'current'PE|diverter(EncCount.value-Position)(seeCheckDivertfor(explination)&#10;INT CopySourcePtr = new INT();&#10;INT CopyDestPtr = new INT();&#10;&#10;DINT tempMostDS = new DINT();&#10;DINT tempMostUS = new DINT();&#10;DINT tempCount = new DINT();&#10;&#10;&#10;bagPtr.value=ModelTailPtr.value;&#10;upperLimit.value=ModelHeadPtr.value;&#10;&#10;pePtr.value=0; // Pointerin((DINT)PEPositions.valueARRAY&#10;tempOrd.value=0;&#10;&#10;//CLEAROUTPUTS&#10;BagExited.value=false;&#10;BagDiverted.value=false;&#10;BagOutID.value=(int)(0);&#10;BagOutLength.value=(int)(0);&#10;BagDivertID.value=(int)(0);&#10;BagDivertLength.value=(int)(0);&#10;//ClearDetects!!!!!!!&#10;((BOOL)PEDetects.value[0]).value=true;&#10;((BOOL)PEDetects.value[1]).value=true;&#10;((BOOL)PEDetects.value[2]).value=true;&#10;((BOOL)PEDetects.value[3]).value=true;&#10;((BOOL)PEDetects.value[4]).value=true;&#10;((BOOL)PEDetects.value[5]).value=true;&#10;&#10;&#10;//NOOOOO&#34;Loop through all bags... increment Positions?&#34;&#10;//usingordinates...assumingbagsdontslipwewontneed; ModelTailPtr.value&#60;=changetheirUS/DSOrd&#10;if(ModelTailPtr.value>ModelHeadPtr.value)&#10;{&#10;upperLimit.value=(short)(ModelHeadPtr.value+20); //sizeofBagARRAY&#10;};&#10;&#10;for(pePtr.value=0; pePtr.value&#60;=PECount.value-1; pePtr.value++)&#10;{&#10;tempOrd.value=(EncCount.value-(((DINT)PEPositions.value[(int)pePtr.value]).value));&#10;for(bagPtr.value= ModelTailPtr.value; bagPtr.value&#60;=upperLimit.value-1; bagPtr.value++)&#10;{&#10;//CalculatethemostDS&#38;USpositionofthebag&#10;tempMostDS.value = (((DINT)(BagModelBagCenterX.value[bagPtr.value%20])).value + ((DINT)BagModelBagScalarProj.value[bagPtr.value%20]).value);&#10;tempMostUS.value = (((DINT)BagModelBagCenterX.value[bagPtr.value %20]).value-((DINT)BagModelBagScalarProj.value[bagPtr.value%20]).value);&#10;if((tempMostDS.value>=tempOrd.value)&#38;(tempMostUS.value&#60;=tempOrd.value))&#10;{&#10;//thisPEneeds; ModelTailPtr.value&#60;='detect'&#10;//((BOOL)PEDetects.value[pePtr.value]).value=true;&#10;((BOOL)PEDetects.value[pePtr.value]).value=false;&#10;&#10;break; //onlyonebagcanintersect...&#10;}&#10;}&#10;}&#10;&#10;/*CheckmostDSBag..if(passedConvLength....valuestartcontinueprocess&#10;Everythingmodelledasastraightconveyor&#38;bagstrackedusingcenterx,y+angle&#10;TODO:if(array!EMPTY */&#10;if((ModelDSPtr.value!=-1))&#10;{&#10;//Ensurethebaghas!alreadyexited&#10;if((((INT)BagModelPLCTrackStatus.value[ModelDSPtr.value]).value==2))&#10;{//ACTIVE&#10;//'continue'thebagwhenthecenterofthebagreachestheendofthisconveyor&#10;if((EncCount.value>=(((DINT)BagModelBagCenterX.value[ModelDSPtr.value]).value+ConvLength.value)))&#10;{//>*==*soassoonascenterpointisatDS'tip',itisalsoatmostUSendofDSConv&#10;//Status.value='Bagcenterpointexited';&#10;&#10;//Thebaghas'exited'i.e.belongs; ModelTailPtr.value&#60;=thenextconveyorinanobjectownershipsense&#10;BagOutID.value=(((DINT)BagModelLLCID.value[ModelDSPtr.value]).value);&#10;BagOutLength.value=(int)(((DINT)BagModelBagLength.value[ModelDSPtr.value]).value);&#10;BagOutWidth.value=(int)(((DINT)BagModelBagWidth.value[ModelDSPtr.value]).value);&#10;&#10;BagOutOffset.value=(int)(((DINT)BagModelBagCenterY.value[ModelDSPtr.value]).value);//y-axisoffset,zerofor(now&#10;BagOutAngle.value=(int)(((DINT)BagModelBagAngle.value[ModelDSPtr.value]).value);&#10;&#10;BagExited.value=true;&#10;((INT)BagModelPLCTrackStatus.value[ModelDSPtr.value]).value=(short)(3);&#10;}&#10;}&#10;else if((((INT)BagModelPLCTrackStatus.value[ModelDSPtr.value]).value==3))&#10;{//COMPLETED//Centerhasexited..justwaitingonmostUSpoint&#10;//Re-calculatethemostUSx-position&#10;tempMostUS.value=(((DINT)BagModelBagCenterX.value[ModelDSPtr.value]).value-((DINT)BagModelBagScalarProj.value[ModelDSPtr.value]).value);&#10;if(((EncCount.value-tempMostUS.value)>ConvLength.value))&#10;{&#10;//Justremovefrommodel&#10;((INT)BagModelPLCTrackStatus.value[ModelDSPtr.value]).value=(short)(0);&#10;/*Status.value='Bagremoved';&#10;StatusData1.value=(int)((EncCount.value-BagModelBagUSOrd[ModelDSPtr.value]).value));*/&#10;//ConveyorModel_CM_RemoveBag(me,((DINT)BagModelLLCID.value[ModelDSPtr.value]).value,ModelDSPtr);&#10;CopyDestPtr.value=(short)(ModelDSPtr.value);//Overwritethisbag&#10;while(true) &#10;{&#10;BagOutAngle.value++;&#10;//IsthistheMostDSbag?&#10;if((CopyDestPtr.value==ModelTailPtr.value))&#10;{&#10;//Deletethemodelentry&#10;((DINT)BagModelLLCID.value[CopyDestPtr.value]).value=(int)(-1);&#10;//UpdateDSpointer&#10;ModelTailPtr.value=(short)(ModelTailPtr.value+1);&#10;ModelTailPtr.value=(short)(ModelTailPtr.value%20);&#10;//RE-setModelDSPtr.value&#10;ModelDSPtr.value=(short)(-1);&#10;//FindthemostDSbag; BagOutAngle.value&#60;=settheModelDSPtr.value&#10;for(bagPtr.value=(short)((ModelTailPtr.value)); bagPtr.value&#60;=upperLimit.value-1; bagPtr.value++)&#10;{&#10;if((((DINT)BagModelLLCID.value[bagPtr.value]).value%20!=-1))&#10;{&#10;if((ModelDSPtr.value&#60;0))&#10;{ //thisnewbagismoreDSthanlastmostDS...shufflearray&#10;ModelDSPtr.value=(short)(bagPtr.value%20);&#10;}&#10;else if(((DINT)BagModelBagCenterX.value[bagPtr.value%20]).value&#60;((DINT)BagModelBagCenterX.value[ModelDSPtr.value]).value)&#10;{&#10;ModelDSPtr.value=(short)(bagPtr.value%20);&#10;}&#10;}&#10;}&#10;Status.value= (new String(&#34;TICK most DS bag&#34;)).getBytes();&#10;break;&#10;}&#10;else&#10;{&#10;//CalculatetheCopySourcePtr&#10;if((CopyDestPtr.value==0))&#10;{&#10;CopySourcePtr.value=20-1;//&#34;Next entry is top&#34;&#10;}&#10;else&#10;{&#10;CopySourcePtr.value=(short)((CopyDestPtr.value-1)%20);&#10;}&#10;//CopyModelData&#10;((DINT)BagModelLLCID.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelLLCID.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagLength.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagLength.value[CopySourcePtr.value]).value);&#10;((INT)BagModelPLCTrackStatus.value[CopyDestPtr.value]).value=(short)(((INT)BagModelPLCTrackStatus.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagWidth.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagWidth.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagAngle.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagAngle.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagCenterX.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagCenterX.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagCenterY.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagCenterY.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagScalarProj.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagScalarProj.value[CopySourcePtr.value]).value);&#10;//nextmodelentry&#10;CopyDestPtr.value=(short)(CopySourcePtr.value);&#10;}&#10;}&#10;//ENDREMOVEINLINE&#10;upperLimit.value=(short)(ModelHeadPtr.value);//REDOupperLimit.value(mayhavechanged)&#10;if((ModelTailPtr.value>ModelHeadPtr.value))&#10;{&#10;upperLimit.value=(short)(ModelHeadPtr.value+20);//sizeofBagarray&#10;}&#10;}&#10;}&#10;}&#10;//Transformstraightconveyordisplacement; ModelTailPtr.value&#60;=curvedconveyordisplacement&#10;for(bagPtr.value=(short)(ModelTailPtr.value); bagPtr.value&#60;=upperLimit.value-1; bagPtr.value++)&#10;{&#10;if((AngularDisplacement.value!=0))&#10;{&#10;((REAL)currentBagAngle.value[bagPtr.value]).value=(float)(((EncCount.value-((DINT)BagModelBagCenterX.value[bagPtr.value%20]).value)/(ConvLength.value))*(AngularDisplacement.value));&#10;((DINT)BagModelBagCenterXT.value[bagPtr.value%20]).value=(int)((ConvRadius.value*Math.sin((((REAL)currentBagAngle.value[bagPtr.value]).value/180)*3.14)));&#10;((DINT)BagModelBagCenterYT.value[bagPtr.value%20]).value=(int)((ConvRadius.value-ConvRadius.value*Math.cos((((REAL)currentBagAngle.value[bagPtr.value]).value/180)*3.14)));&#10;//However,if(thebagisleavingtheconveyor,maybe){otherstuff,likegoinastraightlineafterpassingconvLength&#10;}&#10;else&#10;{&#10;/*(&#10;else{thisisastraightline*/&#10;((DINT)BagModelBagCenterXT.value[bagPtr.value%20]).value=(int)(EncCount.value-((DINT)BagModelBagCenterX.value[bagPtr.value%20]).value);&#10;((DINT)BagModelBagCenterYT.value[bagPtr.value%20]).value=(int)(((DINT)BagModelBagCenterY.value[bagPtr.value%20]).value);&#10;}&#10;}&#10;&#10;//SetVisData&#10;BagCount.value=(short)(upperLimit.value-ModelTailPtr.value);&#10;bagPtr.value=(short)(ModelTailPtr.value);&#10;//cleararrays&#10;for(bagPtr.value=(short)(0); bagPtr.value&#60;=19; bagPtr.value++)&#10;{&#10;((INT)BagIDData.value[bagPtr.value]).value=(short)(0);&#10;((DINT)BagXPosData.value[bagPtr.value]).value=0;&#10;((INT)BagLengthData.value[bagPtr.value]).value=(short)(0);&#10;}&#10;&#10;bagPtr.value=(short)(ModelTailPtr.value);&#10;for(index.value=(short)(0); index.value&#60;=19; index.value++)&#10;{&#10;if((bagPtr.value>=upperLimit.value))&#10;{&#10;break;&#10;};&#10;&#10;((DINT)BagYPosData.value[index.value]).value=(int)(((DINT)BagModelBagCenterYT.value[bagPtr.value%20]).value);&#10;((DINT)BagXPosData.value[index.value]).value=(int)(((DINT)BagModelBagCenterXT.value[bagPtr.value%20]).value)+1;&#10;((INT)BagAngleData.value[index.value]).value=(short)((((REAL)currentBagAngle.value[bagPtr.value%20]).value)+(((DINT)BagModelBagAngle.value[bagPtr.value%20]).value));&#10;((INT)BagLengthData.value[index.value]).value=(short)((((DINT)BagModelBagLength.value[bagPtr.value%20]).value));&#10;//((INT)BagWidthData.value[index.value]).value=(short)((((DINT)BagModelBagWidth.value[bagPtr.value%20]).value));&#10;((INT)BagIDData.value[index.value]).value=(short)((((DINT)BagModelLLCID.value[bagPtr.value%20]).value));&#10;&#10;bagPtr.value++;&#10;};&#10;&#10;//Tempfixfor(non-blankingarrays&#10;if((BagCount.value==0))&#10;{&#10;((DINT)BagYPosData.value[0]).value=(int)(0);&#10;((DINT)BagXPosData.value[0]).value=0;&#10;((INT)BagAngleData.value[0]).value=(short)(0);&#10;((INT)BagLengthData.value[0]).value=(short)(0);&#10;//((INT)BagWidthData.value[0]).value=(short)(0);&#10;((INT)BagIDData.value[0]).value=(short)(0);&#10;}&#10;&#10;//TEMPUN-ARRAY&#10;Out_PC.value=((BOOL)PEDetects.value[0]).value;&#10;//System.out.println(&#34;PE SET = &#34; + ((BOOL)PEDetects.value[0]).value + Out_PC.value);&#10;Out_P2.value=((BOOL)PEDetects.value[1]).value;&#10;Out_P3.value=((BOOL)PEDetects.value[2]).value;&#10;" />
+  </Algorithm>
+  <Algorithm Name="BagIn" >
+    <Other Language="Java" Text="REAL bagRectTopRightX = new REAL();&#10;REAL bagRectBottomRightX = new REAL();&#10;DINT tempX = new DINT();&#10;REAL bagRectRadius = new REAL(); //Halfthelengthofthediagonalinsidethebagrectangle&#10;REAL bagRectInternalAngle = new REAL(); //Theanglethediagonalmakeswiththepositivex-axisofthebag&#10;&#10;System.out.println(&#34;Bag IN!!! and ModelHeadPtr = &#34; + ModelHeadPtr.value + &#34; ModelDSPtr = &#34; + ModelDSPtr.value);&#10;&#10;if(((INT)BagModelPLCTrackStatus.value[ModelHeadPtr.value]).value==2){//ACTIVE ModelFull&#10;return;&#10;};&#10;&#10;if (ModelDSPtr.value&#60;0) &#10;{ //thisnewbagismoreDSthanlastmostDS...&#10;ModelDSPtr.value=(short)(ModelHeadPtr.value); //ThelocationwherethisTHINGwillbestored&#10;}&#10;else if ((EncCount.value-BagInOffset.value) &#60; ((DINT)BagModelBagCenterX.value[ModelDSPtr.value]).value)&#10;{ //thisnewbagismoreDSthanlastmostDS...&#10;ModelDSPtr.value=(short)(ModelHeadPtr.value); //ThelocationwherethisTHINGwillbestored&#10;}&#10;&#10;&#10;((DINT)BagModelBagCenterX.value[ModelHeadPtr.value]).value=(int)(EncCount.value);&#10;((DINT)BagModelBagWidth.value[ModelHeadPtr.value]).value=(int)(BagInWidth.value);&#10;((DINT)BagModelBagCenterY.value[ModelHeadPtr.value]).value=(int)(0);&#10;((DINT)BagModelBagAngle.value[ModelHeadPtr.value]).value=(int)(BagInAngle.value);&#10;((DINT)BagModelLLCID.value[ModelHeadPtr.value]).value=(int)(BagInID.value);&#10;((DINT)BagModelBagLength.value[ModelHeadPtr.value]).value=(int)(BagInLength.value);&#10;((INT)BagModelPLCTrackStatus.value[ModelHeadPtr.value]).value=(short)(2); //ACTIVE&#10;&#10; //Calculatethex-distancebetweenthemostdownstreampointofthebagminusthecenterpoint&#10;bagRectRadius.value=(float)Math.sqrt((BagInLength.value/2)*(BagInLength.value/2)+(BagInWidth.value/2)*(BagInWidth.value/2));&#10;bagRectInternalAngle.value=(float)Math.atan(BagInWidth.value/BagInLength.value);&#10;&#10;bagRectTopRightX.value=(bagRectRadius.value*(float)Math.cos(3.14*((((DINT)BagModelBagAngle.value[ModelHeadPtr.value]).value))/180+bagRectInternalAngle.value));&#10;bagRectBottomRightX.value=(bagRectRadius.value*(float)Math.cos(3.14*((((DINT)BagModelBagAngle.value[ModelHeadPtr.value]).value))/180-bagRectInternalAngle.value));&#10;&#10;&#10;if((BagInAngle.value&#60;90)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)(bagRectBottomRightX.value);&#10;}&#10;else if((BagInAngle.value&#60;180)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)(-1*bagRectTopRightX.value);&#10;}&#10;else if((BagInAngle.value&#60;270)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)(-1*bagRectBottomRightX.value);&#10;}&#10;else if((BagInAngle.value&#60;360)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)(bagRectTopRightX.value);&#10;};&#10;&#10;//Incrementthepointers&#10;ModelHeadPtr.value=(short)(ModelHeadPtr.value+1);&#10;ModelHeadPtr.value=(short)(ModelHeadPtr.value%20);&#10;" />
+  </Algorithm>
+  <Algorithm Name="BagMerge1" >
+    <Other Language="Java" Text="REAL bagRectTopRightX = new REAL();&#10;REAL bagRectBottomRightX = new REAL();&#10;DINT tempX = new DINT();&#10;REAL bagRectRadius = new REAL(); //Halfthelengthofthediagonalinsidethebagrectangle&#10;REAL bagRectInternalAngle = new REAL(); //Theanglethediagonalmakeswiththepositivex-axisofthebag&#10;&#10;System.out.println(&#34;BagMerge1!!&#34;);&#10;&#10;if(((INT)BagModelPLCTrackStatus.value[ModelHeadPtr.value]).value==2){ //ACTIVE ModelFull&#10;return;&#10;};&#10;&#10;if(ModelDSPtr.value&#60;0)&#10;{&#10;ModelDSPtr.value=(short)(ModelHeadPtr.value); //ThelocationwherethisTHINGwillbestored&#10;Status.value= (new String(&#34;NewmostDSbag&#34;)).getBytes();;&#10;}&#10;else if(((EncCount.value-(((DINT)MergePositions.value[0]).value))&#60;((DINT)BagModelBagCenterX.value[ModelDSPtr.value]).value)){ //thisnewbagismoreDSthanlastmostDS...&#10;ModelDSPtr.value=(short)(ModelHeadPtr.value); //ThelocationwherethisTHINGwillbestored&#10;Status.value= (new String(&#34;NewmostDSbag&#34;)).getBytes();;&#10;};&#10;&#10;((DINT)BagModelBagCenterX.value[ModelHeadPtr.value]).value=(int)(EncCount.value-((DINT)MergePositions.value[0]).value);&#10;((DINT)BagModelBagWidth.value[ModelHeadPtr.value]).value=(int)(BagMerge1Width.value);&#10;((DINT)BagModelBagCenterY.value[ModelHeadPtr.value]).value=(int)(0);&#10;((DINT)BagModelBagAngle.value[ModelHeadPtr.value]).value=(int)(BagMerge1Angle.value);&#10;((DINT)BagModelLLCID.value[ModelHeadPtr.value]).value=(int)(BagMerge1ID.value);&#10;((DINT)BagModelBagLength.value[ModelHeadPtr.value]).value=(int)(BagMerge1Length.value);&#10;((INT)BagModelPLCTrackStatus.value[ModelHeadPtr.value]).value=(short)(2); //ACTIVE&#10;&#10;//Calculatethex-distancebetweenthemostdownstreampointofthebagminusthecenterpoint&#10;bagRectRadius.value= (float)Math.sqrt(((BagMerge1Length.value/2)*(BagMerge1Length.value/2))+((BagMerge1Width.value/2)*(BagMerge1Width.value/2)));&#10;bagRectInternalAngle.value=(float)Math.atan(BagMerge1Width.value/BagMerge1Length.value);&#10;&#10;bagRectTopRightX.value=(bagRectRadius.value*(float)Math.cos(3.14*((((DINT)BagModelBagAngle.value[ModelHeadPtr.value]).value))/180+bagRectInternalAngle.value));&#10;bagRectBottomRightX.value=(bagRectRadius.value*(float)Math.cos(3.14*((((DINT)BagModelBagAngle.value[ModelHeadPtr.value]).value))/180-bagRectInternalAngle.value));&#10;&#10;if((BagInAngle.value&#60;90)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)(bagRectBottomRightX.value);&#10;}&#10;else if((BagInAngle.value&#60;180)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)(-1*bagRectTopRightX.value);&#10;}&#10;else if((BagInAngle.value&#60;270)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)(-1*bagRectBottomRightX.value);&#10;}&#10;else if((BagInAngle.value&#60;360)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)(bagRectTopRightX.value);&#10;};&#10;&#10;//Increment&#10;ModelHeadPtr.value=(short)(ModelHeadPtr.value+1);&#10;ModelHeadPtr.value=(short)(ModelHeadPtr.value%20);&#10;" />
+  </Algorithm>
+  <Algorithm Name="CheckDiverters" >
+    <Other Language="Java" Text="INT upperLimit = new INT();&#10;INT bagPtr = new INT();&#10;INT DivID = new INT();&#10;DINT tempOrd = new DINT(); //ULINT&#10;INT CopySourcePtr = new INT();&#10;INT CopyDestPtr = new INT();&#10;&#10;//System.out.println(&#34;In CheckDiverters&#34;);&#10;&#10;DINT tempMostDS = new DINT();&#10;DINT tempMostUS = new DINT();&#10;&#10;&#10;upperLimit.value=ModelHeadPtr.value;&#10;DivID.value=0;&#10;/*&#10;EncCount.value-BagOrd=(int)(Position&#10;|&#10;EncCount.value-Position=(int)(BagOrd&#10;(sowegetEncCount.value-PosONCE..&#38;comparewithbagords)&#10;*/&#10;tempOrd.value=0;// Special*ORDINATEofdiverter(EncCount.value-Position)&#10;/*//if(thediverterisactive&#10;checkupperLimit*/&#10;if(((ModelHeadPtr.value)&#60;(ModelTailPtr.value)))&#10;{&#10;upperLimit.value=(short)(upperLimit.value+20);//Lengthofbagarray&#10;}&#10;&#10;while(DivID.value&#60;4)&#10;{&#10;if((((DINT)DivertPositions.value[DivID.value]).value>0&#38;((BOOL)DiverterStatus.value[DivID.value]).value))&#10;{//configured&#38;'active'//Statuses+1becauseitalsocontainsExitDev0whichisrunout&#10;tempOrd.value=EncCount.value-((DINT)DivertPositions.value[DivID.value]).value;&#10;//Anybagsthatintersect/cross'DiverterPosition'isdiverted(assumeonlyonebagperanyONEtick)&#10;for(bagPtr.value=(short)((ModelTailPtr.value)); bagPtr.value&#60;=upperLimit.value-1; bagPtr.value++)&#10;{&#10;//CalculatethemostDS&#38;USpositionofthebag&#10;tempMostDS.value=(((DINT)BagModelBagCenterX.value[bagPtr.value%20]).value+((DINT)BagModelBagScalarProj.value[bagPtr.value%20]).value);&#10;tempMostUS.value=(((DINT)BagModelBagCenterX.value[bagPtr.value%20]).value-((DINT)BagModelBagScalarProj.value[bagPtr.value%20]).value);&#10;&#10;if(((tempMostUS.value>=tempOrd.value)&#38;(tempMostDS.value&#60;=tempOrd.value)))&#10;{&#10;/*thisBagINTERSECTS!!!&#10;setaflag*///&#10;BagDiverted.value=true;&#10;BagDivertID.value=(int)(((DINT)BagModelLLCID.value[bagPtr.value%20]).value);&#10;BagDivertLength.value=(int)(((DINT)BagModelBagLength.value[bagPtr.value%20]).value);&#10;//2010-07-05:HandoverOffset(howfarINFRONTofDiverterthebagis)&#10;BagDivertOffset.value=(int)(tempOrd.value-((DINT)BagModelBagCenterX.value[bagPtr.value%20]).value);&#10;//Unlikenormalexit...weIMEDIATELYremovethebagfromourmodel(itwill!passanymorePEs)&#10;//ConveyorModel_CM_RemoveBag(me,BagDivertID,bagPtr.value%20);&#10;CopyDestPtr.value=(short)(bagPtr.value%20);//Overwritethisbag&#10;while(true)&#10;{&#10;//IsthistheMostDSbag?&#10;if((CopyDestPtr.value==ModelTailPtr.value))&#10;{&#10;//Deletethemodelentry&#10;((DINT)BagModelLLCID.value[CopyDestPtr.value]).value=(int)(-1);&#10;//UpdateDSpointer&#10;ModelTailPtr.value=(short)(ModelTailPtr.value+1);&#10;ModelTailPtr.value=(short)(ModelTailPtr.value%20);&#10;//RE-setModelDSPtr.value&#10;ModelDSPtr.value=(short)(-1);&#10;for(bagPtr.value=(short)((ModelTailPtr.value)); bagPtr.value&#60;=upperLimit.value-1; bagPtr.value++)&#10;{&#10;if((((DINT)BagModelLLCID.value[bagPtr.value]).value%20!=-1))&#10;{&#10;if((ModelDSPtr.value&#60;0))&#10;{//thisnewbagismoreDSthanlastmostDS...shufflearray&#10;ModelDSPtr.value=(short)(bagPtr.value%20);&#10;}&#10;else if(((DINT)BagModelBagCenterX.value[bagPtr.value%20]).value&#60;((DINT)BagModelBagCenterX.value[ModelDSPtr.value]).value)&#10;{&#10;ModelDSPtr.value=(short)(bagPtr.value%20);&#10;}&#10;}&#10;}&#10;break;&#10;}&#10;else&#10;{&#10;//CalculatetheCopySourcePtr&#10;if((CopyDestPtr.value==0))&#10;{&#10;CopySourcePtr.value=20-1;//&#34;Next entry is top&#34;&#10;}&#10;else&#10;{&#10;CopySourcePtr.value=(short)((CopyDestPtr.value-1)%20);&#10;}&#10;&#10;//CopyModelData&#10;((DINT)BagModelLLCID.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelLLCID.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagLength.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagLength.value[CopySourcePtr.value]).value);&#10;((INT)BagModelPLCTrackStatus.value[CopyDestPtr.value]).value=(short)(((INT)BagModelPLCTrackStatus.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagWidth.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagWidth.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagAngle.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagAngle.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagCenterX.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagCenterX.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagCenterY.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagCenterY.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagScalarProj.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagScalarProj.value[CopySourcePtr.value]).value);&#10;//nextmodelentry&#10;CopyDestPtr.value=CopySourcePtr.value;&#10;}&#10;}&#10;break;&#10;}&#10;}&#10;}&#10;DivID.value++;&#10;}&#10;" />
+  </Algorithm>
+  <Algorithm Name="RemoveBag" >
+    <Other Language="Java" Text="INT CopySourcePtr = new INT();&#10;INT CopyDestPtr = new INT();&#10;INT bagPtr = new INT();&#10;DINT upperBound = new DINT();//ULINT&#10;&#10;CopySourcePtr.value=-1;&#10;CopyDestPtr.value=-1;&#10;upperBound.value=ModelHeadPtr.value;&#10;&#10;if((ModelHeadPtr.value&#60;ModelTailPtr.value))&#10;{&#10;upperBound.value=(short)(upperBound.value+20);&#10;}&#10;&#10;CopyDestPtr.value=(short)(BagRemoveModelPtr.value);//Overwritethisbag&#10;if((CopyDestPtr.value==-1))&#10;{&#10;return;&#10;}&#10;&#10;&#10;while(true)&#10;{&#10;//IsthistheMostDSbag?&#10;if((CopyDestPtr.value==ModelTailPtr.value))&#10;{&#10;//Deletethemodelentry&#10;((DINT)BagModelLLCID.value[CopyDestPtr.value]).value=(int)(-1);&#10;//UpdateDSpointer&#10;ModelTailPtr.value=(short)(ModelTailPtr.value+1);&#10;ModelTailPtr.value=(short)(ModelTailPtr.value%20);&#10;//RE-setModelDSPtr.value&#10;ModelDSPtr.value=(short)(-1);&#10;for(bagPtr.value=(short)((ModelTailPtr.value)); bagPtr.value&#60;=upperBound.value; bagPtr.value++)&#10;{&#10;if((((DINT)BagModelLLCID.value[bagPtr.value]).value%20!=-1))&#10;{&#10;if((ModelDSPtr.value&#60;0))&#10;{//thisnewbagismoreDSthanlastmostDS...shufflearray&#10;ModelDSPtr.value=(short)(bagPtr.value%20);&#10;}&#10;else if(((DINT)BagModelBagCenterX.value[bagPtr.value%20]).value&#60;((DINT)BagModelBagCenterX.value[ModelDSPtr.value]).value)&#10;{&#10;ModelDSPtr.value=(short)(bagPtr.value%20);&#10;}&#10;}&#10;}&#10;break;&#10;}&#10;else&#10;{&#10;//CalculatetheCopySourcePtr&#10;if((CopyDestPtr.value==0))&#10;{&#10;CopySourcePtr.value=(short)(20-1);//&#34;Next entry is top&#34;&#10;}&#10;else&#10;{&#10;CopySourcePtr.value=(short)((CopyDestPtr.value-1)%20);&#10;}&#10;//CopyModelData&#10;((DINT)BagModelLLCID.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelLLCID.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagLength.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagLength.value[CopySourcePtr.value]).value);&#10;((INT)BagModelPLCTrackStatus.value[CopyDestPtr.value]).value=(short)(((INT)BagModelPLCTrackStatus.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagWidth.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagWidth.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagAngle.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagAngle.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagCenterX.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagCenterX.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagCenterY.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagCenterY.value[CopySourcePtr.value]).value);&#10;((DINT)BagModelBagScalarProj.value[CopyDestPtr.value]).value=(int)(((DINT)BagModelBagScalarProj.value[CopySourcePtr.value]).value);&#10;&#10;//nextmodelentry&#10;CopyDestPtr.value=(short)(CopySourcePtr.value);&#10;}&#10;}&#10;" />
+  </Algorithm>
+  <Algorithm Name="BagExited" >
+    <Other Language="Java" Text="BagExited.value=false;//DONE&#10;System.out.println(&#34;BagOut!!&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="BagDiverted" >
+    <Other Language="Java" Text="BagDiverted.value=false; //DONE&#10;" />
+  </Algorithm>
+  <Algorithm Name="BagMerge2" >
+    <Other Language="Java" Text="REAL bagRectTopRightX = new REAL();&#10;REAL bagRectBottomRightX = new REAL();&#10;DINT tempX = new DINT();;&#10;REAL bagRectRadius = new REAL();;//Halfthelengthofthediagonalinsidethebagrectangle&#10;REAL bagRectInternalAngle = new REAL();;//Theanglethediagonalmakeswiththepositivex-axisofthebag&#10;&#10;System.out.println(&#34;BagMerge2!!&#34;);&#10;if(((INT)BagModelPLCTrackStatus.value[ModelHeadPtr.value]).value==2){//ACTIVE ModelFull&#10;return;&#10;};&#10;&#10;if(ModelDSPtr.value&#60;0)&#10;{&#10;ModelDSPtr.value=(short)(ModelHeadPtr.value);//ThelocationwherethisTHINGwillbestored&#10;Status.value=(new String(&#34;NewmostDSbag&#34;)).getBytes();&#10;}&#10;else if (((EncCount.value-((DINT)MergePositions.value[1]).value)&#60;((DINT)BagModelBagCenterX.value[ModelDSPtr.value]).value)){//thisnewbagismoreDSthanlastmostDS...&#10;ModelDSPtr.value=(short)(ModelHeadPtr.value);//ThelocationwherethisTHINGwillbestored&#10;Status.value=(new String(&#34;NewmostDSbag&#34;)).getBytes();&#10;};&#10;&#10;((DINT)BagModelBagCenterX.value[ModelHeadPtr.value]).value=(int)(EncCount.value-((DINT)MergePositions.value[1]).value);&#10;((DINT)BagModelBagWidth.value[ModelHeadPtr.value]).value=(int)(BagMerge2Width.value);&#10;((DINT)BagModelBagCenterY.value[ModelHeadPtr.value]).value=(int)(0);&#10;((DINT)BagModelBagAngle.value[ModelHeadPtr.value]).value=(int)(BagMerge2Angle.value);&#10;((DINT)BagModelLLCID.value[ModelHeadPtr.value]).value=(int)(BagMerge2ID.value);&#10;((DINT)BagModelBagLength.value[ModelHeadPtr.value]).value=(int)(BagMerge2Length.value);&#10;((INT)BagModelPLCTrackStatus.value[ModelHeadPtr.value]).value=(short)(2);//ACTIVE&#10;&#10;//Calculatethex-distancebetweenthemostdownstreampointofthebagminusthecenterpoint&#10;bagRectRadius.value= (float)Math.sqrt(((BagMerge2Length.value/2)*(BagMerge2Length.value/2))+((BagMerge2Width.value/2)*(BagMerge2Width.value/2)));&#10;bagRectInternalAngle.value=(float)Math.atan(BagMerge2Width.value/BagMerge2Length.value);&#10;&#10;bagRectTopRightX.value=(bagRectRadius.value*(float)Math.cos(3.14*((((DINT)BagModelBagAngle.value[ModelHeadPtr.value]).value))/180+bagRectInternalAngle.value));&#10;bagRectBottomRightX.value=(bagRectRadius.value*(float)Math.cos(3.14*((((DINT)BagModelBagAngle.value[ModelHeadPtr.value]).value))/180-bagRectInternalAngle.value));&#10;&#10;if((BagInAngle.value&#60;90)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)((bagRectBottomRightX.value));&#10;}&#10;else if((BagInAngle.value&#60;180)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)((-1*bagRectTopRightX.value));&#10;}&#10;else if((BagInAngle.value&#60;270)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)((-1*bagRectBottomRightX.value));&#10;}&#10;else if((BagInAngle.value&#60;360)){&#10;((DINT)BagModelBagScalarProj.value[ModelHeadPtr.value]).value=(int)((bagRectTopRightX.value));&#10;};&#10;&#10;//Increment&#10;ModelHeadPtr.value=(short)(ModelHeadPtr.value+1);&#10;ModelHeadPtr.value=(short)(ModelHeadPtr.value%20);&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

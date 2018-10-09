@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML>
+<HEAD>
+<META CONTENT="text/html; charset=ISO-8859-1" HTTP-EQUIV="content-type">
+<TITLE>FBDK - What's New</TITLE>
+<LINK REL="icon" HREF="../../fbicon.png" TYPE="image/png">
+<META CONTENT="JHC" NAME="author">
+<META CONTENT="What's New in the Function Block Development Kit (FBDK)"
+	NAME="description">
+</HEAD>
+<BODY STYLE="font-family: sans-serif; background-color: white;">
+<CENTER>
+<H2>What's&nbsp;New</H2>
+<P><I>This page documents changes since the <A
+	HREF="http://www.holobloc.com/fbdk20080101.zip">20080101 release</A> of
+the FBDK.</I></P>
+</CENTER>
+<H3><A NAME="FBDK"></A>FBDK [<A HREF="#FBRT">FBRT</A>] [<A
+	HREF="#MVCD">MVCD</A>]</H3>
+<H4>Features</H4>
+<UL>
+	<LI>The FBDK has now been tested for compatibility with
+	Windows&trade; XP and <A HREF="http://www.ubuntu.com/" TARGET="_blank">Ubuntu</A><SUP>&reg;</SUP>
+	Linux<SUP>&reg;</SUP>.</LI>
+	<LI>The most frequently used operations have been moved to buttons
+	on the <A HREF="FBEditor.html">menu bar</A> for quick access.</LI>
+	<LI>The <A HREF="saveas.htm">Save As...</A> dialog now includes a
+	<B>PNG</B> option to save the contents of the graphics Worksheet in
+	Portable Network Graphics (PNG) format.</LI>
+	<LI>A new <A HREF="preferences.htm">Preferences dialog</A> has
+	been added to simplify the <A HREF="custom.htm">configuration</A>
+	process.</LI>
+	<LI><A HREF="customlaf.htm">Configurable Look and Feel</A> has
+	been added, including the new <A
+		HREF="http://java.sun.com/developer/technicalArticles/javase/java6u10/index.html#nimbus"
+		TARGET="_blank">Nimbus LAF</A> in the Java&trade; SE 6 update 10 RC
+	release.</LI>
+	<LI><A HREF="multiselect.htm">Multi-element selection and
+	dragging</A> is now supported.</LI>
+	<LI><A HREF="transition.htm#Self">Self-cycles</A> and <A
+		HREF="transition.htm#Guard-Only">guard-only cycles</A> in an ECC are
+	now detected in the <A HREF="transition.htm">Transition Dialog</A>.</LI>
+	<LI>The current directory location now persists between successive
+	invocations of the file <B>Open</B> dialog.
+	<LI>Additional Java&trade; documentation is now generated when
+	using the <A HREF="saveas.htm">File Save As Java</A> option.</LI>
+	<LI>You no longer have to exit and restart the FBEditor in order
+	to test a new FB type after saving it to a new package (you still have
+	to restart after changing and re-saving an existing type).</LI>
+	<LI>Help information has been updated.</LI>
+</UL>
+<H4>Bug fixes</H4>
+<UL>
+	<LI><A HREF="transition.htm#Self">Self-cycles</A> on an EC state
+	are no longer accidentally hidden behind the state upon creation.</LI>
+	<LI>Adding an event input or output to an adapter type no longer
+	causes a ClassCastException.</LI>
+</UL>
+<H3><A NAME="FBRT"></A>FBRT [<A HREF="#FBDK">FBDK</A>] [<A
+	HREF="#MVCD">MVCD</A>]</H3>
+<H4>Features</H4>
+<UL>
+	<LI>A new <TT>PUT_WORD</TT> block has been added to the <TT>math</TT>
+	package for setting or resetting individual bits in a 16-bit <TT>WORD</TT>.</LI>
+	<LI><TT>M_INV</TT> (matrix inversion) has been replaced by the
+	more general-purpose <TT>M_SOLVE</TT> (matrix equation solver) in the <TT>math/matrix</TT>
+	package.</LI>
+</UL>
+<H4>Bug fixes</H4>
+<UL>
+	<LI>None.</LI>
+</UL>
+<H4>Other Changes</H4>
+<UL>
+	<LI><TT>FB_INT_TO_BCD_WORD</TT> has been simplified.</LI>
+	<LI>Documentation of <TT><A HREF="launcher.htm#ini">launcher.ini</A></TT>
+	has been updated.</LI>
+	<LI><TT>CLIENTW</TT> and <TT>SERVERW</TT> have been deleted since
+	they are not used in any applications.</LI>
+</UL>
+<H3><A NAME="MVCD"></A>MVCD [<A HREF="#FBDK">FBDK</A>] [<A
+	HREF="#FBRT">FBRT</A>]</H3>
+<H4>Features</H4>
+<UL>
+	<LI>No new features.</LI>
+</UL>
+<H4>Bug fixes</H4>
+<UL>
+	<LI>None.</LI>
+</UL>
+<CENTER>
+<HR>
+<P><I>Last updated:&nbsp;2008-10-03.</I><BR>
+&copy;2008 <A HREF="http://www.holobloc.com" TARGET="_top">Holobloc
+Inc.</A> All rights reserved.<BR>
+<FONT FACE="sans-serif" SIZE="-2">JDK is a trademark or
+registered trademark of Sun Microsystems, Inc. in the U.S. or other
+countries.<BR>
+Java and Javadoc are trademarks or registered trademarks of Sun
+Microsystems, Inc. in the U.S. or other countries.<BR>
+Windows is a registered trademark of Microsoft Corporation in the United
+States and other countries.<BR>
+Ubuntu is a registered trademark of Canonical Ltd.<BR>
+Linux is the registered trademark of Linus Torvalds in the U.S. and
+other countries.</FONT></P>
+</CENTER>
+</BODY>
+</HTML>

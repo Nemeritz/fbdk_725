@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+<TITLE>FBEditor Help</TITLE>
+</HEAD>
+<BODY>
+<H2 ALIGN="center"><A NAME="Areas"></A>FBEditor Controls</H2>
+<P><A NAME="Tabs"></A><B>Tabs</B><BR>
+As library elements are opened (e.g., with the <B><A
+	HREF="#FileOpen">File Open</A></B> menu item) their tabs are added to this
+area. You can navigate to an open element by clicking on its tab. When
+an element is closed with the <A HREF="#CloseTab">Close Tab</A> button,
+its tab is removed from this area.</P>
+
+<P><IMG SRC="Close16.gif" ALT=""><A NAME="CloseTab"></A><B>Close
+Tab</B><BR>
+Clicking on this button closes the library element in the currently
+selected tab. If there are unsaved changes, you will be asked whether
+you really want to close it and discard the changes.</P>
+
+<P><A NAME="description"></A><B>Status Line</B><BR>
+This area provides a short description of the currently selected item,
+and may also show error messages. It also shows the currently executing
+configuration command when the <A HREF="#launch">Run/Launch</A> menu
+item is used.</P>
+
+<P><A NAME="Navigation"></A><B>Navigation Tree</B></P>
+<OL>
+	<LI>You can use this control to choose what will be displayed on
+	the <A HREF="#canvas">Worksheet</A> area, including:
+	<UL>
+		<LI>the <I>external interface</I>, including <I>events</I> and <I>variables</I>
+		and their <TT>WITH</TT> associations</LI>
+		<LI>the <I>Execution Control Chart (ECC)</I> for basic function
+		block types</LI>
+		<LI><I>service primitive sequences</I> for service interface
+		function block types</LI>
+		<LI><I>function block networks</I> for composite function block
+		types; device and resource types and instances; system configurations;
+		and algorithms in the IEC 61131-3 FBD language</LI>
+		<LI><I>ladder diagrams</I> for algorithms in the IEC 61131-3 LD
+		language</LI>
+	</UL>
+	</LI>
+	<LI>You can edit a <B>Properties</B> element by double-clicking on
+	the corresponding item.</LI>
+	<LI>You can edit an <I>algorithm</I> by double-clicking on the
+	algorithm name.</LI>
+	<LI>When editing a <I>system configuration</I>:
+	<UL>
+		<LI>You can use a popup menu to move a resource from one device
+		to another (or to the top of the list of resources of its current
+		device).</LI>
+		<LI>You can use the <A HREF="#UpDown">Up/Down</A> buttons to
+		change the order of resources within a device or devices within the
+		system (this will affect the order in which devices and resources are
+		initialized at runtime).</LI>
+	</UL>
+	</LI>
+</OL>
+
+<P><A NAME="canvas"></A><B>Worksheet/Viewport</B></P>
+<OL>
+	<LI>This area contains a "worksheet" area which may be larger than
+	or equal to the "viewport" frame. If the worksheet is larger than the
+	viewport, scrollbars appear to assist navigation.</LI>
+	<LI>When you click the mouse over elements in this area (including
+	vertical line segments), the corresponding declaration will be
+	highlighted in the <A HREF="#text">Text Area</A>.</LI>
+	<LI>When a <I>function block diagram</I> is displayed in this
+	area, double clicking on the body of a function block instance will
+	open its type definition in a new editor window.</LI>
+	<LI>You can <B>drag</B> various elements in this area (including
+	function blocks, connecting line segments, and elements of ECCs) to
+	improve readability. You can move a selected element around one pixel
+	at a time with the <B>Alt+arrow</B> keys.<BR>
+	<IMG SRC="../note.gif" ALIGN="bottom" BORDER="0" HEIGHT="24" WIDTH="32"
+		ALT="">The "handle" for dragging a function block, resource or
+	device instance is the element name at the top of the element.</LI>
+	<LI>You can <A HREF="multiselect.htm" TARGET="_blank">select
+	and drag multiple elements</A> using <B>Shift+Click</B> and <B>Shift+Drag</B>
+	gestures.</LI>
+	<LI>You can add connections to a diagram using the <A
+		HREF="dndconn.htm" TARGET="_blank">Connect</A> gesture.</LI>
+	<LI><A NAME="popup"></A>The <B>popup menu</B> for this area
+	contains the following items:
+	<UL>
+		<LI><B>New</B> - Presents options for adding appropriate elements
+		to the diagram.</LI>
+		<LI><B>Redraw</B>
+		<UL>
+			<LI><B>Diagram </B>- Restores all nodes of the diagram to a
+			"best effort" layout in the worksheet and then redraws the
+			connections.</LI>
+			<LI><B>Connections</B> - makes a "best effort" to redraw the
+			connections on the canvas as orthogonal lines.</LI>
+			<LI><IMG SRC="../note.gif" ALIGN="bottom" BORDER="0" HEIGHT="24"
+				WIDTH="32" ALT="">These are fairly radical operations and
+			cause the loss of all previous positioning operations. Use sparingly
+			and with caution! You can recover the previous layout with the <A
+				HREF="#TextRestore"><IMG SRC="revert.gif" ALT="">Revert</A>
+			button, but this will be at the price of losing any other changes you
+			have made since the file was last saved.</LI>
+		</UL>
+		</LI>
+		<LI><B>Worksheet</B>
+		<UL>
+			<LI><B>Larger</B> - Increases the worksheet height and width by
+			a factor of 1.5 without redrawing the diagram.</LI>
+			<LI><B>Fit to Viewport</B> - Matches the worksheet size to the
+			viewport without redrawing the diagram. This may cause the diagram to
+			"overflow" the worksheet boundaries.</LI>
+		</UL>
+		</LI>
+		<LI><B>Font</B> - Allows you to adjust the font size.<BR>
+		<IMG SRC="../note.gif" ALT="">Since diagrams are scaled to the
+		font size, this also resizes the entire diagram.</LI>
+		<LI><B>Parameters</B> - When this item is checked, all parameters
+		are shown on the diagram; when it is not checked, <A
+			HREF="params.htm#Hiding">parameter hiding</A> is enabled.</LI>
+	</UL>
+	</LI>
+	<LI>Additional popup menus provide for editing the elements of <I>ECCs,
+	FB diagrams,</I> and <I>Ladder Diagrams,</I> and <I>interfaces</I> of FB,
+	device and resource <I>types</I>.</LI>
+</OL>
+
+<P><A NAME="text"></A><B>Text Area</B><BR>
+This area contains two scrollable text panes:</P>
+<UL>
+	<LI><B><A NAME="XML"></A>XML</B> - This pane shows the IEC 61499-2
+	XML source text of the library element being edited. All of the <A
+		HREF="#EditMenu"><IMG SRC="Edit16.gif" ALT="">Edit Menu</A>
+	operations are available in this pane.</LI>
+	<LI><B><A NAME="Source"></A>src</B> - This pane shows the IEC
+	61499-1 source text of the library element being edited. <IMG
+		SRC="../note.gif" ALT="">This pane is <B>read-only</B>; its text
+	is derived from the XML source. Portions of this text may, however, be
+	selected and copied to the system clipboard for pasting elsewhere.</LI>
+</UL>
+
+<P><A NAME="Resize"></A><B>Resize Bars</B><BR>
+Dragging on these bars changes the relative size of the <A
+	HREF="#canvas">Viewport</A>, <A HREF="#Navigation">Navigation</A> and <A
+	HREF="#text">Text</A> areas. <IMG SRC="../note.gif" ALIGN="bottom"
+	BORDER="0" HEIGHT="24" WIDTH="32" ALT="">If this operation
+results in the length or width of the Viewport being larger than the
+respective dimension of the <A HREF="#canvas">Worksheet</A>, it will be
+adjusted along either or both of these dimensions to fit the larger
+Viewport.</P>
+<P><A NAME="FileExit"></A><IMG SRC="close.png" ALT=""><B>Exit</B>
+- This button closes the FBEditor application. If there are unsaved
+changes in any of the currently open library elements, you will be asked
+whether you really want to exit and discard the changes.</P>
+
+<H2 ALIGN="center"><A NAME="Menus"></A>Menu Bar Items</H2>
+<UL>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="FileOpen"></A><IMG
+		SRC="Open16.gif" ALT=""><B>Open</B> - This button opens a file
+	dialog so you can launch a new editor window on a library element
+	encoded in the standard XML format defined in IEC 61499-2.<BR>
+	<IMG SRC="../note.gif" ALT="NOTE - ">If there is an error in the
+	source code, you can try to fix it and reload it using the <A
+		HREF="#TextParse"><IMG SRC="parse.gif" ALT=""><B>Parse</B></A>
+	button. If this works, be sure to <A HREF="#FileSave">save your
+	work</A>!</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="FileNew"></A><IMG
+		SRC="New16a.gif" ALT=""><B>New</B> - This drop-down menu enables
+	you to create a new <B>basic, composite, proxy</B> or <B>service
+	interface function block type</B>; an <B>adapter, resource, device</B>, or
+	<B>data type</B>; or a <B>system configuration</B>.</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="FileSave"></A><IMG
+		SRC="SaveAs16.gif" ALT=""><B>SaveAs</B> - This button opens a <A
+		HREF="saveas.htm">dialog box</A> to save the library element in the
+	current tab in XML, HTML, Java and/or PNG formats.</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="TextParse"></A><IMG
+		SRC="parse.gif" ALT=""><B>Parse</B> - This button parses the
+	contents of the <A HREF="#text">XML Text Area</A>.
+	<UL>
+		<LI>If the parse succeeds, all areas of the display will be
+		updated accordingly.</LI>
+		<LI>If the parse fails, an error message is given in the <A
+			HREF="FBEditorHelp.htm#description">Status Line</A> and the line in
+		which the error was detected is highlighted in the <A HREF="#text">XML
+		Text Area</A>.</LI>
+	</UL>
+	</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="TextRestore"></A><IMG
+		SRC="revert.gif" ALT=""><B>Revert</B> - This button first opens
+	a dialog to confirm that you want to discard any changes you may have
+	made. If you answer <B>Yes</B>, the currently displayed library element
+	is replaced with its most recently saved version.</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="UpDown"></A><IMG
+		SRC="Up16.gif" ALT=""><IMG SRC="Down16.gif" ALT=""><B>Move
+	Up/Down</B> - One or both of these buttons is enabled when it is possible
+	to move a selected element up or down in a list, e.g., a <I>state,
+	transition</I> or <I>action</I> in an <I>ECC</I>, a <I>device</I> within a
+	<I>system configuration</I> or a <I>resource</I> within a <I>device
+	type</I> or <I>instance</I>.</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><IMG SRC="tag16.gif"><A
+		NAME="ApplyTag"></A><B>Apply Tag</B> - When enabled, clicking on this
+	button applies a <I>tag</I> to a function block instance. See the <A
+		HREF="../despats/tags/index.htm" TARGET="_blank">Tagged Data
+	Design Pattern</A> for further information.</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><IMG SRC="Edit16.gif"><A
+		NAME="EditMenu"></A><B>Edit</B> - This drop-down menu provides the
+	usual <B>Cut, Copy, Paste</B> and <B>Delete</B> operations on the <A
+		HREF="#text">Text Area</A>. In addition, a <A NAME="TextFindReplace"></A>
+	<B>Find/Replace</B> menu item opens a dialog box for <B>Find,
+	Replace</B>, and <B>Replace All</B> operations on the <A HREF="#text">Text
+	Area</A>.<BR>
+	<IMG ALT="" SRC="../note.gif" HEIGHT="24" WIDTH="32">The <B>Find</B>
+	operation is case sensitive.</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="Terminate"></A><IMG
+		SRC="Stop16a.gif"><B>Terminate</B> - This drop-down menu
+	provides a list of previously launched runtime processes, if any.
+	Clicking on the process entry will shut it down.</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="RunButton"></A><IMG
+		SRC="runbutton.png" ALIGN="top" ALT=""><B>Run</B> - This button
+	is enabled only when a <I>system configuration</I> or <I>function
+	block type</I> is being edited. When enabled, clicking it creates a new
+	instance of the function block type and an appropriate panel with
+	controls for testing it, or a new system image populated with the
+	specified objects.
+	<UL>
+		<LI>A new instance of a <B>function block type</B> will only be
+		created if a corresponding compiled Java <TT>.class</TT> file exists;
+		otherwise, an <TT>UNSUPPORTED_TYPE</TT> error will be displayed in the
+		<A HREF="#description">Status Line</A>.</LI>
+		<LI>See the documentation on <A HREF="systest.htm"
+			TARGET="_blank">Testing a System Configuration</A> for the use of
+		this button in that situation.</LI>
+		<LI>A <A HREF="launcher.htm" TARGET="_top">batch file</A> is also
+		provided for launching a function block tester or system configuration
+		independently of the FBEditor application.</LI>
+	</UL>
+	</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="Preferences"></A><IMG
+		SRC="Properties16.gif"><B>Preferences</B> - This button opens
+	the <A HREF="preferences.htm" TARGET="_top">Preferences dialog</A> to
+	set parameters for file locations, runtime behaviors, and GUI look and
+	feel.</LI>
+	<LI STYLE="margin-bottom: 1.0em;"><A NAME="HelpMenu"></A><IMG
+		SRC="Help16a.gif"><B>Help</B> - This drop-down menu has the
+	following options:
+	<UL>
+		<LI><B>FBEditor Help</B> - Takes you to this help information.</LI>
+		<LI><B>How To...</B> - Takes you to the <A HREF="howto.htm"
+			TARGET="_parent">How To</A> help page.</LI>
+		<LI><B>Design Patterns</B> - Takes you to the <A
+			HREF="../despats/index.htm" TARGET="_blank">Design Patterns</A> help
+		page.</LI>
+		<LI><B>Compliance Profile</B> - Takes you to the IEC 61499<A
+			HREF="../ita/index.htm" TARGET="_blank">Compliance Profile</A> for
+		feasibility demonstrations, to which the FBDK complies.</LI>
+		<LI><B>FBDK Group</B> - Takes you to the <A
+			HREF="http://groups.google.com/group/fbdk/" TARGET="_blank">FBDK
+		Discussion Group</A> on the Web.</LI>
+		<LI><B>Download Center</B> - Takes you to the <A
+			HREF="http://www.holobloc.com/doc/fbdk/index.htm" TARGET="_blank">FBDK
+		Download Center</A> on the Web.</LI>
+		<LI><IMG SRC="../note.gif" ALIGN="bottom" ALT="">In order
+		for the above items to work properly, the path to your browser must be
+		properly configured, using the <A HREF="preferences.htm"
+			TARGET="_blank"><IMG SRC="Properties16.gif">Preferences
+		dialog</A>.</LI>
+		<LI><A NAME="HelpAbout"></A><B>About FBEditor</B> - Provides
+		version and copyright information about this application.</LI>
+	</UL>
+	</LI>
+</UL>
+<CENTER>
+<HR>
+<P><I>Last updated: 2008-10-03.</I><BR>
+&copy;2006-2008 <A HREF="http://www.holobloc.com" TARGET="_blank">Holobloc
+Inc</A>.<BR>
+All rights reserved.</P>
+</CENTER>
+</BODY>
+</HTML>

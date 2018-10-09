@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="RenderRot" Comment="Rendering Image With Rotation" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="UoA" Version="0.2" Author="Anirudha" Date="2006-01-05" Remarks="Added Layer attribute" />
+  <VersionInfo Organization="UoA" Version="0.1" Author="Anirudha" Date="2005-12-04" Remarks="Added Angle attribute" />
+  <CompilerInfo header="package fb.rt.vhmi;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="name" />
+        <With Var="PosX" />
+        <With Var="PosY" />
+        <With Var="Layer" />
+        <With Var="CenY" />
+        <With Var="CenX" />
+      </Event>
+      <Event Name="ChangeXY" Comment="Normal Execution Request" >
+        <With Var="PosX" />
+        <With Var="PosY" />
+      </Event>
+      <Event Name="ChangeAngle" >
+        <With Var="Angle" />
+      </Event>
+      <Event Name="ChangeValidity" >
+        <With Var="Display" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="name" Type="WSTRING" />
+      <VarDeclaration Name="PosX" Type="UINT" />
+      <VarDeclaration Name="PosY" Type="UINT" />
+      <VarDeclaration Name="Angle" Type="REAL" />
+      <VarDeclaration Name="Display" Type="BOOL" />
+      <VarDeclaration Name="Layer" Type="UINT" />
+      <VarDeclaration Name="CenX" Type="UINT" />
+      <VarDeclaration Name="CenY" Type="UINT" />
+    </InputVars>
+  </InterfaceList>
+  <BasicFB>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="555.55554" y="427.77777" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="922.22217" y="138.88889" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+      </ECState>
+      <ECState Name="ChangeXy" x="422.2222" y="2105.5554" >
+        <ECAction Algorithm="ChangeXY" Output="CNF" />
+      </ECState>
+      <ECState Name="ChangeAngle" x="1316.6666" y="1683.3333" >
+        <ECAction Algorithm="ChangeAngle" Output="CNF" />
+      </ECState>
+      <ECState Name="ChangeValidity" x="1461.1111" y="849.99994" >
+        <ECAction Algorithm="ChangeValidity" Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="922.22217" y="427.77777" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="555.55554" y="138.88889" />
+      <ECTransition Source="START" Destination="ChangeXy" Condition="ChangeXY" x="311.11108" y="683.3333" />
+      <ECTransition Source="START" Destination="ChangeAngle" Condition="ChangeAngle" x="888.88885" y="1400.0" />
+      <ECTransition Source="START" Destination="ChangeValidity" Condition="ChangeValidity" x="1050.0" y="849.99994" />
+      <ECTransition Source="ChangeXy" Destination="START" Condition="1" x="550.0" y="594.4444" />
+      <ECTransition Source="ChangeAngle" Destination="START" Condition="1" x="811.1111" y="849.99994" />
+      <ECTransition Source="ChangeValidity" Destination="START" Condition="1" x="861.1111" y="566.6666" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <Other Language="Java" Text="System.out.print(&#34;Name: &#34;);&#10;System.out.println(name.value);&#10;System.out.print(&#34;Position: &#34;);&#10;System.out.print(PosX.value);&#10;System.out.print(&#34;,&#34;);&#10;System.out.print(PosY.value);&#10;ID = ((ImageResource) this.resource).addImage(loadImage(name.value),PosX.value,PosY.value,Layer.value);&#10;((ImageDev) this.getDevice()).frame.repaint();&#10;String abd = &#34;I am &#34; + name.value + &#34; with ID &#34; + ID;&#10;System.out.println(abd);&#10;if (Angle.value != 0)&#10;  service_ChangeAngle(true);&#10;if (Display.value == false)&#10;  service_ChangeValidity(true);&#10;" />
+  </Algorithm>
+  <Algorithm Name="ChangeXY" >
+    <Other Language="Java" Text="((SampleFrame)((ImageDev)(this.getDevice())).frame).redrawXY(ID,PosX.value,PosY.value);&#10;" />
+  </Algorithm>
+  <Algorithm Name="ChangeAngle" >
+    <Other Language="Java" Text="((SampleFrame)((ImageDev)(this.getDevice())).frame).redrawAngleCenter(ID,Angle.value,(double)CenX.value,(double)CenY.value);&#10;" />
+  </Algorithm>
+  <Algorithm Name="ChangeValidity" >
+    <Other Language="Java" Text="((SampleFrame)((ImageDev)(this.getDevice())).frame).setValidity(ID,Display.value);&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

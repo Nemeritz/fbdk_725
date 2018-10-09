@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="WagoDistributingStation" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <CompilerInfo header="package fb.rt.wago;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="InputsChange" >
+        <With Var="PusherBack" />
+        <With Var="PusherFront" />
+        <With Var="ArmAtPickup" />
+        <With Var="ArmAtDropoff" />
+        <With Var="CylinderEmpty" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="OutputsChange" >
+        <With Var="PusherForward" />
+        <With Var="ArmPICKINGUP" />
+        <With Var="ArmDROPPINGOFF" />
+        <With Var="ArmSUCKING" />
+        <With Var="ArmRELEASE" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PusherBack" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PusherFront" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="ArmAtPickup" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="ArmAtDropoff" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="CylinderEmpty" Type="BOOL" Comment="Input event qualifier" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="PusherForward" Type="BOOL" InitialValue="false" />
+      <VarDeclaration Name="ArmSUCKING" Type="BOOL" InitialValue="false" />
+      <VarDeclaration Name="ArmRELEASE" Type="BOOL" InitialValue="false" />
+      <VarDeclaration Name="ArmPICKINGUP" Type="BOOL" InitialValue="false" />
+      <VarDeclaration Name="ArmDROPPINGOFF" Type="BOOL" InitialValue="false" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="DistStnArm" Type="DistStnArm" x="3718.75" y="1087.5" />
+    <FB Name="DistStnPusher" Type="DistStnPusher" x="1456.25" y="1087.5" />
+    <EventConnections>
+      <Connection Source="InputsChange" Destination="DistStnPusher.PosChange" dx1="1193.75" />
+      <Connection Source="InputsChange" Destination="DistStnArm.PosChange" dx1="3456.25" />
+      <Connection Source="DistStnArm.ArmCtrl" Destination="OutputsChange" dx1="5187.5" />
+      <Connection Source="DistStnPusher.PusherCtrl" Destination="OutputsChange" dx1="2706.25" />
+      <Connection Source="DistStnPusher.ItemStatus" Destination="DistStnArm.ItemStatus" dx1="368.75" />
+      <Connection Source="DistStnArm.ArmStatus" Destination="DistStnPusher.ArmStatusChange" dx1="643.75" dx2="575.0" dy="-637.5" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="PusherBack" Destination="DistStnPusher.PosBack" dx1="1225.0" />
+      <Connection Source="PusherFront" Destination="DistStnPusher.PosFront" dx1="1218.75" />
+      <Connection Source="CylinderEmpty" Destination="DistStnPusher.CylinderEmpty" dx1="1218.75" />
+      <Connection Source="ArmAtPickup" Destination="DistStnArm.PosReadyToSuck" dx1="3400.0" />
+      <Connection Source="ArmAtDropoff" Destination="DistStnArm.PosReadyToDrop" dx1="3400.0" />
+      <Connection Source="DistStnArm.ArmPICKINGUP" Destination="ArmPICKINGUP" dx1="5200.0" />
+      <Connection Source="DistStnArm.ArmDROPPINGOFF" Destination="ArmDROPPINGOFF" dx1="5250.0" />
+      <Connection Source="DistStnArm.ArmSUCKING" Destination="ArmSUCKING" dx1="5168.75" />
+      <Connection Source="DistStnArm.ArmRELEASE" Destination="ArmRELEASE" dx1="5162.5" />
+      <Connection Source="DistStnPusher.PusherForward" Destination="PusherForward" dx1="2700.0" />
+      <Connection Source="DistStnPusher.ItemPresent" Destination="DistStnArm.ItemNeedingPickup" dx1="243.75" />
+      <Connection Source="DistStnArm.ArmClear" Destination="DistStnPusher.ArmClear" dx1="618.75" dx2="243.75" dy="150.0" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

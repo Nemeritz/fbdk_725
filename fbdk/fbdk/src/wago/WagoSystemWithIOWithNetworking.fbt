@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="WagoSystemWithIOWithNetworking" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <CompilerInfo header="package fb.rt.wago;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+    </EventOutputs>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="DistStn" Type="WagoDistributingStation" x="3177.7776" y="2338.889" />
+    <FB Name="Inputs" Type="WagoInputBlock" x="1227.7777" y="1094.4445" >
+      <Parameter Name="ByteIndex" Value="0" />
+    </FB>
+    <FB Name="Outputs" Type="WagoOutputBlock" x="6705.555" y="2322.2222" >
+      <Parameter Name="ByteIndex" Value="0" />
+    </FB>
+    <FB Name="PubInputs" Type="PUBLISH_5" x="4400.0" y="1005.55554" >
+      <Parameter Name="QI" Value="1" />
+      <Parameter Name="ID" Value="&#34;224.0.0.1:6777&#34;" />
+    </FB>
+    <FB Name="PubOutputs" Type="PUBLISH_5" x="5611.111" y="1005.55554" >
+      <Parameter Name="QI" Value="1" />
+      <Parameter Name="ID" Value="&#34;224.0.0.1:6888&#34;" />
+    </FB>
+    <FB Name="InitSubscriber" Type="SUBSCRIBE_0" x="611.1111" y="177.77777" >
+      <Parameter Name="QI" Value="1" />
+      <Parameter Name="ID" Value="&#34;224.0.0.1:6666&#34;" />
+    </FB>
+    <EventConnections>
+      <Connection Source="INIT" Destination="InitSubscriber.INIT" dx1="505.55554" />
+      <Connection Source="InitSubscriber.IND" Destination="Inputs.INIT" dx1="122.22221" />
+      <Connection Source="InitSubscriber.IND" Destination="PubInputs.INIT" dx1="1044.4445" />
+      <Connection Source="InitSubscriber.IND" Destination="PubOutputs.INIT" dx1="4205.555" />
+      <Connection Source="InitSubscriber.IND" Destination="Outputs.INIT" dx1="5472.222" />
+      <Connection Source="Inputs.CNF" Destination="DistStn.InputsChange" dx1="972.22217" />
+      <Connection Source="DistStn.OutputsChange" Destination="Outputs.REQ" dx1="1111.1111" />
+      <Connection Source="Inputs.CNF" Destination="PubInputs.REQ" dx1="1044.4445" />
+      <Connection Source="DistStn.OutputsChange" Destination="PubOutputs.REQ" dx1="750.0" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="Inputs.DI2" Destination="DistStn.PusherFront" dx1="561.1111" />
+      <Connection Source="Inputs.DI1" Destination="DistStn.PusherBack" dx1="444.44443" />
+      <Connection Source="Inputs.DI4" Destination="DistStn.ArmAtPickup" dx1="833.3333" />
+      <Connection Source="Inputs.DI5" Destination="DistStn.ArmAtDropoff" dx1="744.4444" />
+      <Connection Source="Inputs.DI6" Destination="DistStn.CylinderEmpty" dx1="633.3333" />
+      <Connection Source="DistStn.PusherForward" Destination="Outputs.DO0" dx1="1261.1111" />
+      <Connection Source="DistStn.ArmPICKINGUP" Destination="Outputs.DO3" dx1="905.55554" />
+      <Connection Source="DistStn.ArmDROPPINGOFF" Destination="Outputs.DO4" dx1="283.3333" />
+      <Connection Source="DistStn.ArmSUCKING" Destination="Outputs.DO1" dx1="1116.6666" />
+      <Connection Source="DistStn.ArmRELEASE" Destination="Outputs.DO2" dx1="1038.8888" />
+      <Connection Source="Inputs.DI1" Destination="PubInputs.SD_1" dx1="1127.7777" />
+      <Connection Source="Inputs.DI2" Destination="PubInputs.SD_2" dx1="1061.1111" />
+      <Connection Source="Inputs.DI4" Destination="PubInputs.SD_3" dx1="994.4444" />
+      <Connection Source="Inputs.DI5" Destination="PubInputs.SD_4" dx1="911.1111" />
+      <Connection Source="Inputs.DI6" Destination="PubInputs.SD_5" dx1="811.1111" />
+      <Connection Source="DistStn.PusherForward" Destination="PubOutputs.SD_1" dx1="811.1111" />
+      <Connection Source="DistStn.ArmSUCKING" Destination="PubOutputs.SD_2" dx1="905.55554" />
+      <Connection Source="DistStn.ArmRELEASE" Destination="PubOutputs.SD_3" dx1="988.88885" />
+      <Connection Source="DistStn.ArmPICKINGUP" Destination="PubOutputs.SD_4" dx1="1088.8888" />
+      <Connection Source="DistStn.ArmDROPPINGOFF" Destination="PubOutputs.SD_5" dx1="1166.6666" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

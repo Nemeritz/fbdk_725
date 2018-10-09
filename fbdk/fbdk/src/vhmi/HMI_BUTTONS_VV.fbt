@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="HMI_BUTTONS_VV" Comment="Human machine interface for input" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.festo1;import fb.rt.swing.*;import fb.rt.hmi.*;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="LED1" />
+        <With Var="LED2" />
+        <With Var="LED3" />
+        <With Var="LED4" />
+      </Event>
+      <Event Name="REQ" >
+        <With Var="LED1" />
+        <With Var="LED2" />
+        <With Var="LED3" />
+        <With Var="LED4" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="RESET" Comment="Execution Confirmation" >
+      </Event>
+      <Event Name="START" Comment="Execution Confirmation" >
+      </Event>
+      <Event Name="STOP" Comment="Execution Confirmation" >
+      </Event>
+      <Event Name="ACK" Comment="Execution Confirmation" >
+      </Event>
+      <Event Name="SENSE" Comment="Execution Confirmation" >
+        <With Var="SINGLE" />
+        <With Var="NOT_EPT" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="LED1" Type="BOOL" />
+      <VarDeclaration Name="LED2" Type="BOOL" />
+      <VarDeclaration Name="LED3" Type="BOOL" />
+      <VarDeclaration Name="LED4" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="SINGLE" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="NOT_EPT" Type="BOOL" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="START_PB" Type="IN_OUT_DISPLAY_BUTTON" x="288.8889" y="372.2222" >
+      <Parameter Name="name" Value="&#34;START&#34;" />
+    </FB>
+    <FB Name="RESET_PB" Type="IN_OUT_DISPLAY_BUTTON" x="1227.7777" y="372.2222" >
+      <Parameter Name="name" Value="&#34;RESET&#34;" />
+    </FB>
+    <FB Name="STOP_PB" Type="IN_OUT_DISPLAY_BUTTON" x="3105.5554" y="372.2222" >
+      <Parameter Name="name" Value="&#34;STOP&#34;" />
+    </FB>
+    <FB Name="ACK_PB" Type="IN_OUT_DISPLAY_BUTTON" x="2122.2222" y="377.77777" >
+      <Parameter Name="name" Value="&#34;ACKN&#34;" />
+    </FB>
+    <FB Name="SEMIAUTO" Type="IN_BOOL" x="4027.7776" y="366.66666" >
+      <Parameter Name="QI" Value="1" />
+      <Parameter Name="LABEL" Value="&#34;MANUAL&#34;" />
+    </FB>
+    <EventConnections>
+      <Connection Source="INIT" Destination="START_PB.INIT" dx1="183.33333" />
+      <Connection Source="START_PB.INITO" Destination="RESET_PB.INIT" dx1="27.777777" dx2="29.4118" dy="-1.0" />
+      <Connection Source="RESET_PB.INITO" Destination="ACK_PB.INIT" dx1="44.444443" />
+      <Connection Source="ACK_PB.INITO" Destination="STOP_PB.INIT" dx1="27.777777" dx2="29.4118" dy="-1.0" />
+      <Connection Source="STOP_PB.INITO" Destination="SEMIAUTO.INIT" dx1="72.22222" />
+      <Connection Source="SEMIAUTO.INITO" Destination="INITO" dx1="4505.555" />
+      <Connection Source="SEMIAUTO.IND" Destination="SENSE" dx1="4522.222" />
+      <Connection Source="REQ" Destination="START_PB.REQ" dx1="177.77777" />
+      <Connection Source="REQ" Destination="RESET_PB.REQ" dx1="1116.6666" />
+      <Connection Source="REQ" Destination="ACK_PB.REQ" dx1="2011.1111" />
+      <Connection Source="REQ" Destination="STOP_PB.REQ" dx1="2994.4443" />
+      <Connection Source="START_PB.CNF" Destination="START" dx1="1216.6666" />
+      <Connection Source="RESET_PB.CNF" Destination="START" dx1="2155.5554" />
+      <Connection Source="ACK_PB.CNF" Destination="START" dx1="3050.0" />
+      <Connection Source="STOP_PB.CNF" Destination="START" dx1="4033.3333" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="SEMIAUTO.OUT" Destination="SINGLE" dx1="4533.333" />
+      <Connection Source="LED1" Destination="START_PB.on" dx1="166.66666" />
+      <Connection Source="LED2" Destination="RESET_PB.on" dx1="1105.5555" />
+      <Connection Source="LED3" Destination="ACK_PB.on" dx1="1999.9999" />
+      <Connection Source="LED4" Destination="STOP_PB.on" dx1="2983.3333" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE FBType SYSTEM "HCECC.dtd">
+<FBType Name="WAGOConvBeltModel" Comment="Model a conveyor">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-04" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed for better indexing." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago; #include &#60;stdio.h&#62; " />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="Init" Comment="Initialization Request">
+        <With Var="ConvID" />
+        <With Var="Vmax" />
+        <With Var="Accel" />
+        <With Var="Decel" />
+        <With Var="EncoderInc" />
+      </Event>
+      <Event Name="Go" />
+      <Event Name="Stop" />
+      <Event Name="Tick" />
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="InitO" Comment="Initialization Confirm" />
+      <Event Name="Cnf" Comment="Execution Confirmation">
+        <With Var="EncoderState" />
+        <With Var="EncCount" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="ConvID" Type="INT" Comment="Conveyor ID" />
+      <VarDeclaration Name="Accel" Type="INT" Comment="Acceleration of conveyor speed" />
+      <VarDeclaration Name="Decel" Type="INT" Comment="Decceleration of conveyor speed" />
+      <VarDeclaration Name="Vmax" Type="INT" Comment="Maximum velocity" />
+      <VarDeclaration Name="EncoderInc" Type="INT" Comment="Length of conveyor travelled for each encoder transition (mm)" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="EncoderState" InitialValue="0" Type="INT" />
+      <VarDeclaration Name="EncCount" InitialValue="0" Type="LINT" Comment="Used internally for plant stuff" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="V" Type="INT" Comment="velocity (mm per sec) of conveyor belt" />
+      <VarDeclaration Name="a" Type="INT" Comment="current acceleration" />
+      <VarDeclaration Name="count" Type="LINT" Comment="EncCount of conveyor (incremented every 50 mm)" />
+      <VarDeclaration Name="LastStateChangeCount" Type="LINT" Comment="EncCount of last EncoderState Change" />
+      <VarDeclaration Name="stop" Type="BOOL" Comment="Set if conveyor has come to a complete stop" />
+    </InternalVars>
+    <ECC>
+      <ECState x="2594.4443" Name="START" Comment="Initial State" y="700.0" />
+      <ECState x="2594.4443" Name="INIT" Comment="Initialization" y="144.44444">
+        <ECAction Output="InitO" Algorithm="CBeltModel_INIT" />
+      </ECState>
+      <ECState x="2594.4443" Name="GO" y="1377.7777">
+        <ECAction Algorithm="CBeltModel_GO" />
+      </ECState>
+      <ECState x="3450.0007" Name="STOP" y="1000.0005">
+        <ECAction Algorithm="CBeltModel_STOP" />
+      </ECState>
+      <ECState x="3283.3333" Name="TICK" y="355.55554">
+        <ECAction Output="Cnf" Algorithm="CBeltModel_TICK" />
+      </ECState>
+      <ECTransition x="2594.4443" Destination="INIT" Source="START" y="449.99997" Condition="Init" />
+      <ECTransition x="2361.111" Destination="START" Source="INIT" y="333.3333" Condition="1" />
+      <ECTransition x="2888.8887" Destination="START" Source="TICK" y="438.8889" Condition="1" />
+      <ECTransition x="3050.0" Destination="STOP" Source="START" y="983.3333" Condition="Stop" />
+      <ECTransition x="2611.111" Destination="GO" Source="START" y="1088.8888" Condition="Go" />
+      <ECTransition x="2327.7776" Destination="START" Source="GO" y="1083.3333" Condition="1" />
+      <ECTransition x="3099.9998" Destination="START" Source="STOP" y="822.22217" Condition="1" />
+      <ECTransition x="3194.4443" Destination="TICK" Source="START" y="694.4444" Condition="Tick" />
+      <ECTransition x="3516.6665" Destination="TICK" Source="TICK" y="638.88885" Condition="Tick" />
+    </ECC>
+    <Algorithm Name="CBeltModel_INIT" Comment="Initialization algorithm">
+      <Other Language="C" Text=" printf(&#34;CBeltModel_INIT: %d ConvID, %d Accel, %d Decel, %d Vmax, %d V, %lld count, %d stop\n&#34;, me-&#62;ConvID, me-&#62;Accel, me-&#62;Decel, me-&#62;Vmax, me-&#62;V, me-&#62;count, me-&#62;stop);&#10; me-&#62;V = 0 ;&#10; me-&#62;count = 0 ;&#10; me-&#62;stop = true ;" />
+    </Algorithm>
+    <Algorithm Name="CBeltModel_GO" Comment="To start conveyor and to change conveyor&#39;s acceleration">
+      <Other Language="C" Text=" me-&#62;a = me-&#62;Accel ;&#10; me-&#62;stop = false ; &#10; printf(&#34;CBeltModel_GO[%d]: Conveyor Started (%d acc, %d dec, %d a, %c stop)\n&#34;,me-&#62;ConvID, me-&#62;Accel, me-&#62;Decel,me-&#62;a,me-&#62;stop);" />
+    </Algorithm>
+    <Algorithm Name="CBeltModel_STOP" Comment="To stop the conveyor">
+      <Other Language="C" Text=" printf(&#34;CBeltModel_STOP[%d]: Conveyor Stopped.\n&#34;, me-&#62;ConvID);&#10; me-&#62;a = me-&#62;Decel;&#10;" />
+    </Algorithm>
+    <Algorithm Name="CBeltModel_TICK" Comment="Called every 500msec">
+      <Other Language="C" Text=" if (me-&#62;V &#60; me-&#62;Vmax &#38;&#38; me-&#62;a &#62;= 0)&#10; {&#10;  //printf(&#34;Increasing speed (%d / %d = %d) + %d!!!\n&#34;, *a, 2, (*a+2),*V);&#10;  me-&#62;V = me-&#62;V + (me-&#62;a / 2) ;&#10;  //printf(&#34;CBeltModel_TICK[%d]: New speed: %d\n&#34;,*ID,*V);&#10;  // to check value of V after the adjustment&#10;  if (me-&#62;V &#62; me-&#62;Vmax)&#10;   me-&#62;V = me-&#62;Vmax ;&#10;  else if( me-&#62;V &#60; 0 )&#10;   me-&#62;V = 0.0;&#10; }&#10; else if( me-&#62;a &#60; 0 )&#10; {&#10;  if (me-&#62;V &#62; 0)&#10;   me-&#62;V = me-&#62;V + (me-&#62;a / 2) ;&#10;  else {&#10;   me-&#62;stop = true ;&#10;    me-&#62;a = 0 ;&#10;   }&#10; }&#10; me-&#62;count = me-&#62;count + me-&#62;V ;&#10; //if( *ID == 0 )&#10; //printf(&#34;[CBM] (%lld / 50) &#62;  %lld\n&#34;, me-&#62;count,  me-&#62;LastStateChangeCount);&#10; if( me-&#62;V &#62;= 50 || (me-&#62;count / 50) &#62;  me-&#62;LastStateChangeCount ) &#10; {&#10;  if( me-&#62;EncoderState != 0 ) me-&#62;EncoderState = 0;&#10;  else me-&#62;EncoderState = 1;&#10;  me-&#62;LastStateChangeCount = (me-&#62;count / 50);&#10;  //printf(&#34;New Enccount = %lld\n&#34;,me-&#62;count);&#10; }&#10; me-&#62;EncCount = me-&#62;count ;  //updating EncCount&#10;" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

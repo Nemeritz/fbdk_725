@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<FBType Name="WagoSystemWithIO" Comment="Composite Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-05" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed from NEWCOMPFB." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" />
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" />
+    </EventOutputs>
+  </InterfaceList>
+  <FBNetwork>
+    <FB x="3043.75" Name="DistStn" Type="WagoDistributingStation" y="643.75" />
+    <FB x="1067.3612" Name="Inputs" Type="WagoInputBlock" y="468.75">
+      <Parameter Name="ByteIndex" Value="0" />
+    </FB>
+    <FB x="5847.224" Name="Outputs" Type="WagoOutputBlock" y="553.47217">
+      <Parameter Name="ByteIndex" Value="0" />
+    </FB>
+    <EventConnections>
+      <Connection Destination="Inputs.INIT" Source="INIT" dx1="1043.75" />
+      <Connection Destination="Outputs.INIT" Source="INIT" dx1="5662.5" />
+      <Connection Destination="DistStn.InputsChange" Source="Inputs.CNF" dx1="843.75" />
+      <Connection Destination="Outputs.REQ" Source="DistStn.OutputsChange" dx1="1112.5" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Destination="DistStn.PusherFront" Source="Inputs.DI1" dx1="862.5" />
+      <Connection Destination="DistStn.PusherBack" Source="Inputs.DI5" dx1="443.75" />
+      <Connection Destination="DistStn.ArmReadyToSuck" Source="Inputs.DI3" dx1="681.25" />
+      <Connection Destination="DistStn.ArmReadyToDrop" Source="Inputs.DI4" dx1="681.25" />
+      <Connection Destination="Outputs.DO0" Source="DistStn.PusherForward" dx1="443.75" />
+      <Connection Destination="Outputs.DO3" Source="DistStn.ArmPICKINGUP" dx1="712.5" />
+      <Connection Destination="Outputs.DO4" Source="DistStn.ArmDROPPINGOFF" dx1="537.5" />
+      <Connection Destination="Outputs.DO1" Source="DistStn.ArmSUCKING" dx1="662.5" />
+      <Connection Destination="Outputs.DO2" Source="DistStn.ArmRELEASE" dx1="862.5" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

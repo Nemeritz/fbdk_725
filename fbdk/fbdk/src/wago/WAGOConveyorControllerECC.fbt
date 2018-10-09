@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE FBType SYSTEM "HCECC.dtd">
+<FBType Name="WAGOConveyorControllerECC" Comment="Basic HCECC Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2007-06-26" Organization="University of Auckland" Author="GDS" Version="0.0" />
+  <CompilerInfo header="package fb.rt.wago;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="Init">
+        <With Var="ConvID" />
+        <With Var="Type" />
+        <With Var="Length" />
+        <With Var="RatedSpeed" />
+        <With Var="EncoderInc" />
+        <With Var="Incline" />
+      </Event>
+      <Event Name="Go" />
+      <Event Name="Stop" />
+      <Event Name="Error" />
+      <Event Name="ErrorCleared" />
+      <Event Name="Tick" />
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="InitO" Comment="Initialization Confirm" />
+      <Event Name="MotorCommand">
+        <With Var="MotorOn" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="ConvID" Type="INT" />
+      <VarDeclaration Name="Type" Type="INT" />
+      <VarDeclaration Name="Length" Type="INT" />
+      <VarDeclaration Name="RatedSpeed" Type="INT" />
+      <VarDeclaration Name="EncoderInc" Type="INT" />
+      <VarDeclaration Name="Incline" Type="INT" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotorOn" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="ResultCode" Type="INT" />
+      <VarDeclaration Name="BagsInModel" InitialValue="0" Type="INT" />
+    </InternalVars>
+    <ECC>
+      <ECState x="841.1761" Name="START" Comment="Initial State" y="347.05832" />
+      <ECState x="2158.8232" Name="ERROR" Comment="Initialization" y="494.11765">
+        <ECAction Algorithm="Conv_LogError" />
+      </ECState>
+      <ECState x="3005.882" Name="INITSTATE" Comment="" y="1305.8826">
+        <ECAction Algorithm="InitConveyor" />
+      </ECState>
+      <ECState x="3341.1755" Name="ProcessUpdateQueue_CheckBagExit_CheckBagHandover" Comment="Cross Product State" y="2494.1172">
+        <ECAction Algorithm="Conv_ProcessBagUpdate" />
+        <ECAction Algorithm="DetectExitBag" />
+        <ECAction Algorithm="HandoverBag" />
+      </ECState>
+      <ECTransition x="1664.7058" Destination="START" Source="ERROR" y="235.29411" Condition="ErrorCleared" />
+      <ECTransition x="2005.8823" Destination="ERROR" Source="ProcessUpdateQueue_CheckBagExit_CheckBagHandover" y="1594.1177" Condition="Error" />
+      <ECTransition x="1552.9412" Destination="ERROR" Source="START" y="641.17645" Condition="Error" />
+      <ECTransition x="3276.4705" Destination="INITSTATE" Source="ProcessUpdateQueue_CheckBagExit_CheckBagHandover" y="1735.2941" Condition="Init" />
+      <ECTransition x="1705.8823" Destination="INITSTATE" Source="START" y="1111.7646" Condition="Init" />
+      <ECTransition x="3376.4705" Destination="ProcessUpdateQueue_CheckBagExit_CheckBagHandover" Source="ProcessUpdateQueue_CheckBagExit_CheckBagHandover" y="3123.5293" Condition="1" />
+      <ECTransition x="2723.5293" Destination="ProcessUpdateQueue_CheckBagExit_CheckBagHandover" Source="INITSTATE" y="1676.4706" Condition="1" />
+    </ECC>
+    <Algorithm Name="Conv_HandleBagDetect">
+      <Other Language="C" Prototype="void Conv_HandleBagDetect(int ConvID)" Text="//TODO: Rename to Conv_ProcessUpdateBag.. no args.... Hmmm&#10;void Conv_HandleBagDetect(int ConvID)&#10;{&#10; // Loop through all PEs in ConvPtr.PE and Update accordingly&#10; // vars for search&#10; int ordHighLimit, ordLowLimit, TrackTolerance;&#10; // return vars from Conv_SearchModelForBag&#10; int searchResultCode, ModelPtr = MATCH_NONE, BagFoundDistance;&#10; &#10; // Bag data...&#10; int BagID;&#10;&#10; // Update Bag Data&#10; int updateResultCode;&#10;//Conv[ConvID].Slow.PE[6].Detect&#10;// StateLast&#10;// ObjectStartEncCount&#10;// BagDSEncCount&#10;// BagUSEncCount&#10;//AssObjDSEncCount, AssObjUSEncCount&#10;// TODO: ********* NULL&#10;BagUpdateEventRecordStruct UpdateRecord;&#10;// RETURNS from UpdateBag&#10;int LastUpdateBagID, LastObjectTrackStatus;&#10;&#10; int PEID;&#10; printf(&#34;Conv %d detected a bag edge\n&#34;, ConvID);&#10; for (PEID = 0; PEID &#60;6; PEID++) {&#10;   //if PE is configured...&#10;   if( Conv[ConvID].Config.UpdateDev[PEID].Type == UPDATEDEVTYPE_NONE) break; // they will be in order... so no more PEs after this &#39;non&#39;- PE&#10;&#10;    TrackTolerance = Conv[ConvID].Config.UpdateDev[PEID].TrackTolerance;&#10;    // Do it&#10;    if (Conv[ConvID].Slow.PE[PEID].LeadingEdgeEvent == true) {&#10;  printf(&#34;*\t\tLeadingEdgeEvent Detected on PE %d\n&#34;, PEID); &#10;  // Populate UpdateRecord&#10;  UpdateRecord.ConvID = ConvID;&#10;  UpdateRecord.UpdateDevID = PEID;&#10;  UpdateRecord.BagID = NO_DATA;&#10;  UpdateRecord.BagDSEncCount = Conv[ConvID].Slow.PE[PEID].PEBlockedEncCount;&#10;  UpdateRecord.BagUSEncCount = NO_DATA;&#10;  UpdateRecord.BagUSEncCountOnDSConv = NO_DATA;&#10;  &#10;  Conv_UpdateBag(UPDATETYPE_DS, UpdateRecord, TrackTolerance, POSITIONDATA_EXPECTED, &#38;updateResultCode, &#38;LastUpdateBagID, &#38;LastObjectTrackStatus);&#10;  &#10;     // check result code...&#10;     // not yet&#10;     Conv[ConvID].Slow.PE[PEID].LeadingEdgeEvent = false;&#10;  printf(&#34;Conv[ConvID].Slow.UpdateDev[PEID].LastUpdateBagID = %d\n&#34;, Conv[ConvID].Slow.UpdateDev[PEID].LastUpdateBagID);&#10;    }&#10;    else if (Conv[ConvID].Slow.PE[PEID].TrailingEdgeEvent == true)  {&#10;  printf(&#34;*\t\tTrailingEdgeEvent Detected on Conv[%d], PE %d\n&#34;, ConvID, PEID); &#10;  // Search model for bag (details)&#10;  /*int BagUSOrdLimit, BagDSOrdLimit;&#10;  BagDSOrdLimit = Conv[ConvID].Slow.PE[PEID].PEUnblockedEncCount - TrackTolerance;&#10;  if( BagDSOrdLimit &#60; 0 )&#10;  {&#10;   BagDSOrdLimit = 0;&#10;  }&#10;  BagUSOrdLimit = Conv[ConvID].Slow.PE[PEID].PEUnblockedEncCount + TrackTolerance;&#10;  Conv_SearchModelForBag(0, ConvID, SEARCHTYPE_US, BagUSOrdLimit, BagDSOrdLimit, &#38;searchResultCode, &#38;ModelPtr, &#38;BagFoundDistance);&#10;  if( ModelPtr == MATCH_NONE )&#10;  {&#10;   printf(&#34;Bag Not Found for BagDSOrdLimit %d and BagUSOrdLimit %d\n&#34;, BagDSOrdLimit, BagUSOrdLimit);&#10;   Conv[ConvID].Slow.PE[PEID].TrailingEdgeEvent = false;&#10;   continue;&#10;  }*/&#10;  // Populate UpdateRecord&#10;  UpdateRecord.ConvID = ConvID;&#10;  UpdateRecord.UpdateDevID = PEID;&#10;  printf(&#34;Conv[ConvID].Slow.UpdateDev[PEID].LastUpdateBagID = %d\n&#34;, Conv[ConvID].Slow.UpdateDev[PEID].LastUpdateBagID);&#10;  UpdateRecord.BagID = Conv[ConvID].Slow.UpdateDev[PEID].LastUpdateBagID; //ModelPtr;&#10;  UpdateRecord.BagDSEncCount = NO_DATA;&#10;  UpdateRecord.BagUSEncCount = Conv[ConvID].Slow.PE[PEID].PEUnblockedEncCount;&#10;  //TODO: Should NOT be null&#10;  //The encoder count on the DOWNSTREAM conveyor when the upstream end of a confirmed bag was last detected&#10;  UpdateRecord.BagUSEncCountOnDSConv = NO_DATA;&#10;  &#10;  Conv_UpdateBag(UPDATETYPE_US, UpdateRecord, TrackTolerance, POSITIONDATA_EXPECTED, &#38;updateResultCode, &#38;LastUpdateBagID, &#38;LastObjectTrackStatus);&#10;  // check result code...&#10;  &#10;  // not yet&#10;  Conv[ConvID].Slow.PE[PEID].TrailingEdgeEvent = false;&#10;  Conv[ConvID].Slow.UpdateDev[PEID].LastUpdateBagID = Conv[ConvID].Slow.Model.Bag[ModelPtr];&#10;    }&#10; } // end for&#10;&#10;}&#10;" />
+    </Algorithm>
+    <Algorithm Name="Conv_MotorGo">
+      <Other Language="C" Prototype="" Text="void Conv_MotorGo(ConveyorController_HCECC_ECC* me)&#10;{&#10; me-&#62;MotorOn = true;&#10;}&#10;" />
+    </Algorithm>
+    <Algorithm Name="Conv_MotorStop">
+      <Other Language="C" Prototype="" Text="void Conv_MotorStop(ConveyorController_HCECC_ECC* me)&#10;{&#10; me-&#62;MotorOn = false; &#10;}&#10;" />
+    </Algorithm>
+    <Algorithm Name="InitConveyor">
+      <Other Language="C" Text="void InitConveyor(ConveyorController_HCECC_ECC* me)&#10;{&#10; printf(&#34;Conv[%d] InitConv (Empty Function)\n&#34;, me-&#62;ConvID);&#10;}&#10;" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

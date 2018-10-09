@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<FBType Name="WAGOConveyorControllerParamatised" Comment="Composite Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-05" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed from NEWCOMPFB." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="Init" Comment="Initialization Request">
+        <With Var="ConvID" />
+        <With Var="Length" />
+        <With Var="MaxSpeed" />
+        <With Var="EntryPosition0" />
+        <With Var="EntryPosition1" />
+        <With Var="ExitDevCount" />
+        <With Var="ExitPosition0" />
+        <With Var="ExitPosition1" />
+        <With Var="UpdateDevCount" />
+        <With Var="PEPosition0" />
+        <With Var="PEPosition1" />
+        <With Var="PEPosition2" />
+        <With Var="EnterFromConvID" />
+        <With Var="MergeFromConvID1" />
+        <With Var="ExitToConvID0" />
+        <With Var="DivertToConvID1" />
+        <With Var="Accel" />
+        <With Var="Decel" />
+      </Event>
+      <Event Name="PEDetectChange" Comment="Instance of Time">
+        <With Var="PEDetects" />
+      </Event>
+      <Event Name="Clock">
+        <With Var="PEDetects" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="InitO" Comment="Initialization Confirm" />
+      <Event Name="MotorCommand">
+        <With Var="MotorControl" />
+      </Event>
+      <Event Name="DivertCommand">
+        <With Var="DiverterControl" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="ConvID" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="Length" Type="INT" />
+      <VarDeclaration Name="MaxSpeed" Type="INT" />
+      <VarDeclaration Name="Accel" Type="INT" />
+      <VarDeclaration Name="Decel" Type="INT" />
+      <VarDeclaration Name="EnterFromConvID" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="MergeFromConvID1" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="EntryPosition0" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="EntryPosition1" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="ExitDevCount" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="ExitToConvID0" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="DivertToConvID1" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="ExitPosition0" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="ExitPosition1" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="UpdateDevCount" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="PEPosition0" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="PEPosition1" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="PEPosition2" Type="INT" Comment="Input event qualifier" />
+      <VarDeclaration Name="PEDetects" Type="INT" Comment="Input event qualifier" ArraySize="6" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotorControl" Type="BOOL" Comment="true = go, false = stop" />
+      <VarDeclaration Name="DiverterControl" Type="BOOL" Comment="true = Divert, false = DontDivert" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork>
+    <FB x="5306.192" Name="BeltModel" Type="WAGOConvBeltModel" y="773.6842" />
+    <EventConnections>
+      <Connection Destination="BeltModel.Init" Source="Init" dx1="715.7895" />
+      <Connection Destination="BeltModel.Tick" Source="Clock" dx1="715.7895" />
+    </EventConnections>
+  </FBNetwork>
+</FBType>

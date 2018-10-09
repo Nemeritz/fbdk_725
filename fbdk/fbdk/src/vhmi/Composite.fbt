@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Composite" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.vhmi;import fb.rt.visual.*;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="QI" />
+        <With Var="ID" />
+        <With Var="Component_Name" />
+        <With Var="Init_X" />
+        <With Var="Init_Y" />
+        <With Var="Display" />
+        <With Var="layer" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="QI" />
+        <With Var="ID" />
+        <With Var="Component_Name" />
+        <With Var="Init_X" />
+        <With Var="Init_Y" />
+        <With Var="Display" />
+        <With Var="layer" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="QO" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="QO" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="QI" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="ID" Type="WSTRING" />
+      <VarDeclaration Name="Component_Name" Type="WSTRING" />
+      <VarDeclaration Name="Init_X" Type="UINT" />
+      <VarDeclaration Name="Init_Y" Type="UINT" />
+      <VarDeclaration Name="Display" Type="BOOL" />
+      <VarDeclaration Name="layer" Type="UINT" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="Render" Type="Render" x="2494.4443" y="600.0" />
+    <FB Name="coordinates" Type="SUBL_2" x="422.2222" y="988.88885" />
+    <FB Name="selector" Type="XY_Selector" x="1255.5555" y="822.22217" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="coordinates.INIT" dx1="316.66666" />
+      <Connection Source="INIT" Destination="selector.INIT" dx1="1150.0" />
+      <Connection Source="selector.INITO" Destination="Render.INIT" dx1="227.77777" />
+      <Connection Source="selector.CNF" Destination="Render.ChangeXY" dx1="255.55554" />
+      <Connection Source="coordinates.IND" Destination="selector.REQ" dx1="461.11108" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="coordinates.RD_2" Destination="selector.Change_Y" dx1="244.44443" />
+      <Connection Source="coordinates.RD_1" Destination="selector.Change_X" dx1="266.66666" />
+      <Connection Source="selector.Out_X" Destination="Render.PosX" dx1="416.66666" />
+      <Connection Source="selector.Out_Y" Destination="Render.PosY" dx1="377.77777" />
+      <Connection Source="ID" Destination="coordinates.ID" dx1="344.44443" />
+      <Connection Source="Init_X" Destination="selector.Init_X" dx1="1127.7777" />
+      <Connection Source="Init_Y" Destination="selector.Init_Y" dx1="1127.7777" />
+      <Connection Source="Component_Name" Destination="Render.name" dx1="2194.4443" />
+      <Connection Source="layer" Destination="Render.Layer" dx1="2383.3333" />
+      <Connection Source="Display" Destination="Render.Display" dx1="2350.0" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

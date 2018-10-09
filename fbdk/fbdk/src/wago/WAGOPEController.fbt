@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE FBType SYSTEM "HCECC.dtd">
+<FBType Name="WAGOPEController" Comment="Basic Function Block Type">
+  <Identification Standard="61499-2" />
+  <VersionInfo Date="2003-12-04" Organization="Rockwell Automation" Author="JHC" Remarks="Renamed for better indexing." Version="0.2" />
+  <CompilerInfo header="package fb.rt.wago; #include &#60;stdio.h&#62;" />
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="Init" Comment="Normal Execution Request">
+        <With Var="ConvPtr" />
+        <With Var="OwnerPLC" />
+        <With Var="Type" />
+        <With Var="AssociatedExitDev" />
+        <With Var="UpdateDevPtr" />
+        <With Var="Position" />
+        <With Var="TrackTolerance" />
+        <With Var="ForceLostUSDist" />
+        <With Var="ForceLostDSDist" />
+        <With Var="Detect" />
+      </Event>
+      <Event Name="DetectChange" Comment="Normal Execution Request">
+        <With Var="Detect" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="InitO" Comment="Normal Execution Request" />
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="ConvPtr" Type="INT" />
+      <VarDeclaration Name="OwnerPLC" Type="INT" />
+      <VarDeclaration Name="Type" Type="INT" />
+      <VarDeclaration Name="AssociatedExitDev" Type="INT" />
+      <VarDeclaration Name="UpdateDevPtr" Type="INT" />
+      <VarDeclaration Name="Position" Type="INT" />
+      <VarDeclaration Name="TrackTolerance" Type="INT" />
+      <VarDeclaration Name="ForceLostUSDist" Type="INT" />
+      <VarDeclaration Name="ForceLostDSDist" Type="INT" />
+      <VarDeclaration Name="Detect" Type="BOOL" />
+    </InputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="JamFault" InitialValue="false" Type="BOOL" />
+    </InternalVars>
+    <ECC>
+      <ECState x="119.44443" Name="START" y="73.33334">
+        <ECAction />
+      </ECState>
+      <ECState x="111.66664" Name="INIT" y="418.8886">
+        <ECAction Algorithm="PE_Init" />
+      </ECState>
+      <ECState x="486.27408" Name="NO_BAG_STATE" y="1301.6333" />
+      <ECState x="3086.276" Name="LEADING_OBJECT_STATE" y="301.63477">
+        <ECAction Algorithm="PE_LeadingObject" />
+      </ECState>
+      <ECState x="3919.6047" Name="LEADING_OBJECT_WAIT_STATE" y="634.9688">
+        <ECAction Algorithm="PE_LeadingObjectWait" />
+      </ECState>
+      <ECState x="5986.276" Name="BAG_STATE" y="1268.2997">
+        <ECAction Algorithm="PE_BagBegin" />
+      </ECState>
+      <ECState x="4814.057" Name="TRAILING_OBJECT_STATE" Comment="" y="2401.633">
+        <ECAction Algorithm="PE_TrailingEdgeDetect" />
+      </ECState>
+      <ECState x="1441.8304" Name="BAG_COMPLETED_STATE" Comment="" y="2262.7444">
+        <ECAction Algorithm="PE_BagComplete" />
+      </ECState>
+      <ECTransition x="1794.4443" Destination="LEADING_OBJECT_STATE" Source="NO_BAG_STATE" y="572.2222" Condition="Detect=true and Conv[me-&#62;ConvPtr].Slow.JamFault=false" />
+      <ECTransition x="477.77777" Destination="NO_BAG_STATE" Source="BAG_COMPLETED_STATE" y="1250.0" Condition="1" />
+      <ECTransition x="3127.7776" Destination="NO_BAG_STATE" Source="LEADING_OBJECT_STATE" y="838.88885" Condition="Detect=false and DB_PEBlockedDist &#60; BAG_LENGTH_MIN_RECOGNISED" />
+      <ECTransition x="5805.555" Destination="BAG_STATE" Source="LEADING_OBJECT_STATE" y="822.22217" Condition="Detect=true and DB_AssocObjectDistance &#62; ASSOC_OBJ_DISTANCE_MAX" />
+      <ECTransition x="3127.7776" Destination="NO_BAG_STATE" Source="LEADING_OBJECT_WAIT_STATE" y="838.88885" Condition="Detect=false and DB_PEBlockedDist &#60; BAG_LENGTH_MIN_RECOGNISED" />
+      <ECTransition x="5800.0" Destination="BAG_STATE" Source="LEADING_OBJECT_WAIT_STATE" y="811.1111" Condition="Detect=true and DB_AssocObjectDistance &#62; ASSOC_OBJ_DISTANCE_MAX" />
+      <ECTransition x="3366.6665" Destination="NO_BAG_STATE" Source="BAG_STATE" y="1638.8888" Condition="Conv[me-&#62;ConvPtr].Slow.JamFault=true" />
+      <ECTransition x="6005.555" Destination="TRAILING_OBJECT_STATE" Source="BAG_STATE" y="1672.2222" Condition="Detect=false and Conv[me-&#62;ConvPtr].Slow.JamFault=false" />
+      <ECTransition x="2544.4443" Destination="BAG_COMPLETED_STATE" Source="TRAILING_OBJECT_STATE" y="2783.3333" Condition="1" />
+      <ECTransition x="116.666664" Destination="INIT" Source="START" y="233.33333" Condition="Init" />
+      <ECTransition x="238.88889" Destination="NO_BAG_STATE" Source="INIT" y="666.6666" Condition="1" />
+      <ECTransition x="3399.9998" Destination="LEADING_OBJECT_WAIT_STATE" Source="LEADING_OBJECT_STATE" y="466.66666" Condition="1" />
+      <ECTransition x="4127.778" Destination="LEADING_OBJECT_WAIT_STATE" Source="LEADING_OBJECT_WAIT_STATE" y="961.1111" Condition="1" />
+    </ECC>
+    <Algorithm Name="PE_Init" Comment="Initialization algorithm">
+      <Other Language="C" Text=" int PosSensorID = POSSENSOR_FIRST;&#10; //int TempResultCode = RESULTCODE_UNKNOWNERROR;&#10; // 0 me-&#62;ConvPtr 24&#10; // 0 DevID 5&#10;&#10; // In Global Memory&#10; &#10; Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].OwnerPLC = me-&#62;OwnerPLC;&#10; Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].Type = me-&#62;Type;&#10; Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].AssociatedExitDev = me-&#62;AssociatedExitDev;&#10;&#10;// FIND a free PosSensorID&#10; for(;PosSensorID &#60; POSSENSOR_SIZE;PosSensorID++)&#10; {&#10; &#10;  if( !PosSensor[PosSensorID].Slow.Enable  )&#10;  {&#10;   PosSensor[PosSensorID].Slow.Enable = true; // &#39;Allocate&#39; it&#10;   break;&#10;  }&#10; }&#10; if( !PosSensor[PosSensorID].Slow.Enable  )&#10; {&#10;  // Error.. No PosSensor Found&#10;  printf(&#34;Error no valid PosSensorID(%d) found for Conv %d, Dev %d (max = %d)\n&#34;, PosSensorID, me-&#62;ConvPtr, me-&#62;UpdateDevPtr, POSSENSOR_SIZE);&#10;  //LogErrors(UNIT_CONVEYORTRACKED,UNIT_PROCESSUPDATEDEVICESFAST,0,me-&#62;ConvPtr,me-&#62;UpdateDevPtr,PosSensorID,POSSENSOR_FIRST,PUDF_Temp,false,0,TempResultCode);&#10;  return;&#10; }&#10; Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].PosSensorID = PosSensorID;&#10; Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].Pos = me-&#62;Position;&#10; Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].TrackTolerance = me-&#62;TrackTolerance;&#10; // TODO: unused... always 0&#10; Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].ForceLostUSDist = me-&#62;ForceLostUSDist;&#10; Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].ForceLostDSDist = me-&#62;ForceLostDSDist;" />
+    </Algorithm>
+    <Algorithm Name="PE_LeadingObject">
+      <Other Language="C" Text="  printf(&#34;PE %d on Conv %d PE_LeadingObject @ %lld\n&#34;,me-&#62;UpdateDevPtr, me-&#62;ConvPtr,Conv[me-&#62;ConvPtr].Fast.EncCount);&#10;  DB_PosSensorID = Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].PosSensorID;&#10;  //memcpy(&#38;PosSensorTempFast,&#38;PosSensor[DB_PosSensorID], sizeof(PosSensor[DB_PosSensorID])); //TODO: len = 1)&#10; &#10;  PosSensor[DB_PosSensorID].Fast.PEBlockedEncCount = Conv[me-&#62;ConvPtr].Fast.EncCount;&#10;  PosSensor[DB_PosSensorID].Fast.ObjectStartEncCount = PosSensor[DB_PosSensorID].Fast.PEBlockedEncCount;&#10;  PEController_PE_LeadingObjectWait(me);" />
+    </Algorithm>
+    <Algorithm Name="PE_LeadingObjectWait">
+      <Other Language="C" Text=" &#10; printf(&#34;PE %d on Conv %d PE_LeadingObjectWait @ %lld\n&#34;,me-&#62;UpdateDevPtr, me-&#62;ConvPtr,Conv[me-&#62;ConvPtr].Fast.EncCount);&#10;  DB_PosSensorID = Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].PosSensorID;&#10;  PosSensor[DB_PosSensorID].Fast.PEClear = !(me-&#62;Detect);&#10;  //memcpy(&#38;PosSensorTempFast,&#38;PosSensor[DB_PosSensorID], sizeof(PosSensor[DB_PosSensorID])); //TODO: len = 1)&#10; //printf(&#34;[PEC] D=%d ~D=%d !D=%d\n&#34;,me-&#62;Detect, ~(me-&#62;Detect), !(me-&#62;Detect));&#10; //if( (PosSensor[DB_PosSensorID].Fast.PEClear) )&#10;  // {&#10;    DB_AssocObjectDistance = Conv[me-&#62;ConvPtr].Fast.EncCount - PosSensor[DB_PosSensorID].Fast.ObjectStartEncCount;&#10;    if( DB_AssocObjectDistance &#60; ENC_COUNT_MIN )&#10;    {&#10;     DB_AssocObjectDistance = DB_AssocObjectDistance + ENC_COUNT_SPAN;&#10;    }&#10; //printf(&#34;[PEC] %d = %d - %d\n&#34;,DB_AssocObjectDistance, Conv[me-&#62;ConvPtr].Fast.EncCount, PosSensor[DB_PosSensorID].Fast.ObjectStartEncCount);&#10;   //}&#10;  //else if(  !PosSensor[DB_PosSensorID].Fast.PEClear  )&#10;   //{&#10;    DB_PEBlockedDist = Conv[me-&#62;ConvPtr].Fast.EncCount - PosSensor[DB_PosSensorID].Fast.PEBlockedEncCount;&#10;    if( DB_PEBlockedDist &#60; ENC_COUNT_MIN )&#10;    {&#10;     DB_PEBlockedDist = DB_PEBlockedDist + ENC_COUNT_SPAN;&#10;    }&#10;&#10;   //}" />
+    </Algorithm>
+    <Algorithm Name="PE_BagBegin" Comment="">
+      <Other Language="C" Text="  printf(&#34;PE %d on Conv %d PE_BagBegin @ EC %lld, BagDSEC = %lld\n&#34;,me-&#62;UpdateDevPtr, me-&#62;ConvPtr,Conv[me-&#62;ConvPtr].Fast.EncCount, PosSensor[DB_PosSensorID].Fast.PEBlockedEncCount);&#10;  DB_PosSensorID = Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].PosSensorID;&#10;  //memcpy(&#38;PosSensorTempFast,&#38;PosSensor[DB_PosSensorID], sizeof(PosSensor[DB_PosSensorID])); //TODO: len = 1)&#10;&#10;&#10;  //&#34;&#60;BAG STATE&#62; ACTIONS&#34;&#10;&#10; PosSensor[DB_PosSensorID].Fast.AssObjDSEncCount = PosSensor[DB_PosSensorID].Fast.ObjectStartEncCount;&#10; PosSensor[DB_PosSensorID].Fast.BagDSEncCount = PosSensor[DB_PosSensorID].Fast.PEBlockedEncCount;&#10;&#10; //&#34;INCREMENT THE QUEUE WRITE POINTER&#34;&#10;&#10; DB_WritePtr = BagPositionEventQueue.WritePtr;&#10; DB_WritePtr = DB_WritePtr + 1;&#10; if( DB_WritePtr &#62;= BagPositionEventQueue.QUEUE_SIZE )&#10; {&#10;  DB_WritePtr = BagPositionEventQueue.QUEUE_FIRST;&#10; }&#10;&#10; //&#34;INCREMENT THE UPDATE SEQUENCE NUMBER&#34;&#10;&#10; BagPositionEventQueue.MasterSequenceNumber = BagPositionEventQueue.MasterSequenceNumber + 1;&#10; if( BagPositionEventQueue.MasterSequenceNumber &#62;= QUEUESEQUENCENUMBER_SIZE )&#10; {&#10;  BagPositionEventQueue.MasterSequenceNumber = QUEUESEQUENCENUMBER_FIRST;&#10; }&#10;&#10; //&#34;UPDATE THE QUEUE DATA&#34;&#10;&#10; BagPositionEventQueue.Data[DB_WritePtr].TimeStamp = TimeSinceMidnight_ms;&#10; BagPositionEventQueue.Data[DB_WritePtr].EventType = BAGPOSITIONEVENTTYPE_DSUPDATE;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.ConvID = me-&#62;ConvPtr;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.UpdateDevID = me-&#62;UpdateDevPtr;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.BagID = BAGID_NONE;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.BagDSEncCount = PosSensor[DB_PosSensorID].Fast.BagDSEncCount;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.BagUSEncCount = NO_DATA;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.BagUSEncCountOnDSConv = NO_DATA;&#10; BagPositionEventQueue.Data[DB_WritePtr].SequenceNumber = BagPositionEventQueue.MasterSequenceNumber;&#10; BagPositionEventQueue.WritePtr = DB_WritePtr;&#10; PEController_PE_PrintBagPositionEventQueue(me);" />
+    </Algorithm>
+    <Algorithm Name="PE_TrailingEdgeDetect" Comment="">
+      <Other Language="C" Text=" printf(&#34;PE %d on Conv %d Trailing edge PEUnblockedEncCount = %lld\n&#34;,me-&#62;UpdateDevPtr, me-&#62;ConvPtr,Conv[me-&#62;ConvPtr].Fast.EncCount);&#10; DB_PosSensorID = Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].PosSensorID;&#10; PUDF_DSConvPtr = Conv[me-&#62;ConvPtr].Config.ExitDev[EXITDEVICE_MOST_DOWNSTREAM].EntryConvID;&#10; //memcpy(&#38;PosSensorTempFast,&#38;PosSensor[DB_PosSensorID], sizeof(PosSensor[DB_PosSensorID])); //TODO: len = 1)&#10; PosSensor[DB_PosSensorID].Fast.PEUnblockedEncCount = Conv[me-&#62;ConvPtr].Fast.EncCount;&#10; PosSensor[DB_PosSensorID].Fast.BagUSEncCount = Conv[me-&#62;ConvPtr].Fast.EncCount;&#10; PosSensor[DB_PosSensorID].Fast.BagUSEncCountOnDSConv = Conv[PUDF_DSConvPtr].Fast.EncCount;" />
+    </Algorithm>
+    <Algorithm Name="PE_BagComplete">
+      <Other Language="C" Text=" printf(&#34;PE %d on Conv %d PEController_PE_BagComplete @ %lld\n&#34;,me-&#62;UpdateDevPtr, me-&#62;ConvPtr,PosSensor[DB_PosSensorID].Fast.PEUnblockedEncCount);&#10;  DB_PosSensorID = Conv[me-&#62;ConvPtr].Config.UpdateDev[me-&#62;UpdateDevPtr].PosSensorID;&#10;  //memcpy(&#38;PosSensorTempFast,&#38;PosSensor[DB_PosSensorID], sizeof(PosSensor[DB_PosSensorID])); //TODO: len = 1)&#10; /*&#10; &#34;ON ENTRY FROM &#60;TRAILING OBJECT&#62; STATE WITHOUT FAULT$N&#34;&#10; &#34;Store the associated object upstream encoder count&#34;&#10; */&#10;&#10; PosSensor[DB_PosSensorID].Fast.AssObjUSEncCount = PosSensor[DB_PosSensorID].Fast.PEUnblockedEncCount;&#10;&#10; //&#34;INCREMENT THE QUEUE WRITE POINTER&#34;&#10;&#10; DB_WritePtr = BagPositionEventQueue.WritePtr;&#10; DB_WritePtr = DB_WritePtr + 1;&#10; if( DB_WritePtr &#62;= BagPositionEventQueue.QUEUE_SIZE )&#10; {&#10;  DB_WritePtr = BagPositionEventQueue.QUEUE_FIRST;&#10; }&#10;&#10; //&#34;INCREMENT THE UPDATE SEQUENCE NUMBER&#34;&#10;&#10; BagPositionEventQueue.MasterSequenceNumber = BagPositionEventQueue.MasterSequenceNumber + 1;&#10; if( BagPositionEventQueue.MasterSequenceNumber &#62;= QUEUESEQUENCENUMBER_SIZE )&#10; {&#10;  BagPositionEventQueue.MasterSequenceNumber = QUEUESEQUENCENUMBER_FIRST;&#10; }&#10;&#10; //&#34;UPDATE THE QUEUE DATA&#34;&#10;&#10; BagPositionEventQueue.Data[DB_WritePtr].TimeStamp = TimeSinceMidnight_ms;&#10; BagPositionEventQueue.Data[DB_WritePtr].EventType = BAGPOSITIONEVENTTYPE_USUPDATE;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.ConvID = me-&#62;ConvPtr;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.UpdateDevID = me-&#62;UpdateDevPtr;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.BagID = Conv[me-&#62;ConvPtr].Slow.UpdateDev[me-&#62;UpdateDevPtr].LastUpdateBagID;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.BagDSEncCount = NO_DATA;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.BagUSEncCount = PosSensor[DB_PosSensorID].Fast.BagUSEncCount;&#10; BagPositionEventQueue.Data[DB_WritePtr].Update.BagUSEncCountOnDSConv = PosSensor[DB_PosSensorID].Fast.BagUSEncCountOnDSConv;&#10; BagPositionEventQueue.Data[DB_WritePtr].SequenceNumber = BagPositionEventQueue.MasterSequenceNumber;&#10; BagPositionEventQueue.WritePtr = DB_WritePtr;&#10; PEController_PE_PrintBagPositionEventQueue(me);" />
+    </Algorithm>
+    <Algorithm Name="PE_PrintBagPositionEventQueue">
+      <Other Language="C" Text=" printf(&#34;PEController_PE_PrintBagPositionEventQueue: %d vs %d\n&#34;, BagPositionEventQueue.ReadPtr, BagPositionEventQueue.WritePtr);&#10; int queueIndex = BagPositionEventQueue.ReadPtr;&#10; int endIndex = BagPositionEventQueue.WritePtr;&#10; //while( queueIndex &#60; endIndex )&#10; //{&#10;  printf(&#34;Time: %d, Type %d, ConvID %d, DevID %d, BagID %d, DSEC %d, USEC %d, USEConDSConv %d, SeqNum %d\n&#34;,&#10;   BagPositionEventQueue.Data[queueIndex].TimeStamp,&#10;   BagPositionEventQueue.Data[queueIndex].EventType,&#10;   BagPositionEventQueue.Data[queueIndex].Update.ConvID,&#10;   BagPositionEventQueue.Data[queueIndex].Update.UpdateDevID,&#10;   BagPositionEventQueue.Data[queueIndex].Update.BagID,&#10;   BagPositionEventQueue.Data[queueIndex].Update.BagDSEncCount,&#10;   BagPositionEventQueue.Data[queueIndex].Update.BagUSEncCount,&#10;   BagPositionEventQueue.Data[queueIndex].Update.BagUSEncCountOnDSConv,&#10;   BagPositionEventQueue.Data[queueIndex].SequenceNumber&#10;  );&#10;  queueIndex++;&#10; //}" />
+    </Algorithm>
+  </BasicFB>
+</FBType>

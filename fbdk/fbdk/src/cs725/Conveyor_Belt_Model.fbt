@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Conveyor_Belt_Model" Comment="Basic Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="nxtControl GmbH" Version="0.0" Author="Gareth" Date="2010-10-27" Remarks="Template" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="Accel" />
+        <With Var="Decel" />
+        <With Var="Vmax" />
+        <With Var="EncoderInc" />
+      </Event>
+      <Event Name="TICK" Comment="Normal Execution Request" >
+        <With Var="msSinceMidnight" />
+        <With Var="MotorForward" />
+        <With Var="MotorReverse" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="EncoderState" />
+        <With Var="EncCount" />
+        <With Var="MotorFeedback" />
+        <With Var="MotorOverload" />
+        <With Var="currentA" />
+        <With Var="currentV" />
+        <With Var="tickLengthO" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="Accel" Type="REAL" />
+      <VarDeclaration Name="Decel" Type="REAL" />
+      <VarDeclaration Name="Vmax" Type="REAL" />
+      <VarDeclaration Name="EncoderInc" Type="DINT" />
+      <VarDeclaration Name="msSinceMidnight" Type="DINT" Comment="Time in ms ULINT" />
+      <VarDeclaration Name="MotorForward" Type="BOOL" Comment="ConveyorForward" />
+      <VarDeclaration Name="MotorReverse" Type="BOOL" Comment="ConveyorReverse" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="EncoderState" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="EncCount" Type="DINT" />
+      <VarDeclaration Name="MotorFeedback" Type="BOOL" />
+      <VarDeclaration Name="MotorOverload" Type="BOOL" />
+      <VarDeclaration Name="currentA" Type="REAL" />
+      <VarDeclaration Name="currentV" Type="REAL" />
+      <VarDeclaration Name="tickLengthO" Type="DINT" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="stopped" Type="BOOL" />
+      <VarDeclaration Name="LastStateChangeCount" Type="DINT" />
+      <VarDeclaration Name="count" Type="DINT" />
+      <VarDeclaration Name="msLastTick" Type="DINT" Comment="LINT" />
+      <VarDeclaration Name="TickLength" Type="DINT" Comment="Time elapsed in ms LINT" />
+      <VarDeclaration Name="V" Type="REAL" Comment="Current velocity" />
+      <VarDeclaration Name="a" Type="REAL" Comment="Current Acceleration / Decel" />
+    </InternalVars>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="555.55554" y="427.77777" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="922.22217" y="138.88889" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+      </ECState>
+      <ECState Name="REQ" Comment="Normal execution" x="283.3333" y="838.88885" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="733.3333" y="205.55554" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="800.0" y="350.0" />
+      <ECTransition Source="START" Destination="REQ" Condition="TICK" x="494.44443" y="672.22217" />
+      <ECTransition Source="REQ" Destination="START" Condition="1" x="405.55554" y="561.1111" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <ST Text="V := 0 ;&#10;count := 0 ;&#10;stopped := TRUE ;&#10;" />
+  </Algorithm>
+  <Algorithm Name="REQ" Comment="NB Acceleration removed Tick is called every 'instance of time' Times &#60; 1x EncoderInc are unimportant Therefore a TICK == 1x EncoderInc ???   PASS // v &#38;&#38; VMax are in mm PASS // EncoderInc is in (mm/10) printf(&#34;CBeltModel_TICK[%d] and \t\t\t\t\t%02x\n&#34;, me->ConvID, me->MotorStatus);" >
+    <ST Text="MotorFeedback := MotorForward;&#10;//System.out.println(&#34;Motorforward = &#34; + MotorForward);&#10;&#10;// Accel and Decel are m/s/s, adjust for TickLength in ms *&#10;IF msSinceMidnight >= msLastTick THEN&#10;  TickLength := msSinceMidnight - msLastTick;&#10;ELSE&#10;  TickLength := 10000 + msSinceMidnight - msLastTick;&#10;END_IF;&#10;msLastTick := msSinceMidnight;&#10;&#10;tickLengthO := TickLength;&#10;&#10;IF MotorForward THEN&#10;  stopped := FALSE;&#10;  a := Accel * TickLength / 1000; &#10;V:=Vmax;&#10;// TODO: IF MotorReverse THEN &#10;ELSE&#10;  stopped := TRUE;&#10;  a := -(Decel * TickLength / 1000);&#10;  V:= 0;&#10;END_IF;&#10;&#10;currentA := a;&#10;// a ~= Delta V &#10;&#10;IF stopped THEN // Nothing to change &#10;  RETURN;&#10;END_IF;&#10; &#10;&#10; count := count + (V * TickLength);&#10;&#10;IF ( V >= EncoderInc ) OR ( (count / EncoderInc) >  LastStateChangeCount ) THEN&#10;  EncoderState := NOT EncoderState;&#10;  LastStateChangeCount := (count / EncoderInc);&#10; END_IF;&#10;&#10;EncCount := count;&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="PUBLLP8" Comment="A proxy to 8-Variable local Publisher with interface of global publisher and logic outputs" >
+  <Identification Standard="61499-1" Classification="Communications" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-03-31" />
+  <CompilerInfo header="package fb.rt.vnet;import fb.rt.net.*;" >
+    <Compiler Language="Java" Vendor="IBM" Product="VisualAge" Version="3.0" />
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Service Initialization" >
+        <With Var="QI" />
+        <With Var="ID" />
+      </Event>
+      <Event Name="REQ" Comment="Service Request" >
+        <With Var="QI" />
+        <With Var="SD_1" />
+        <With Var="SD_2" />
+        <With Var="SD_3" />
+        <With Var="SD_4" />
+        <With Var="SD_5" />
+        <With Var="SD_6" />
+        <With Var="SD_7" />
+        <With Var="SD_8" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="QO" />
+        <With Var="STATUS" />
+      </Event>
+      <Event Name="CNF" Comment="Service Confirmation" >
+        <With Var="QO" />
+        <With Var="STATUS" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="QI" Type="BOOL" Comment="Event Input Qualifier" />
+      <VarDeclaration Name="ID" Type="WSTRING" Comment="Connection Identifier" />
+      <VarDeclaration Name="SD_1" Type="BOOL" Comment="Data to Send" />
+      <VarDeclaration Name="SD_2" Type="BOOL" Comment="Data to Send" />
+      <VarDeclaration Name="SD_3" Type="BOOL" Comment="Data to Send" />
+      <VarDeclaration Name="SD_4" Type="BOOL" Comment="Data to Send" />
+      <VarDeclaration Name="SD_5" Type="BOOL" Comment="Data to Send" />
+      <VarDeclaration Name="SD_6" Type="BOOL" Comment="Data to Send" />
+      <VarDeclaration Name="SD_7" Type="BOOL" Comment="Data to Send" />
+      <VarDeclaration Name="SD_8" Type="BOOL" Comment="Data to Send" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" Comment="Event Output Qualifier" />
+      <VarDeclaration Name="STATUS" Type="WSTRING" Comment="Service Status" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="PUBL" Type="PUBL_8" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="PUBL.INIT" />
+      <Connection Source="REQ" Destination="PUBL.REQ" />
+      <Connection Source="PUBL.INITO" Destination="INITO" />
+      <Connection Source="PUBL.CNF" Destination="CNF" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="ID" Destination="PUBL.ID" />
+      <Connection Source="SD_1" Destination="PUBL.SD_1" />
+      <Connection Source="SD_2" Destination="PUBL.SD_2" />
+      <Connection Source="SD_3" Destination="PUBL.SD_3" />
+      <Connection Source="SD_4" Destination="PUBL.SD_4" />
+      <Connection Source="SD_5" Destination="PUBL.SD_5" />
+      <Connection Source="SD_6" Destination="PUBL.SD_6" />
+      <Connection Source="SD_7" Destination="PUBL.SD_7" />
+      <Connection Source="SD_8" Destination="PUBL.SD_8" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>
