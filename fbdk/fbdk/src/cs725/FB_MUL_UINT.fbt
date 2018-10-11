@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="FB_MUL_UINT" Comment="UINT Multiplication" >
+  <Identification Standard="61499-1-D.1" Classification="Math" />
+  <VersionInfo Organization="Holobloc Inc" Version="0.0" Author="JHC" Date="2008-01-07" />
+  <CompilerInfo header="package fb.rt.math;" classdef="class FB_MUL_INT extends FBFunction2" >
+    <Compiler Language="Java" Vendor="IBM" Product="VisualAge" Version="3.0" />
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" >
+        <With Var="IN1" />
+        <With Var="IN2" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CNF" >
+        <With Var="OUT" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="IN1" Type="UINT" Comment="Multiplicand" />
+      <VarDeclaration Name="IN2" Type="UINT" Comment="Multiplier" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="OUT" Type="UINT" Comment="Product" />
+    </OutputVars>
+  </InterfaceList>
+</FBType>

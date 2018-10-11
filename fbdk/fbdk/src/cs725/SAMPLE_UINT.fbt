@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="SAMPLE_UINT" Comment="Sample a single UINT" >
+  <Identification Standard="61499-1" Classification="Math" Function="Sampling" Type="UINT" />
+  <VersionInfo Organization="Holobloc Inc" Version="0.1" Author="JHC" Date="2008-06-25" Remarks="Updated to new implementation." />
+  <VersionInfo Organization="Holobloc Inc" Version="0.0" Author="JHC" Date="2006-05-28" />
+  <CompilerInfo header="package fb.rt.math;" classdef="public class SAMPLE_UINT extends ChangeSensor" >
+    <Compiler Language="Java" Vendor="Sun" Product="JDK" Version="1.5.0" />
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" Comment="Request to Sample" >
+        <With Var="IN" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="IND" Comment="Initial Sample or OUT changed" >
+        <With Var="OUT" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="IN" Type="UINT" Comment="Data to Sample" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="OUT" Type="UINT" Comment="Sampled Data" />
+    </OutputVars>
+  </InterfaceList>
+</FBType>

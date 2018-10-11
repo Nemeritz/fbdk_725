@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="FB_INT_TO_BCD_WORD" Comment="Convert INT to 4 BCD digits" >
+  <Identification Standard="61499-1" Classification="Simple FB" Function="BCD conversion" Type="INT to WORD" />
+  <VersionInfo Organization="Holobloc Inc" Version="0.1" Author="JHC" Date="2008-06-09" Remarks="Extended from FBFunction1; deleted QI, QO, STATUS." />
+  <VersionInfo Organization="Holobloc Inc" Version="0.0" Author="JHC" Date="2007-08-27" />
+  <CompilerInfo header="package fb.rt.math;" classdef="public class FB_INT_TO_BCD_WORD extends FBFunction1" >
+    <Compiler Language="Java" Vendor="Sun" Product="JDK" Version="1.6.0" />
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="IN" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="OUT" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="IN" Type="INT" Comment="0&#60;=IN&#60;=9999" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="OUT" Type="WORD" Comment="BCD value of IN" />
+    </OutputVars>
+  </InterfaceList>
+</FBType>

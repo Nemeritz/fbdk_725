@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="WTAV_UINT" Comment="Weighted Average" >
+  <Identification Standard="61499-1" Classification="Math" Function="Weighted average" />
+  <VersionInfo Organization="Holobloc Inc" Version="0.5" Author="JHC" Date="2008-06-27" Remarks="Redefined IN1, IN2 to parallel WTAV_PCT; subclassed from FBFunction2." />
+  <VersionInfo Organization="Holobloc Inc" Version="0.4" Author="JHC" Date="2005-06-01" Remarks="Re-compiled with new emitter." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.3" Author="JHC" Date="2004-09-25" Remarks="Deleted INIT, INITO; moved to fb.rt.math." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-03-17" Remarks="Moved from fb.rt.omac to fb.rt.mach." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-02-28" Remarks="Changed &#34;=&#34; to &#34;:=&#34;, REAL_TO_INT to Java cast in ALGORITHM REQ." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2001-04-14" Remarks="First XML version" />
+  <CompilerInfo header="package fb.rt.math;" classdef="public class WTAV_UINT extends FBFunction2" >
+    <Compiler Language="Java" Vendor="Sun" Product="JDK" Version="1.6.0" />
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="REQ" Comment="Normal Calculation" >
+        <With Var="IN1" />
+        <With Var="IN2" />
+        <With Var="ETA" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="OUT" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="IN1" Type="UINT" Comment="Value when ETA=0.0" />
+      <VarDeclaration Name="IN2" Type="UINT" Comment="Value when ETA=1.0" />
+      <VarDeclaration Name="ETA" Type="REAL" Comment="Weighting factor, internally limited to (0.0..1.0)" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="OUT" Type="UINT" Comment="ETA*X1+(1-ETA)*X2" />
+    </OutputVars>
+  </InterfaceList>
+</FBType>

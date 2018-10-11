@@ -1,0 +1,121 @@
+/* Copyright (c)2018 Rockwell Automation. All rights reserved. */
+package fb.rt.template;
+import fb.datatype.*;
+import fb.rt.*;
+import fb.rt.events.*;
+/** FUNCTION_BLOCK RingTokenNetworkTwo
+  * @author JHC
+  * @version 20181012/JHC
+  */
+public class RingTokenNetworkTwo extends FBInstance
+{
+/** Input event qualifier */
+  public BOOL Request1 = new BOOL();
+/** VAR TokenIn */
+  public BOOL TokenIn = new BOOL();
+/** Output event qualifier */
+  public BOOL Grant1 = new BOOL();
+/** VAR TokenOut */
+  public BOOL TokenOut = new BOOL();
+/** Initialization Request */
+ public EventOutput INIT = new EventOutput();
+/** Normal Execution Request */
+ public EventOutput REQ = new EventOutput();
+/** Initialization Confirm */
+ public EventOutput INITO = new EventOutput();
+/** Execution Confirmation */
+ public EventOutput CNF = new EventOutput();
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+*/
+  public EventServer eiNamed(String s){
+    if("INIT".equals(s)) return INIT;
+    if("REQ".equals(s)) return REQ;
+    return super.eiNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+*/
+  public EventOutput eoNamed(String s){
+    if("INITO".equals(s)) return INITO;
+    if("CNF".equals(s)) return CNF;
+    return super.eoNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc}
+*/
+  public ANY ivNamed(String s) throws FBRManagementException{
+    if("Request1".equals(s)) return Request1;
+    if("TokenIn".equals(s)) return TokenIn;
+    return super.ivNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc}
+*/
+  public ANY ovNamed(String s) throws FBRManagementException{
+    if("Grant1".equals(s)) return Grant1;
+    if("TokenOut".equals(s)) return TokenOut;
+    return super.ovNamed(s);}
+/** {@inheritDoc}
+* @param ivName {@inheritDoc}
+* @param newIV {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc} */
+  public void connectIV(String ivName, ANY newIV)
+    throws FBRManagementException{
+    if("Request1".equals(ivName)) connect_Request1((BOOL)newIV);
+    else if("TokenIn".equals(ivName)) connect_TokenIn((BOOL)newIV);
+    else super.connectIV(ivName, newIV);
+    }
+/** Connect the given variable to the input variable Request1
+  * @param newIV The variable to connect
+ */
+  public void connect_Request1(BOOL newIV){
+    Request1 = newIV;
+    }
+/** Connect the given variable to the input variable TokenIn
+  * @param newIV The variable to connect
+ */
+  public void connect_TokenIn(BOOL newIV){
+    TokenIn = newIV;
+    }
+/** FB RTM1 */
+  protected RingTokenMemberHead RTM1 = new RingTokenMemberHead() ;
+/** FB c2 */
+  protected ConveyorCTL c2 = new ConveyorCTL() ;
+/** FB XOR */
+  protected FB_NOT XOR = new FB_NOT() ;
+/** The default constructor. */
+public RingTokenNetworkTwo(){
+    super();
+    INIT.connectTo(RTM1.INIT);
+    REQ.connectTo(RTM1.REQ);
+    XOR.connectIVNoException("IN",RTM1.ovNamedNoException("Grant"));
+    c2.connectIVNoException("Block",XOR.ovNamedNoException("OUT"));
+  }
+/** {@inheritDoc}
+ * @param fbName {@inheritDoc}
+ * @param r {@inheritDoc}
+ * @throws FBRManagementException {@inheritDoc} */
+  public void initialize(String fbName, Resource r)
+  throws FBRManagementException{
+    super.initialize(fbName,r);
+    RTM1.initialize("RTM1",r);
+    c2.initialize("c2",r);
+    XOR.initialize("XOR",r);
+}
+/** Start the FB instances. */
+public void start( ){
+  RTM1.start();
+  c2.start();
+  XOR.start();
+}
+/** Stop the FB instances. */
+public void stop( ){
+  RTM1.stop();
+  c2.stop();
+  XOR.stop();
+}
+}

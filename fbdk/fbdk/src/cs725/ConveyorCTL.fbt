@@ -87,10 +87,10 @@
     <Other Language="Java" Text="if(Candidate.value){&#10;if(lastPE.value!=PE.value){&#10;if(!PE.value){&#10;BlockCon.value=true;&#10;System.out.println(&#34;BlockCon = true&#34;);&#10;}&#10;else{&#10;BlockCon.value=false;&#10;System.out.println(&#34;BlockCon = false&#34;);&#10;}&#10;lastPE.value=PE.value;&#10;}&#10;if(lastBlock.value!=Block.value){&#10;if(Block.value){&#10;STOP.serviceEvent(this);&#10;MotoRotate.value=false;&#10;System.out.println(&#34;Cas Stop&#34;);&#10;}&#10;else{&#10;START.serviceEvent(this);&#10;MotoRotate.value=true;&#10;System.out.println(&#34;Cas Start&#34;);&#10;}&#10;lastBlock.value=Block.value;&#10;}&#10;}&#10;" />
   </Algorithm>
   <Algorithm Name="START" >
-    <ST Text="MotoRotate:=TRUE;&#10;System.out.println(this + &#34; Start &#34; + MotoRotate);&#10;&#10;System.out.println(&#34;Start &#34; + MotoRotate);&#10;" />
+    <ST Text="MotoRotate:=TRUE;&#10;System.out.println(this + &#34;//////////////////////////////////////////////////////////////// Start &#34; + MotoRotate);&#10;" />
   </Algorithm>
   <Algorithm Name="STOP" >
-    <ST Text="MotoRotate := FALSE;&#10;System.out.println(this + &#34; Stop &#34; + MotoRotate);&#10;&#10;System.out.println(&#34;Stop &#34; + MotoRotate);&#10;" />
+    <ST Text="MotoRotate := FALSE;&#10;System.out.println(this + &#34;/////////////////////////////////////////////////// Stop &#34; + MotoRotate);&#10;" />
   </Algorithm>
   </BasicFB>
 </FBType>

@@ -213,15 +213,11 @@ lastBlock.value=Block.value;
   /** ALGORITHM START IN ST*/
 public void alg_START(){
 MotoRotate.value=true;
-System.out.println(this+" Start "+MotoRotate.value);
-
-System.out.println("Start "+MotoRotate.value);
+System.out.println(this+"//////////////////////////////////////////////////////////////// Start "+MotoRotate.value);
 }
   /** ALGORITHM STOP IN ST*/
 public void alg_STOP(){
 MotoRotate.value=false;
-System.out.println(this+" Stop "+MotoRotate.value);
-
-System.out.println("Stop "+MotoRotate.value);
+System.out.println(this+"/////////////////////////////////////////////////// Stop "+MotoRotate.value);
 }
 }

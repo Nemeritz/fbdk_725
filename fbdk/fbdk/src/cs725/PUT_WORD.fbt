@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="PUT_WORD" Comment="Writes a bit value into a WORD" >
+  <Identification Standard="61499-1" Classification="Math" Function="Bit put" Type="WORD" />
+  <VersionInfo Organization="Holobloc Inc" Version="0.0" Author="JHC" Date="2008-01-20" />
+  <CompilerInfo header="package fb.rt.math;" >
+    <Compiler Language="Java" Vendor="Sun" Product="JDK" Version="1.6.0" />
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="PUT" Comment="Write BITVAL to BITNO of OUT" >
+        <With Var="BITVAL" />
+        <With Var="BITNO" />
+      </Event>
+      <Event Name="R" Comment="Reset OUT to 0" >
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="IND" Comment="OUT value changed or reset" >
+        <With Var="OUT" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="BITNO" Type="UINT" Comment="Bit number (modulo 16) of OUT to which to write BITVAL" />
+      <VarDeclaration Name="BITVAL" Type="BOOL" Comment="Bit value to write to OUT" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="OUT" Type="WORD" Comment="The output value" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+  <Algorithm Name="PUT" Comment="Write BITVAL to BITNO of WORD" >
+    <Other Language="Java" Text="IND.serviceEvent(this);&#10;" />
+  </Algorithm>
+  <Algorithm Name="R" Comment="Reset OUT to 0" >
+    <ST Text="OUT := 0;&#10;IND.serviceEvent(this);&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

@@ -5,26 +5,42 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK RingTokenNetworkTwo
   * @author JHC
-  * @version 20181009/JHC
+  * @version 20181012/JHC
   */
 public class RingTokenNetworkTwo extends FBInstance
 {
 /** Input event qualifier */
   public BOOL Request1 = new BOOL();
-/** VAR Request2 */
-  public BOOL Request2 = new BOOL();
+/** VAR TokenIn */
+  public BOOL TokenIn = new BOOL();
+/** VAR Candidate */
+  public BOOL Candidate = new BOOL();
+/** VAR PE */
+  public BOOL PE = new BOOL();
 /** Output event qualifier */
   public BOOL Grant1 = new BOOL();
-/** VAR Grant2 */
-  public BOOL Grant2 = new BOOL();
+/** VAR TokenOut */
+  public BOOL TokenOut = new BOOL();
+/** VAR BlockCon */
+  public BOOL BlockCon = new BOOL();
+/** VAR MotoRotate */
+  public BOOL MotoRotate = new BOOL();
 /** Initialization Request */
  public EventOutput INIT = new EventOutput();
 /** Normal Execution Request */
  public EventOutput REQ = new EventOutput();
+/** EVENT START */
+ public EventOutput START = new EventOutput();
+/** EVENT STOP */
+ public EventOutput STOP = new EventOutput();
 /** Initialization Confirm */
  public EventOutput INITO = new EventOutput();
 /** Execution Confirmation */
  public EventOutput CNF = new EventOutput();
+/** EVENT STOP_OUT */
+ public EventOutput STOP_OUT = new EventOutput();
+/** EVENT START_OUT */
+ public EventOutput START_OUT = new EventOutput();
 /** {@inheritDoc}
 * @param s {@inheritDoc}
 * @return {@inheritDoc}
@@ -32,6 +48,8 @@ public class RingTokenNetworkTwo extends FBInstance
   public EventServer eiNamed(String s){
     if("INIT".equals(s)) return INIT;
     if("REQ".equals(s)) return REQ;
+    if("START".equals(s)) return START;
+    if("STOP".equals(s)) return STOP;
     return super.eiNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -40,6 +58,8 @@ public class RingTokenNetworkTwo extends FBInstance
   public EventOutput eoNamed(String s){
     if("INITO".equals(s)) return INITO;
     if("CNF".equals(s)) return CNF;
+    if("STOP_OUT".equals(s)) return STOP_OUT;
+    if("START_OUT".equals(s)) return START_OUT;
     return super.eoNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -48,7 +68,9 @@ public class RingTokenNetworkTwo extends FBInstance
 */
   public ANY ivNamed(String s) throws FBRManagementException{
     if("Request1".equals(s)) return Request1;
-    if("Request2".equals(s)) return Request2;
+    if("TokenIn".equals(s)) return TokenIn;
+    if("Candidate".equals(s)) return Candidate;
+    if("PE".equals(s)) return PE;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -57,7 +79,9 @@ public class RingTokenNetworkTwo extends FBInstance
 */
   public ANY ovNamed(String s) throws FBRManagementException{
     if("Grant1".equals(s)) return Grant1;
-    if("Grant2".equals(s)) return Grant2;
+    if("TokenOut".equals(s)) return TokenOut;
+    if("BlockCon".equals(s)) return BlockCon;
+    if("MotoRotate".equals(s)) return MotoRotate;
     return super.ovNamed(s);}
 /** {@inheritDoc}
 * @param ivName {@inheritDoc}
@@ -66,48 +90,77 @@ public class RingTokenNetworkTwo extends FBInstance
   public void connectIV(String ivName, ANY newIV)
     throws FBRManagementException{
     if("Request1".equals(ivName)) connect_Request1((BOOL)newIV);
-    else if("Request2".equals(ivName)) connect_Request2((BOOL)newIV);
+    else if("TokenIn".equals(ivName)) connect_TokenIn((BOOL)newIV);
+    else if("Candidate".equals(ivName)) connect_Candidate((BOOL)newIV);
+    else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable Request1
   * @param newIV The variable to connect
-  * @throws FBRManagementException An internal connection failed.
  */
-  public void connect_Request1(BOOL newIV) throws FBRManagementException{
+  public void connect_Request1(BOOL newIV){
     Request1 = newIV;
-    RTM1.connectIVNoException("Request",Request1);
     }
-/** Connect the given variable to the input variable Request2
+/** Connect the given variable to the input variable TokenIn
   * @param newIV The variable to connect
   * @throws FBRManagementException An internal connection failed.
  */
-  public void connect_Request2(BOOL newIV) throws FBRManagementException{
-    Request2 = newIV;
-    RTM2.connectIVNoException("Request",Request2);
+  public void connect_TokenIn(BOOL newIV) throws FBRManagementException{
+    TokenIn = newIV;
+    RTM1.connectIVNoException("TokenIn",TokenIn);
+    }
+/** Connect the given variable to the input variable Candidate
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_Candidate(BOOL newIV) throws FBRManagementException{
+    Candidate = newIV;
+    c2.connectIVNoException("Candidate",Candidate);
+    }
+/** Connect the given variable to the input variable PE
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PE(BOOL newIV) throws FBRManagementException{
+    PE = newIV;
+    c2.connectIVNoException("PE",PE);
+    NOTPE.connectIVNoException("IN",PE);
     }
 /** FB RTM1 */
   protected RingTokenMemberHead RTM1 = new RingTokenMemberHead() ;
-/** FB RTM2 */
-  protected RingTokenMember RTM2 = new RingTokenMember() ;
-/** FB SPLIT */
-  protected E_SPLIT SPLIT = new E_SPLIT() ;
+/** FB c2 */
+  protected ConveyorCTL c2 = new ConveyorCTL() ;
+/** FB NOT */
+  protected FB_NOT NOT = new FB_NOT() ;
+/** FB NOTPE */
+  protected FB_NOT NOTPE = new FB_NOT() ;
 /** The default constructor. */
 public RingTokenNetworkTwo(){
     super();
     INIT.connectTo(RTM1.INIT);
-    RTM2.INITO.connectTo(INITO);
-    RTM2.CNF.connectTo(CNF);
     REQ.connectTo(RTM1.REQ);
-    RTM1.INITO.connectTo(SPLIT.EI);
-    SPLIT.EO2.connectTo(RTM2.REQ);
-    SPLIT.EO1.connectTo(RTM2.INIT);
-    REQ.connectTo(RTM2.REQ);
-    Grant1 = (BOOL)RTM1.ovNamedNoException("Grant");
-    Grant2 = (BOOL)RTM2.ovNamedNoException("Grant");
-    RTM2.connectIVNoException("Request",Request2);
-    RTM1.connectIVNoException("Request",Request1);
-    RTM2.connectIVNoException("TokenIn",RTM1.ovNamedNoException("TokenOut"));
-    RTM1.connectIVNoException("TokenIn",RTM2.ovNamedNoException("TokenOut"));
+    c2.START.connectTo(START_OUT);
+    c2.STOP.connectTo(STOP_OUT);
+    c2.CNF.connectTo(CNF);
+    c2.INITO.connectTo(INITO);
+    INIT.connectTo(c2.INIT);
+    REQ.connectTo(c2.REQ);
+    STOP.connectTo(c2.CAS_STOP);
+    START.connectTo(c2.CAS_START);
+    REQ.connectTo(NOTPE.REQ);
+    NOTPE.CNF.connectTo(CNF);
+    NOT.CNF.connectTo(CNF);
+    REQ.connectTo(NOT.REQ);
+    NOT.connectIVNoException("IN",RTM1.ovNamedNoException("Grant"));
+    c2.connectIVNoException("Block",NOT.ovNamedNoException("OUT"));
+    MotoRotate = (BOOL)c2.ovNamedNoException("MotoRotate");
+    BlockCon = (BOOL)c2.ovNamedNoException("BlockCon");
+    TokenOut = (BOOL)RTM1.ovNamedNoException("TokenOut");
+    RTM1.connectIVNoException("TokenIn",TokenIn);
+    c2.connectIVNoException("PE",PE);
+    c2.connectIVNoException("Candidate",Candidate);
+    NOTPE.connectIVNoException("IN",PE);
+    RTM1.connectIVNoException("Request",NOTPE.ovNamedNoException("OUT"));
   }
 /** {@inheritDoc}
  * @param fbName {@inheritDoc}
@@ -117,19 +170,22 @@ public RingTokenNetworkTwo(){
   throws FBRManagementException{
     super.initialize(fbName,r);
     RTM1.initialize("RTM1",r);
-    RTM2.initialize("RTM2",r);
-    SPLIT.initialize("SPLIT",r);
+    c2.initialize("c2",r);
+    NOT.initialize("NOT",r);
+    NOTPE.initialize("NOTPE",r);
 }
 /** Start the FB instances. */
 public void start( ){
   RTM1.start();
-  RTM2.start();
-  SPLIT.start();
+  c2.start();
+  NOT.start();
+  NOTPE.start();
 }
 /** Stop the FB instances. */
 public void stop( ){
   RTM1.stop();
-  RTM2.stop();
-  SPLIT.stop();
+  c2.stop();
+  NOT.stop();
+  NOTPE.stop();
 }
 }
