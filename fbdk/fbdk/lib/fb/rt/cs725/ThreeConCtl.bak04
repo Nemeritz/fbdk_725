@@ -3,11 +3,11 @@ package fb.rt.cs725;
 import fb.datatype.*;
 import fb.rt.*;
 import fb.rt.events.*;
-/** FUNCTION_BLOCK TwoConCtl
+/** FUNCTION_BLOCK ThreeConCtl
   * @author JHC
   * @version 20181012/JHC
   */
-public class TwoConCtl extends FBInstance
+public class ThreeConCtl extends FBInstance
 {
 /** VAR Candidate */
   public BOOL Candidate = new BOOL();
@@ -15,24 +15,34 @@ public class TwoConCtl extends FBInstance
   public BOOL Block = new BOOL();
 /** VAR PE */
   public BOOL PE = new BOOL();
+/** VAR PE8 */
+  public BOOL PE8 = new BOOL();
+/** VAR PE9 */
+  public BOOL PE9 = new BOOL();
 /** VAR MotoRotate1 */
   public BOOL MotoRotate1 = new BOOL();
 /** VAR MotoRotate2 */
   public BOOL MotoRotate2 = new BOOL();
+/** VAR MotoRotate3 */
+  public BOOL MotoRotate3 = new BOOL();
 /** VAR BlockCon */
   public BOOL BlockCon = new BOOL();
+/** VAR BlockCon8 */
+  public BOOL BlockCon8 = new BOOL();
+/** VAR BlockCon9 */
+  public BOOL BlockCon9 = new BOOL();
 /** Initialization Request */
  public EventOutput INIT = new EventOutput();
 /** Normal Execution Request */
  public EventOutput REQ = new EventOutput();
-/** EVENT START */
- public EventOutput START = new EventOutput();
-/** EVENT STOP */
- public EventOutput STOP = new EventOutput();
 /** Initialization Confirm */
  public EventOutput INITO = new EventOutput();
 /** Execution Confirmation */
  public EventOutput CNF = new EventOutput();
+/** EVENT START */
+ public EventOutput START = new EventOutput();
+/** EVENT STOP */
+ public EventOutput STOP = new EventOutput();
 /** {@inheritDoc}
 * @param s {@inheritDoc}
 * @return {@inheritDoc}
@@ -40,8 +50,6 @@ public class TwoConCtl extends FBInstance
   public EventServer eiNamed(String s){
     if("INIT".equals(s)) return INIT;
     if("REQ".equals(s)) return REQ;
-    if("START".equals(s)) return START;
-    if("STOP".equals(s)) return STOP;
     return super.eiNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -50,6 +58,8 @@ public class TwoConCtl extends FBInstance
   public EventOutput eoNamed(String s){
     if("INITO".equals(s)) return INITO;
     if("CNF".equals(s)) return CNF;
+    if("START".equals(s)) return START;
+    if("STOP".equals(s)) return STOP;
     return super.eoNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -60,6 +70,8 @@ public class TwoConCtl extends FBInstance
     if("Candidate".equals(s)) return Candidate;
     if("Block".equals(s)) return Block;
     if("PE".equals(s)) return PE;
+    if("PE8".equals(s)) return PE8;
+    if("PE9".equals(s)) return PE9;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -69,7 +81,10 @@ public class TwoConCtl extends FBInstance
   public ANY ovNamed(String s) throws FBRManagementException{
     if("MotoRotate1".equals(s)) return MotoRotate1;
     if("MotoRotate2".equals(s)) return MotoRotate2;
+    if("MotoRotate3".equals(s)) return MotoRotate3;
     if("BlockCon".equals(s)) return BlockCon;
+    if("BlockCon8".equals(s)) return BlockCon8;
+    if("BlockCon9".equals(s)) return BlockCon9;
     return super.ovNamed(s);}
 /** {@inheritDoc}
 * @param ivName {@inheritDoc}
@@ -80,6 +95,8 @@ public class TwoConCtl extends FBInstance
     if("Candidate".equals(ivName)) connect_Candidate((BOOL)newIV);
     else if("Block".equals(ivName)) connect_Block((BOOL)newIV);
     else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
+    else if("PE8".equals(ivName)) connect_PE8((BOOL)newIV);
+    else if("PE9".equals(ivName)) connect_PE9((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable Candidate
@@ -88,7 +105,6 @@ public class TwoConCtl extends FBInstance
  */
   public void connect_Candidate(BOOL newIV) throws FBRManagementException{
     Candidate = newIV;
-    FC12.connectIVNoException("Candidate",Candidate);
     FC11.connectIVNoException("Candidate",Candidate);
     }
 /** Connect the given variable to the input variable Block
@@ -97,7 +113,7 @@ public class TwoConCtl extends FBInstance
  */
   public void connect_Block(BOOL newIV) throws FBRManagementException{
     Block = newIV;
-    FC12.connectIVNoException("Block",Block);
+    FC11.connectIVNoException("Block",Block);
     }
 /** Connect the given variable to the input variable PE
   * @param newIV The variable to connect
@@ -105,34 +121,58 @@ public class TwoConCtl extends FBInstance
  */
   public void connect_PE(BOOL newIV) throws FBRManagementException{
     PE = newIV;
-    FC12.connectIVNoException("PE",PE);
+    FC11.connectIVNoException("PE",PE);
+    }
+/** Connect the given variable to the input variable PE8
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PE8(BOOL newIV) throws FBRManagementException{
+    PE8 = newIV;
+    FC12.connectIVNoException("PE",PE8);
+    }
+/** Connect the given variable to the input variable PE9
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PE9(BOOL newIV) throws FBRManagementException{
+    PE9 = newIV;
+    FC13.connectIVNoException("PE",PE9);
     }
 /** FB FC11 */
   protected ConveyorCTL FC11 = new ConveyorCTL() ;
 /** FB FC12 */
   protected ConveyorCTL FC12 = new ConveyorCTL() ;
+/** FB FC13 */
+  protected ConveyorCTL FC13 = new ConveyorCTL() ;
 /** The default constructor. */
-public TwoConCtl(){
+public ThreeConCtl(){
     super();
     INIT.connectTo(FC11.INIT);
     REQ.connectTo(FC11.REQ);
-    FC12.INITO.connectTo(INITO);
-    FC12.CNF.connectTo(CNF);
-    REQ.connectTo(FC12.REQ);
-    STOP.connectTo(FC12.CAS_STOP);
-    START.connectTo(FC12.CAS_START);
-    FC12.STOP.connectTo(FC11.CAS_STOP);
-    FC12.START.connectTo(FC11.CAS_START);
     FC11.INITO.connectTo(FC12.INIT);
-    FC12.connectIVNoException("Block",Block);
-    FC12.connectIVNoException("Candidate",Candidate);
-    FC12.connectIVNoException("PE",PE);
-    MotoRotate1 = (BOOL)FC11.ovNamedNoException("MotoRotate");
+    FC12.INITO.connectTo(FC13.INIT);
+    FC13.INITO.connectTo(INITO);
+    FC13.CNF.connectTo(CNF);
+    FC11.STOP.connectTo(STOP);
+    FC11.START.connectTo(START);
+    REQ.connectTo(FC12.REQ);
+    REQ.connectTo(FC13.REQ);
+    FC11.CNF.connectTo(CNF);
+    FC12.CNF.connectTo(CNF);
+    MotoRotate3 = (BOOL)FC13.ovNamedNoException("MotoRotate");
     MotoRotate2 = (BOOL)FC12.ovNamedNoException("MotoRotate");
-    FC11.connectIVNoException("Block",FC12.ovNamedNoException("BlockCon"));
-    FC11.connectIVNoException("Candidate",Candidate);
+    MotoRotate1 = (BOOL)FC11.ovNamedNoException("MotoRotate");
+    FC11.connectIVNoException("PE",PE);
+    FC11.connectIVNoException("Block",Block);
     BlockCon = (BOOL)FC11.ovNamedNoException("BlockCon");
-    FC11.PE.initializeNoException("1");
+    FC11.connectIVNoException("Candidate",Candidate);
+    FC12.connectIVNoException("PE",PE8);
+    FC13.connectIVNoException("PE",PE9);
+    FC12.Block.initializeNoException("0");
+    FC12.Candidate.initializeNoException("0");
+    FC13.Block.initializeNoException("0");
+    FC13.Candidate.initializeNoException("0");
   }
 /** {@inheritDoc}
  * @param fbName {@inheritDoc}
@@ -143,15 +183,18 @@ public TwoConCtl(){
     super.initialize(fbName,r);
     FC11.initialize("FC11",r);
     FC12.initialize("FC12",r);
+    FC13.initialize("FC13",r);
 }
 /** Start the FB instances. */
 public void start( ){
   FC11.start();
   FC12.start();
+  FC13.start();
 }
 /** Stop the FB instances. */
 public void stop( ){
   FC11.stop();
   FC12.stop();
+  FC13.stop();
 }
 }

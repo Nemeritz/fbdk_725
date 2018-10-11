@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK ConveyorCTL
   * @author JHC
-  * @version 20181012/JHC
+  * @version 20180924/JHC
   */
 public class ConveyorCTL extends FBInstance
 {
@@ -180,8 +180,9 @@ Block.value=false;
 System.out.println(this+" "+MotoRotate.value);
 System.out.println(MotoRotate.value);
 }
-  /** ALGORITHM REQ IN Java*/
+  /** ALGORITHM REQ IN ST*/
 public void alg_REQ(){
+System.out.println(this+" -> Candidate"+Candidate.value);
 if(Candidate.value){
 if(lastPE.value!=PE.value){
 if(!PE.value){
@@ -208,7 +209,6 @@ System.out.println("Cas Start");
 lastBlock.value=Block.value;
 }
 }
-
 }
   /** ALGORITHM START IN ST*/
 public void alg_START(){

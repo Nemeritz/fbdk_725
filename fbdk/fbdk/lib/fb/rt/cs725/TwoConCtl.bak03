@@ -15,6 +15,8 @@ public class TwoConCtl extends FBInstance
   public BOOL Block = new BOOL();
 /** VAR PE */
   public BOOL PE = new BOOL();
+/** VAR PEOutter */
+  public BOOL PEOutter = new BOOL();
 /** VAR MotoRotate1 */
   public BOOL MotoRotate1 = new BOOL();
 /** VAR MotoRotate2 */
@@ -60,6 +62,7 @@ public class TwoConCtl extends FBInstance
     if("Candidate".equals(s)) return Candidate;
     if("Block".equals(s)) return Block;
     if("PE".equals(s)) return PE;
+    if("PEOutter".equals(s)) return PEOutter;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -80,6 +83,7 @@ public class TwoConCtl extends FBInstance
     if("Candidate".equals(ivName)) connect_Candidate((BOOL)newIV);
     else if("Block".equals(ivName)) connect_Block((BOOL)newIV);
     else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
+    else if("PEOutter".equals(ivName)) connect_PEOutter((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable Candidate
@@ -106,6 +110,12 @@ public class TwoConCtl extends FBInstance
   public void connect_PE(BOOL newIV) throws FBRManagementException{
     PE = newIV;
     FC12.connectIVNoException("PE",PE);
+    }
+/** Connect the given variable to the input variable PEOutter
+  * @param newIV The variable to connect
+ */
+  public void connect_PEOutter(BOOL newIV){
+    PEOutter = newIV;
     }
 /** FB FC11 */
   protected ConveyorCTL FC11 = new ConveyorCTL() ;

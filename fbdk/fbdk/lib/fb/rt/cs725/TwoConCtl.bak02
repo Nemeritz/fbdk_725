@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK TwoConCtl
   * @author JHC
-  * @version 20181012/JHC
+  * @version 20180924/JHC
   */
 public class TwoConCtl extends FBInstance
 {
@@ -89,7 +89,6 @@ public class TwoConCtl extends FBInstance
   public void connect_Candidate(BOOL newIV) throws FBRManagementException{
     Candidate = newIV;
     FC12.connectIVNoException("Candidate",Candidate);
-    FC11.connectIVNoException("Candidate",Candidate);
     }
 /** Connect the given variable to the input variable Block
   * @param newIV The variable to connect
@@ -127,12 +126,12 @@ public TwoConCtl(){
     FC12.connectIVNoException("Block",Block);
     FC12.connectIVNoException("Candidate",Candidate);
     FC12.connectIVNoException("PE",PE);
+    BlockCon = (BOOL)FC12.ovNamedNoException("BlockCon");
     MotoRotate1 = (BOOL)FC11.ovNamedNoException("MotoRotate");
     MotoRotate2 = (BOOL)FC12.ovNamedNoException("MotoRotate");
-    FC11.connectIVNoException("Block",FC12.ovNamedNoException("BlockCon"));
-    FC11.connectIVNoException("Candidate",Candidate);
-    BlockCon = (BOOL)FC11.ovNamedNoException("BlockCon");
-    FC11.PE.initializeNoException("1");
+    FC11.PE.initializeNoException("0");
+    FC11.Block.initializeNoException("0");
+    FC11.Candidate.initializeNoException("0");
   }
 /** {@inheritDoc}
  * @param fbName {@inheritDoc}

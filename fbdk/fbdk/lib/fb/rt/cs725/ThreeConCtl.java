@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK ThreeConCtl
   * @author JHC
-  * @version 20180924/JHC
+  * @version 20181012/JHC
   */
 public class ThreeConCtl extends FBInstance
 {
@@ -15,6 +15,10 @@ public class ThreeConCtl extends FBInstance
   public BOOL Block = new BOOL();
 /** VAR PE */
   public BOOL PE = new BOOL();
+/** VAR PE8 */
+  public BOOL PE8 = new BOOL();
+/** VAR PE9 */
+  public BOOL PE9 = new BOOL();
 /** VAR MotoRotate1 */
   public BOOL MotoRotate1 = new BOOL();
 /** VAR MotoRotate2 */
@@ -23,6 +27,10 @@ public class ThreeConCtl extends FBInstance
   public BOOL MotoRotate3 = new BOOL();
 /** VAR BlockCon */
   public BOOL BlockCon = new BOOL();
+/** VAR BlockCon8 */
+  public BOOL BlockCon8 = new BOOL();
+/** VAR BlockCon9 */
+  public BOOL BlockCon9 = new BOOL();
 /** Initialization Request */
  public EventOutput INIT = new EventOutput();
 /** Normal Execution Request */
@@ -62,6 +70,8 @@ public class ThreeConCtl extends FBInstance
     if("Candidate".equals(s)) return Candidate;
     if("Block".equals(s)) return Block;
     if("PE".equals(s)) return PE;
+    if("PE8".equals(s)) return PE8;
+    if("PE9".equals(s)) return PE9;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -73,6 +83,8 @@ public class ThreeConCtl extends FBInstance
     if("MotoRotate2".equals(s)) return MotoRotate2;
     if("MotoRotate3".equals(s)) return MotoRotate3;
     if("BlockCon".equals(s)) return BlockCon;
+    if("BlockCon8".equals(s)) return BlockCon8;
+    if("BlockCon9".equals(s)) return BlockCon9;
     return super.ovNamed(s);}
 /** {@inheritDoc}
 * @param ivName {@inheritDoc}
@@ -83,6 +95,8 @@ public class ThreeConCtl extends FBInstance
     if("Candidate".equals(ivName)) connect_Candidate((BOOL)newIV);
     else if("Block".equals(ivName)) connect_Block((BOOL)newIV);
     else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
+    else if("PE8".equals(ivName)) connect_PE8((BOOL)newIV);
+    else if("PE9".equals(ivName)) connect_PE9((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable Candidate
@@ -108,6 +122,22 @@ public class ThreeConCtl extends FBInstance
   public void connect_PE(BOOL newIV) throws FBRManagementException{
     PE = newIV;
     FC11.connectIVNoException("PE",PE);
+    }
+/** Connect the given variable to the input variable PE8
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PE8(BOOL newIV) throws FBRManagementException{
+    PE8 = newIV;
+    FC12.connectIVNoException("PE",PE8);
+    }
+/** Connect the given variable to the input variable PE9
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PE9(BOOL newIV) throws FBRManagementException{
+    PE9 = newIV;
+    FC13.connectIVNoException("PE",PE9);
     }
 /** FB FC11 */
   protected ConveyorCTL FC11 = new ConveyorCTL() ;
@@ -137,10 +167,12 @@ public ThreeConCtl(){
     FC11.connectIVNoException("Block",Block);
     BlockCon = (BOOL)FC11.ovNamedNoException("BlockCon");
     FC11.connectIVNoException("Candidate",Candidate);
-    FC12.PE.initializeNoException("0");
+    FC12.connectIVNoException("PE",PE8);
+    FC13.connectIVNoException("PE",PE9);
+    BlockCon9 = (BOOL)FC13.ovNamedNoException("BlockCon");
+    BlockCon8 = (BOOL)FC12.ovNamedNoException("BlockCon");
     FC12.Block.initializeNoException("0");
     FC12.Candidate.initializeNoException("0");
-    FC13.PE.initializeNoException("0");
     FC13.Block.initializeNoException("0");
     FC13.Candidate.initializeNoException("0");
   }

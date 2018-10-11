@@ -168,110 +168,108 @@
     <Parameter Name="GRID" Value="[1,6]" />
     <Resource Name="RES1" Type="PANEL_RESOURCE" x="405.55554" y="944.4444" >
       <FBNetwork >
-        <FB Name="BagInOne" Type="IN_EVENT" x="561.1111" y="11.111111" >
+        <FB Name="BagInOne" Type="IN_EVENT" x="558.82355" y="11.764706" >
           <Parameter Name="LABEL" Value="&#34;BAG IN 1&#34;" />
           <Parameter Name="QI" Value="1" />
         </FB>
-        <FB Name="BagInThree" Type="IN_EVENT" x="205.55554" y="1783.3333" >
+        <FB Name="BagInThree" Type="IN_EVENT" x="205.88235" y="1782.3529" >
           <Parameter Name="LABEL" Value="&#34;BAG IN 3&#34;" />
           <Parameter Name="QI" Value="1" />
         </FB>
-        <FB Name="BagInTwo" Type="IN_EVENT" x="188.88889" y="888.88885" >
+        <FB Name="BagInTwo" Type="IN_EVENT" x="188.23529" y="888.2353" >
           <Parameter Name="LABEL" Value="&#34;BAG IN 2&#34;" />
           <Parameter Name="QI" Value="1" />
         </FB>
-        <FB Name="BagIn1" Type="PUBL_0" x="1055.5555" y="16.666666" />
-        <FB Name="BagIn3" Type="PUBL_0" x="638.88885" y="1783.3333" />
-        <FB Name="BagIn2" Type="PUBL_0" x="661.1111" y="888.88885" />
-        <FB Name="FCOne" Type="TwoConCtl" x="1933.3333" y="422.2222" >
+        <FB Name="BagIn1" Type="PUBL_0" x="1052.9412" y="17.647058" />
+        <FB Name="BagIn3" Type="PUBL_0" x="641.17645" y="1782.3529" />
+        <FB Name="BagIn2" Type="PUBL_0" x="658.8235" y="888.2353" />
+        <FB Name="FCOne" Type="TwoConCtl" x="1935.2941" y="423.52942" >
+          <Parameter Name="Candidate" Value="0" />
           <Parameter Name="Block" Value="0" />
+          <Parameter Name="PE" Value="0" />
+        </FB>
+        <FB Name="FCTwo" Type="TwoConCtl" x="2217.647" y="2088.2354" >
           <Parameter Name="Candidate" Value="1" />
         </FB>
-        <FB Name="FCTwo" Type="TwoConCtl" x="2216.6665" y="2088.889" >
+        <FB Name="TCOne" Type="ThreeConCtl" x="4288.2354" y="2341.1765" >
           <Parameter Name="Candidate" Value="1" />
         </FB>
-        <FB Name="TCOne" Type="ThreeConCtl" x="4288.8887" y="2338.889" >
-          <Parameter Name="Candidate" Value="1" />
-        </FB>
-        <FB Name="FCThree" Type="TwoConCtl" x="2916.6665" y="11.111111" >
+        <FB Name="FCThree" Type="TwoConCtl" x="2917.647" y="11.764706" >
+          <Parameter Name="Candidate" Value="0" />
           <Parameter Name="Block" Value="0" />
-          <Parameter Name="Candidate" Value="1" />
+          <Parameter Name="PE" Value="0" />
         </FB>
-        <FB Name="ConControl" Type="PUBL_11" x="6205.555" y="33.333332" >
+        <FB Name="ConControl" Type="PUBL_11" x="6205.8823" y="35.294117" >
           <Parameter Name="ID" Value="&#34;L5&#34;" />
         </FB>
-        <FB Name="PE" Type="SUBL_11" x="1266.6666" y="1594.4443" >
+        <FB Name="PE" Type="SUBL_11" x="1264.7058" y="1594.1177" >
           <Parameter Name="ID" Value="&#34;PE&#34;" />
         </FB>
-        <FB Name="BagInFour" Type="IN_EVENT" x="200.0" y="2666.6665" >
+        <FB Name="BagInFour" Type="IN_EVENT" x="200.0" y="2664.7058" >
           <Parameter Name="QI" Value="1" />
           <Parameter Name="LABEL" Value="&#34;BAG IN 4&#34;" />
         </FB>
-        <FB Name="BagIn4" Type="PUBL_0" x="622.22217" y="2666.6665" />
-        <FB Name="FCFour" Type="TwoConCtl" x="3144.4443" y="1366.6666" >
+        <FB Name="BagIn4" Type="PUBL_0" x="623.5294" y="2664.7058" />
+        <FB Name="FCFour" Type="TwoConCtl" x="3147.0588" y="1364.7058" >
+          <Parameter Name="Candidate" Value="0" />
           <Parameter Name="Block" Value="0" />
-          <Parameter Name="Candidate" Value="1" />
+          <Parameter Name="PE" Value="0" />
         </FB>
         <EventConnections>
-          <Connection Source="START.COLD" Destination="BagInOne.INIT" dx1="27.777777" dx2="20.0" dy="-60.0" />
-          <Connection Source="BagInThree.IND" Destination="BagIn3.REQ" dx1="61.111107" />
-          <Connection Source="BagInOne.INITO" Destination="BagIn1.INIT" dx1="161.1111" dx2="46.666664" dy="-773.3333" />
-          <Connection Source="BagInOne.IND" Destination="BagIn1.REQ" dx1="155.55554" dx2="46.666664" dy="-886.6666" />
-          <Connection Source="BagInThree.INITO" Destination="BagIn3.INIT" dx1="61.111107" />
-          <Connection Source="BagIn1.INITO" Destination="BagInTwo.INIT" dx1="27.777777" dx2="0.0" dy="-72.22222" />
-          <Connection Source="BagInTwo.INITO" Destination="BagIn2.INIT" dx1="44.444443" />
-          <Connection Source="PE.IND" Destination="FCTwo.REQ" dx1="311.11108" dx2="129.41176" dy="-2205.8823" />
-          <Connection Source="PE.IND" Destination="TCOne.REQ" dx1="1294.4443" dx2="126.666664" dy="-2206.6665" />
-          <Connection Source="TCOne.CNF" Destination="ConControl.REQ" dx1="833.3333" />
-          <Connection Source="FCThree.CNF" Destination="ConControl.REQ" dx1="2272.2222" />
-          <Connection Source="TCOne.START" Destination="FCOne.START" dx1="27.777777" dx2="72.22222" dy="-2672.2222" />
-          <Connection Source="TCOne.STOP" Destination="FCOne.STOP" dx1="27.777777" dx2="122.22221" dy="-2783.3333" />
-          <Connection Source="TCOne.START" Destination="FCThree.START" dx1="27.777777" dx2="127.77777" dy="-2672.2222" />
-          <Connection Source="TCOne.STOP" Destination="FCThree.STOP" dx1="27.777777" dx2="72.22222" dy="-2783.3333" />
-          <Connection Source="BagInTwo.IND" Destination="BagIn2.REQ" dx1="44.444443" />
-          <Connection Source="PE.IND" Destination="FCOne.REQ" dx1="177.77777" dx2="129.41176" dy="-2205.8823" />
-          <Connection Source="PE.IND" Destination="FCThree.REQ" dx1="666.6666" dx2="126.666664" dy="-2206.6665" />
-          <Connection Source="BagIn1.CNF" Destination="FCOne.REQ" dx1="483.3333" />
-          <Connection Source="BagIn2.CNF" Destination="FCTwo.REQ" dx1="822.22217" dx2="53.333332" dy="-920.0" />
-          <Connection Source="BagInFour.INITO" Destination="BagIn4.INIT" dx1="77.77777" dx2="26.666666" dy="-246.66666" />
-          <Connection Source="PE.IND" Destination="FCFour.REQ" dx1="811.1111" dx2="386.66666" dy="-2040.0" />
-          <Connection Source="BagInFour.IND" Destination="BagIn4.REQ" dx1="77.77777" dx2="33.333332" dy="-360.0" />
-          <Connection Source="BagIn4.CNF" Destination="FCFour.REQ" dx1="1661.1111" dx2="126.666664" dy="-3313.3333" />
-          <Connection Source="BagIn3.CNF" Destination="FCThree.REQ" dx1="688.88885" dx2="0.0" dy="-220.0" />
-          <Connection Source="FCOne.CNF" Destination="ConControl.REQ" dx1="1388.8888" />
-          <Connection Source="FCFour.CNF" Destination="ConControl.REQ" dx1="1055.5555" dx2="153.33333" dy="-2646.6665" />
-          <Connection Source="FCTwo.CNF" Destination="ConControl.REQ" dx1="2022.2222" />
-          <Connection Source="BagIn2.INITO" Destination="BagInThree.INIT" dx1="27.777777" dx2="0.0" dy="-966.6666" />
-          <Connection Source="BagIn3.INITO" Destination="BagInFour.INIT" dx1="27.777777" dx2="5.5555553" dy="-1877.7777" />
-          <Connection Source="BagIn4.INITO" Destination="PE.INIT" dx1="227.77777" dx2="26.666666" dy="693.3333" />
-          <Connection Source="PE.INITO" Destination="FCOne.INIT" dx1="166.66666" />
-          <Connection Source="FCOne.INITO" Destination="FCThree.INIT" dx1="55.555553" />
-          <Connection Source="FCThree.INITO" Destination="FCTwo.INIT" dx1="27.777777" dx2="0.0" dy="-66.666664" />
-          <Connection Source="FCTwo.INITO" Destination="FCFour.INIT" dx1="122.22221" />
-          <Connection Source="FCFour.INITO" Destination="TCOne.INIT" dx1="244.44443" />
-          <Connection Source="TCOne.INITO" Destination="ConControl.INIT" dx1="777.7778" />
+          <Connection Source="START.COLD" Destination="BagInOne.INIT" dx1="29.411764" dx2="20.0" dy="-60.0" />
+          <Connection Source="BagInThree.IND" Destination="BagIn3.REQ" dx1="58.82353" />
+          <Connection Source="BagInOne.INITO" Destination="BagIn1.INIT" dx1="158.82353" dx2="46.666664" dy="-773.3333" />
+          <Connection Source="BagInOne.IND" Destination="BagIn1.REQ" dx1="152.94118" dx2="46.666664" dy="-886.6666" />
+          <Connection Source="BagInThree.INITO" Destination="BagIn3.INIT" dx1="58.82353" />
+          <Connection Source="BagIn1.INITO" Destination="BagInTwo.INIT" dx1="29.411764" dx2="0.0" dy="-70.588234" />
+          <Connection Source="BagInTwo.INITO" Destination="BagIn2.INIT" dx1="47.058823" />
+          <Connection Source="PE.IND" Destination="FCTwo.REQ" dx1="311.7647" dx2="129.41176" dy="-2205.8823" />
+          <Connection Source="PE.IND" Destination="TCOne.REQ" dx1="1294.1177" dx2="126.666664" dy="-2206.6665" />
+          <Connection Source="TCOne.CNF" Destination="ConControl.REQ" dx1="835.2941" />
+          <Connection Source="FCThree.CNF" Destination="ConControl.REQ" dx1="2270.5881" />
+          <Connection Source="TCOne.START" Destination="FCOne.START" dx1="29.411764" dx2="70.588234" dy="-2670.5881" />
+          <Connection Source="TCOne.STOP" Destination="FCOne.STOP" dx1="29.411764" dx2="123.52941" dy="-2782.3528" />
+          <Connection Source="TCOne.START" Destination="FCThree.START" dx1="29.411764" dx2="129.41176" dy="-2670.5881" />
+          <Connection Source="TCOne.STOP" Destination="FCThree.STOP" dx1="29.411764" dx2="70.588234" dy="-2782.3528" />
+          <Connection Source="BagInTwo.IND" Destination="BagIn2.REQ" dx1="47.058823" />
+          <Connection Source="PE.IND" Destination="FCOne.REQ" dx1="176.47058" dx2="129.41176" dy="-2205.8823" />
+          <Connection Source="PE.IND" Destination="FCThree.REQ" dx1="664.7059" dx2="126.666664" dy="-2206.6665" />
+          <Connection Source="BagIn1.CNF" Destination="FCOne.REQ" dx1="482.35294" />
+          <Connection Source="BagIn2.CNF" Destination="FCTwo.REQ" dx1="823.5294" dx2="53.333332" dy="-920.0" />
+          <Connection Source="BagInFour.INITO" Destination="BagIn4.INIT" dx1="76.47059" dx2="26.666666" dy="-246.66666" />
+          <Connection Source="PE.IND" Destination="FCFour.REQ" dx1="811.7647" dx2="386.66666" dy="-2040.0" />
+          <Connection Source="BagInFour.IND" Destination="BagIn4.REQ" dx1="76.47059" dx2="33.333332" dy="-360.0" />
+          <Connection Source="BagIn4.CNF" Destination="FCFour.REQ" dx1="1658.8235" dx2="126.666664" dy="-3313.3333" />
+          <Connection Source="BagIn3.CNF" Destination="FCThree.REQ" dx1="688.2353" dx2="0.0" dy="-220.0" />
+          <Connection Source="FCOne.CNF" Destination="ConControl.REQ" dx1="1388.2352" />
+          <Connection Source="FCFour.CNF" Destination="ConControl.REQ" dx1="1052.9412" dx2="153.33333" dy="-2646.6665" />
+          <Connection Source="FCTwo.CNF" Destination="ConControl.REQ" dx1="2023.5294" />
+          <Connection Source="BagIn2.INITO" Destination="BagInThree.INIT" dx1="29.411764" dx2="0.0" dy="-958.8235" />
+          <Connection Source="BagIn3.INITO" Destination="BagInFour.INIT" dx1="29.411764" dx2="5.882353" dy="-1876.4706" />
+          <Connection Source="BagIn4.INITO" Destination="PE.INIT" dx1="229.41176" dx2="26.666666" dy="693.3333" />
+          <Connection Source="PE.INITO" Destination="FCOne.INIT" dx1="164.70587" />
+          <Connection Source="FCOne.INITO" Destination="FCThree.INIT" dx1="52.941177" />
+          <Connection Source="FCThree.INITO" Destination="FCTwo.INIT" dx1="29.411764" dx2="0.0" dy="-64.70588" />
+          <Connection Source="FCTwo.INITO" Destination="FCFour.INIT" dx1="123.52941" />
+          <Connection Source="FCFour.INITO" Destination="TCOne.INIT" dx1="247.05882" />
+          <Connection Source="TCOne.INITO" Destination="ConControl.INIT" dx1="776.4706" />
         </EventConnections>
         <DataConnections>
-          <Connection Source="FCTwo.BlockCon" Destination="TCOne.Block" dx1="266.66666" />
-          <Connection Source="TCOne.BlockCon" Destination="FCTwo.Block" dx1="27.777777" dx2="255.55554" dy="161.1111" />
-          <Connection Source="TCOne.MotoRotate1" Destination="ConControl.SD_3" dx1="994.4444" />
-          <Connection Source="TCOne.MotoRotate2" Destination="ConControl.SD_4" dx1="1027.7777" />
-          <Connection Source="TCOne.MotoRotate3" Destination="ConControl.SD_5" dx1="1061.1111" />
+          <Connection Source="FCTwo.BlockCon" Destination="TCOne.Block" dx1="264.70587" />
+          <Connection Source="TCOne.BlockCon" Destination="FCTwo.Block" dx1="29.411764" dx2="252.94118" dy="158.82353" />
+          <Connection Source="TCOne.MotoRotate1" Destination="ConControl.SD_3" dx1="994.1176" />
+          <Connection Source="TCOne.MotoRotate2" Destination="ConControl.SD_4" dx1="1029.4117" />
+          <Connection Source="TCOne.MotoRotate3" Destination="ConControl.SD_5" dx1="1058.8235" />
           <Connection Source="FCThree.MotoRotate1" Destination="ConControl.SD_1" dx1="700.0" />
-          <Connection Source="FCThree.MotoRotate2" Destination="ConControl.SD_2" dx1="766.6666" />
-          <Connection Source="PE.RD_2" Destination="FCTwo.PE" dx1="244.44443" dx2="82.352936" dy="1141.1764" />
-          <Connection Source="FCOne.MotoRotate1" Destination="ConControl.SD_6" dx1="2316.6665" />
-          <Connection Source="FCOne.MotoRotate2" Destination="ConControl.SD_7" dx1="2227.7776" />
-          <Connection Source="FCTwo.MotoRotate1" Destination="ConControl.SD_8" dx1="1111.1111" />
-          <Connection Source="FCTwo.MotoRotate2" Destination="ConControl.SD_9" dx1="1244.4443" />
-          <Connection Source="FCFour.MotoRotate1" Destination="ConControl.SD_10" dx1="1361.1111" dx2="53.333332" dy="586.6666" />
-          <Connection Source="FCFour.MotoRotate2" Destination="ConControl.SD_11" dx1="1416.6666" dx2="53.333332" dy="466.66666" />
-          <Connection Source="PE.RD_5" Destination="TCOne.PE" dx1="144.44444" dx2="66.666664" dy="793.3333" />
-          <Connection Source="PE.RD_9" Destination="TCOne.PE9" dx1="688.88885" />
-          <Connection Source="PE.RD_1" Destination="FCOne.PE" dx1="194.44444" />
-          <Connection Source="PE.RD_3" Destination="FCThree.PE" dx1="800.0" />
-          <Connection Source="PE.RD_4" Destination="FCFour.PE" dx1="977.7777" />
-          <Connection Source="PE.RD_6" Destination="TCOne.PE8" dx1="888.88885" />
+          <Connection Source="FCThree.MotoRotate2" Destination="ConControl.SD_2" dx1="764.7059" />
+          <Connection Source="PE.RD_2" Destination="FCTwo.PE" dx1="247.05882" dx2="82.352936" dy="1141.1764" />
+          <Connection Source="FCOne.MotoRotate1" Destination="ConControl.SD_6" dx1="2317.647" />
+          <Connection Source="FCOne.MotoRotate2" Destination="ConControl.SD_7" dx1="2229.4116" />
+          <Connection Source="FCTwo.MotoRotate1" Destination="ConControl.SD_8" dx1="1111.7646" />
+          <Connection Source="FCTwo.MotoRotate2" Destination="ConControl.SD_9" dx1="1247.0588" />
+          <Connection Source="FCFour.MotoRotate1" Destination="ConControl.SD_10" dx1="1358.8235" dx2="53.333332" dy="586.6666" />
+          <Connection Source="FCFour.MotoRotate2" Destination="ConControl.SD_11" dx1="1417.647" dx2="53.333332" dy="466.66666" />
+          <Connection Source="PE.RD_5" Destination="TCOne.PE" dx1="147.05882" dx2="66.666664" dy="793.3333" />
         </DataConnections>
       </FBNetwork>
     </Resource>

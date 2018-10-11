@@ -30,16 +30,12 @@
         <With Var="MotoRotate2" />
         <With Var="MotoRotate3" />
         <With Var="BlockCon" />
-        <With Var="BlockCon9" />
-        <With Var="BlockCon8" />
       </Event>
       <Event Name="CNF" Comment="Execution Confirmation" >
         <With Var="MotoRotate1" />
         <With Var="MotoRotate2" />
         <With Var="MotoRotate3" />
         <With Var="BlockCon" />
-        <With Var="BlockCon8" />
-        <With Var="BlockCon9" />
       </Event>
       <Event Name="START" >
       </Event>
@@ -96,8 +92,6 @@
       <Connection Source="Candidate" Destination="FC11.Candidate" dx1="44.444443" />
       <Connection Source="PE8" Destination="FC12.PE" dx1="1244.4443" />
       <Connection Source="PE9" Destination="FC13.PE" dx1="2461.111" />
-      <Connection Source="FC13.BlockCon" Destination="BlockCon9" dx1="3338.8887" />
-      <Connection Source="FC12.BlockCon" Destination="BlockCon8" dx1="2122.2222" />
     </DataConnections>
   </FBNetwork>
 </FBType>
