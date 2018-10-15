@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK ConveyorCTL
   * @author JHC
-  * @version 20181012/JHC
+  * @version 20181015/JHC
   */
 public class ConveyorCTL extends FBInstance
 {
@@ -182,31 +182,29 @@ System.out.println(MotoRotate.value);
 }
   /** ALGORITHM REQ IN Java*/
 public void alg_REQ(){
-if(Candidate.value){
-if(lastPE.value!=PE.value){
-if(!PE.value){
-BlockCon.value=true;
-System.out.println("BlockCon = true");
-}
-else{
-BlockCon.value=false;
-System.out.println("BlockCon = false");
-}
-lastPE.value=PE.value;
-}
-if(lastBlock.value!=Block.value){
-if(Block.value){
-STOP.serviceEvent(this);
-MotoRotate.value=false;
-System.out.println("Cas Stop");
-}
-else{
-START.serviceEvent(this);
-MotoRotate.value=true;
-System.out.println("Cas Start");
-}
-lastBlock.value=Block.value;
-}
+if (Candidate.value) {
+ if (lastPE.value != PE.value) {
+  if (!PE.value) {
+   BlockCon.value = true;
+   System.out.println("BlockCon = true");
+  } else {
+   BlockCon.value = false;
+   System.out.println("BlockCon = false");
+  }
+  lastPE.value = PE.value;
+ }
+ if (lastBlock.value != Block.value) {
+  if (Block.value) {
+   STOP.serviceEvent(this);
+   MotoRotate.value = false;
+   System.out.println("Cas Stop");
+  } else {
+   START.serviceEvent(this);
+   MotoRotate.value = true;
+   System.out.println("Cas Start");
+  }
+  lastBlock.value = Block.value;
+ }
 }
 
 }

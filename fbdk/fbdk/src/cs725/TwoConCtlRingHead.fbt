@@ -14,11 +14,13 @@
         <With Var="Block" />
         <With Var="PE" />
         <With Var="TokenIn" />
+        <With Var="PEExit" />
       </Event>
       <Event Name="REQ" Comment="Normal Execution Request" >
         <With Var="Candidate" />
         <With Var="PE" />
         <With Var="TokenIn" />
+        <With Var="PEExit" />
       </Event>
       <Event Name="START" >
         <With Var="Block" />
@@ -46,6 +48,7 @@
       <VarDeclaration Name="Block" Type="BOOL" />
       <VarDeclaration Name="PE" Type="BOOL" />
       <VarDeclaration Name="TokenIn" Type="BOOL" />
+      <VarDeclaration Name="PEExit" Type="BOOL" />
     </InputVars>
     <OutputVars>
       <VarDeclaration Name="MotoRotate1" Type="BOOL" />
@@ -82,6 +85,7 @@
       <Connection Source="PE" Destination="C2.PERequest" dx1="3477.7776" />
       <Connection Source="TokenIn" Destination="C2.TokenIn" dx1="3411.111" />
       <Connection Source="C2.TokenOut" Destination="TokenOut" dx1="4405.555" />
+      <Connection Source="PEExit" Destination="C2.PEExit" dx1="3427.7776" />
     </DataConnections>
   </FBNetwork>
 </FBType>

@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK RingTokenConveyerCTLMember
   * @author JHC
-  * @version 20181012/JHC
+  * @version 20181015/JHC
   */
 public class RingTokenConveyerCTLMember extends FBInstance
 {
@@ -17,6 +17,8 @@ public class RingTokenConveyerCTLMember extends FBInstance
   public BOOL Candidate = new BOOL();
 /** VAR PE */
   public BOOL PE = new BOOL();
+/** VAR PEExit */
+  public BOOL PEExit = new BOOL();
 /** VAR TokenOut */
   public BOOL TokenOut = new BOOL();
 /** VAR BlockCon */
@@ -69,6 +71,7 @@ public class RingTokenConveyerCTLMember extends FBInstance
     if("TokenIn".equals(s)) return TokenIn;
     if("Candidate".equals(s)) return Candidate;
     if("PE".equals(s)) return PE;
+    if("PEExit".equals(s)) return PEExit;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -90,6 +93,7 @@ public class RingTokenConveyerCTLMember extends FBInstance
     else if("TokenIn".equals(ivName)) connect_TokenIn((BOOL)newIV);
     else if("Candidate".equals(ivName)) connect_Candidate((BOOL)newIV);
     else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
+    else if("PEExit".equals(ivName)) connect_PEExit((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable PERequest
@@ -124,6 +128,14 @@ public class RingTokenConveyerCTLMember extends FBInstance
     PE = newIV;
     c2.connectIVNoException("PE",PE);
     }
+/** Connect the given variable to the input variable PEExit
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PEExit(BOOL newIV) throws FBRManagementException{
+    PEExit = newIV;
+    M22.connectIVNoException("PEExit",PEExit);
+    }
 /** FB c2 */
   protected ConveyorCTL c2 = new ConveyorCTL() ;
 /** FB M22 */
@@ -149,6 +161,7 @@ public RingTokenConveyerCTLMember(){
     M22.connectIVNoException("PERequest",PERequest);
     M22.connectIVNoException("TokenIn",TokenIn);
     TokenOut = (BOOL)M22.ovNamedNoException("TokenOut");
+    M22.connectIVNoException("PEExit",PEExit);
   }
 /** {@inheritDoc}
  * @param fbName {@inheritDoc}

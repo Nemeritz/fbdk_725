@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK RingTokenConveyerCTL
   * @author JHC
-  * @version 20181012/JHC
+  * @version 20181015/JHC
   */
 public class RingTokenConveyerCTL extends FBInstance
 {
@@ -17,6 +17,8 @@ public class RingTokenConveyerCTL extends FBInstance
   public BOOL Candidate = new BOOL();
 /** VAR PE */
   public BOOL PE = new BOOL();
+/** VAR PEExit */
+  public BOOL PEExit = new BOOL();
 /** VAR TokenOut */
   public BOOL TokenOut = new BOOL();
 /** VAR BlockCon */
@@ -69,6 +71,7 @@ public class RingTokenConveyerCTL extends FBInstance
     if("TokenIn".equals(s)) return TokenIn;
     if("Candidate".equals(s)) return Candidate;
     if("PE".equals(s)) return PE;
+    if("PEExit".equals(s)) return PEExit;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -90,6 +93,7 @@ public class RingTokenConveyerCTL extends FBInstance
     else if("TokenIn".equals(ivName)) connect_TokenIn((BOOL)newIV);
     else if("Candidate".equals(ivName)) connect_Candidate((BOOL)newIV);
     else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
+    else if("PEExit".equals(ivName)) connect_PEExit((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable PERequest
@@ -124,6 +128,14 @@ public class RingTokenConveyerCTL extends FBInstance
     PE = newIV;
     c2.connectIVNoException("PE",PE);
     }
+/** Connect the given variable to the input variable PEExit
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PEExit(BOOL newIV) throws FBRManagementException{
+    PEExit = newIV;
+    RTM1.connectIVNoException("PEExit",PEExit);
+    }
 /** FB RTM1 */
   protected RingTokenMemberHead RTM1 = new RingTokenMemberHead() ;
 /** FB c2 */
@@ -149,6 +161,7 @@ public RingTokenConveyerCTL(){
     c2.connectIVNoException("Candidate",Candidate);
     RTM1.connectIVNoException("PERequest",PERequest);
     c2.connectIVNoException("Block",RTM1.ovNamedNoException("Block"));
+    RTM1.connectIVNoException("PEExit",PEExit);
   }
 /** {@inheritDoc}
  * @param fbName {@inheritDoc}
