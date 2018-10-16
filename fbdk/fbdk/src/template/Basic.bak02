@@ -18,28 +18,33 @@
     </EventInputs>
     <EventOutputs>
       <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="QO" />
       </Event>
       <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="QO" />
       </Event>
     </EventOutputs>
     <InputVars>
       <VarDeclaration Name="QI" Type="BOOL" Comment="Input event qualifier" />
     </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" Comment="Output event qualifier" />
+    </OutputVars>
   </InterfaceList>
   <BasicFB>
     <ECC >
-      <ECState Name="START" Comment="Initial State" x="552.94116" y="429.41174" >
+      <ECState Name="START" Comment="Initial State" x="552.9412" y="429.4117" >
       </ECState>
-      <ECState Name="INIT" Comment="Initialization" x="923.5294" y="141.17647" >
+      <ECState Name="INIT" Comment="Initialization" x="923.5294" y="141.1765" >
         <ECAction Algorithm="INIT" Output="INITO" />
       </ECState>
-      <ECState Name="REQ" Comment="Normal execution" x="217.64705" y="752.94116" >
+      <ECState Name="REQ" Comment="Normal execution" x="217.647" y="752.9412" >
         <ECAction Algorithm="REQ" Output="CNF" />
       </ECState>
-      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="923.5294" y="429.41174" />
-      <ECTransition Source="INIT" Destination="START" Condition="1" x="552.94116" y="141.17647" />
-      <ECTransition Source="START" Destination="REQ" Condition="REQ&#38;QI" x="552.94116" y="611.7647" />
-      <ECTransition Source="REQ" Destination="START" Condition="1" x="217.64705" y="429.41174" />
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="923.5294" y="429.4117" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="552.9412" y="141.1765" />
+      <ECTransition Source="START" Destination="REQ" Condition="REQ" x="552.9412" y="600.0" />
+      <ECTransition Source="REQ" Destination="START" Condition="1" x="217.647" y="429.4117" />
     </ECC>
   <Algorithm Name="INIT" Comment="Initialization algorithm" >
     <ST Text="" />
