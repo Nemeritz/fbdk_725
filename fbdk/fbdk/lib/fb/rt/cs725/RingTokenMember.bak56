@@ -192,7 +192,7 @@ System.out.println("Conv 3: No token no request");
 }
 }
 
-System.out.println("Conv 3: " + TokenJustChanged.value);
+System.out.println("Conv 3: " + TokenJustChanged.value)
 
 }
 }

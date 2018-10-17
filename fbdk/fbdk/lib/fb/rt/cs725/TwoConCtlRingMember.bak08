@@ -139,11 +139,9 @@ public class TwoConCtlRingMember extends FBInstance
     }
 /** Connect the given variable to the input variable TokenJustChanged
   * @param newIV The variable to connect
-  * @throws FBRManagementException An internal connection failed.
  */
-  public void connect_TokenJustChanged(BOOL newIV) throws FBRManagementException{
+  public void connect_TokenJustChanged(BOOL newIV){
     TokenJustChanged = newIV;
-    FCRing.connectIVNoException("TokenJustChanged",TokenJustChanged);
     }
 /** FB FC11 */
   protected ConveyorCTL FC11 = new ConveyorCTL() ;
@@ -171,7 +169,6 @@ public TwoConCtlRingMember(){
     MotoRotate2 = (BOOL)FCRing.ovNamedNoException("MotoRotate");
     FC11.connectIVNoException("Block",FCRing.ovNamedNoException("BlockCon"));
     FCRing.connectIVNoException("PEExit",PEExit);
-    FCRing.connectIVNoException("TokenJustChanged",TokenJustChanged);
     FC11.PE.initializeNoException("1");
   }
 /** {@inheritDoc}
