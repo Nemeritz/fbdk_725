@@ -17,6 +17,8 @@ public class Basic extends FBInstance
   public BOOL grant4 = new BOOL();
 /** VAR grant7 */
   public BOOL grant7 = new BOOL();
+/** VAR requests */
+  public ARRAY requests = new ARRAY(new ARRAY(),2);
 /** Initialization Request */
  public EventServer INIT = new EventInput(this);
 /** Normal Execution Request */
@@ -121,11 +123,12 @@ public Basic(){
 public void alg_INIT(){
 grant4.value=false;
 grant7.value=false;
+requests[0] := 0;
 
 }
   /** ALGORITHM REQ IN Java*/
 public void alg_REQ(){
-System.out.println("Test");
+int requests[];
 
 }
 }

@@ -17,6 +17,8 @@ public class Basic extends FBInstance
   public BOOL grant4 = new BOOL();
 /** VAR grant7 */
   public BOOL grant7 = new BOOL();
+/** VAR requests */
+  public ARRAY requests = new ARRAY(new INT(),2);
 /** Initialization Request */
  public EventServer INIT = new EventInput(this);
 /** Normal Execution Request */
@@ -102,6 +104,7 @@ state_START();
 /** The default constructor. */
 public Basic(){
     super();
+    requests.initializeNoException("[0,0]");
   }
 /** {@inheritDoc}
 * @param e {@inheritDoc} */

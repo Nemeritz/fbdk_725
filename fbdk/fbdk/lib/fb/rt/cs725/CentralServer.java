@@ -3,20 +3,28 @@ package fb.rt.cs725;
 import fb.datatype.*;
 import fb.rt.*;
 import fb.rt.events.*;
-/** FUNCTION_BLOCK Basic
+/** FUNCTION_BLOCK CentralServer
   * @author JHC
   * @version 20181017/JHC
   */
-public class Basic extends FBInstance
+public class CentralServer extends FBInstance
 {
 /** Input event qualifier */
   public BOOL req4 = new BOOL();
 /** VAR req7 */
   public BOOL req7 = new BOOL();
-/** VAR grant4 */
-  public BOOL grant4 = new BOOL();
-/** VAR grant7 */
-  public BOOL grant7 = new BOOL();
+/** VAR exit */
+  public BOOL exit = new BOOL();
+/** VAR block4 */
+  public BOOL block4 = new BOOL();
+/** VAR block7 */
+  public BOOL block7 = new BOOL();
+/** VAR firstReq */
+  public INT firstReq = new INT();
+/** VAR secReq */
+  public INT secReq = new INT();
+/** VAR bagInCs */
+  public BOOL bagInCs = new BOOL();
 /** Initialization Request */
  public EventServer INIT = new EventInput(this);
 /** Normal Execution Request */
@@ -49,6 +57,7 @@ public class Basic extends FBInstance
   public ANY ivNamed(String s) throws FBRManagementException{
     if("req4".equals(s)) return req4;
     if("req7".equals(s)) return req7;
+    if("exit".equals(s)) return exit;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -56,8 +65,8 @@ public class Basic extends FBInstance
 * @throws FBRManagementException {@inheritDoc}
 */
   public ANY ovNamed(String s) throws FBRManagementException{
-    if("grant4".equals(s)) return grant4;
-    if("grant7".equals(s)) return grant7;
+    if("block4".equals(s)) return block4;
+    if("block7".equals(s)) return block7;
     return super.ovNamed(s);}
 /** {@inheritDoc}
 * @param ivName {@inheritDoc}
@@ -67,6 +76,7 @@ public class Basic extends FBInstance
     throws FBRManagementException{
     if("req4".equals(ivName)) connect_req4((BOOL)newIV);
     else if("req7".equals(ivName)) connect_req7((BOOL)newIV);
+    else if("exit".equals(ivName)) connect_exit((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable req4
@@ -80,6 +90,12 @@ public class Basic extends FBInstance
  */
   public void connect_req7(BOOL newIV){
     req7 = newIV;
+    }
+/** Connect the given variable to the input variable exit
+  * @param newIV The variable to connect
+ */
+  public void connect_exit(BOOL newIV){
+    exit = newIV;
     }
 private static final int index_START = 0;
 private void state_START(){
@@ -100,8 +116,11 @@ private void state_REQ(){
 state_START();
 }
 /** The default constructor. */
-public Basic(){
+public CentralServer(){
     super();
+    firstReq.initializeNoException("0");
+    secReq.initializeNoException("0");
+    bagInCs.initializeNoException("false");
   }
 /** {@inheritDoc}
 * @param e {@inheritDoc} */
@@ -115,17 +134,58 @@ public Basic(){
   }
 /** Services the REQ event. */
   public void service_REQ(){
-    if ((eccState == index_START) && (req4.value)) state_REQ();
+    if ((eccState == index_START)) state_REQ();
   }
   /** ALGORITHM INIT IN Java*/
 public void alg_INIT(){
-grant4.value=false;
-grant7.value=false;
+block4.value=false;
+block7.value=false;
 
 }
   /** ALGORITHM REQ IN Java*/
 public void alg_REQ(){
-System.out.println("Test");
+//'Grants' are actually blocks
+
+if (!exit.value) {
+ bagInCs.value = false;
+}
+if (!req4.value) {
+ System.out.println("Conveyor 4 is requesting");
+ if (firstReq.value == 0) {
+  firstReq.value = 4;
+ } else {
+  secReq.value = 4;
+ }
+}
+if (!req7.value) {
+ System.out.println("Conveyor 7 is requesting");
+ if (firstReq.value == 0) {
+  firstReq.value = 7;
+ } else {
+  secReq.value = 7;
+ }
+}
+if (!bagInCs.value) {
+ if (firstReq.value == 4) {
+     System.out.println("Blocking conv 7, granting conv 4");
+  block4.value = false;
+  block7.value = true;
+  firstReq.value = secReq.value;
+  secReq.value = 0;
+  bagInCs.value = true;
+ } else if (firstReq.value == 7) {
+     System.out.println("Blocking conv 4, granting conv 7");
+  block4.value = true;
+  block7.value = false;
+  firstReq.value = secReq.value;
+  secReq.value = 0;
+  bagInCs.value = true;
+ } else {
+  block4.value = false;
+  block7.value = false;
+  bagInCs.value = false;
+ }
+}
 
 }
 }

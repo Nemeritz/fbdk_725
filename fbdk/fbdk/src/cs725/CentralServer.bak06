@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="CentralServer" Comment="Basic Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-04" Remarks="Renamed for better indexing." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-11-05" Remarks="Corrected missing ST element in Algorithm REQ." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-30" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="req4" />
+        <With Var="req7" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="req4" />
+        <With Var="req7" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="req4" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="req7" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="grant4" Type="BOOL" />
+      <VarDeclaration Name="grant7" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="firstReq" Type="INT" InitialValue="0" />
+      <VarDeclaration Name="secReq" Type="INT" InitialValue="0" />
+    </InternalVars>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="555.55554" y="427.77777" >
+      </ECState>
+      <ECState Name="INIT" Comment="Initialization" x="922.22217" y="138.88889" >
+        <ECAction Algorithm="INIT" Output="INITO" />
+      </ECState>
+      <ECState Name="REQ" Comment="Normal execution" x="216.66666" y="755.55554" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="922.22217" y="427.77777" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="555.55554" y="138.88889" />
+      <ECTransition Source="START" Destination="REQ" Condition="REQ&#38;req4" x="555.55554" y="611.1111" />
+      <ECTransition Source="REQ" Destination="START" Condition="1" x="216.66666" y="427.77777" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <Other Language="Java" Text="grant4.value=false;&#10;grant7.value=false;&#10;" />
+  </Algorithm>
+  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
+    <Other Language="Java" Text="if (req4.value) {&#10;    if (firstReq.value == 0) {&#10;        firstReq.value = 4;&#10;    }&#10;    else { &#10;        secReq.value = 4;&#10;    }&#10;}&#10;if (req7.value) {&#10;    if (firstReq.value == 0) {&#10;        firstReq.value = 7;&#10;    }&#10;    else { &#10;        secReq.value = 7;&#10;    }&#10;}&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

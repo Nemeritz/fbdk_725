@@ -184,12 +184,12 @@
         <FB Name="BagIn3" Type="PUBL_0" x="638.88885" y="1783.3333" />
         <FB Name="BagIn2" Type="PUBL_0" x="661.1111" y="888.88885" />
         <FB Name="FCTwo" Type="TwoConCtl" x="2544.4443" y="3005.5554" >
-          <Parameter Name="Candidate" Value="0" />
+          <Parameter Name="Candidate" Value="1" />
         </FB>
         <FB Name="TCOne" Type="ThreeConCtl" x="5155.555" y="3322.2222" >
           <Parameter Name="Candidate" Value="1" />
         </FB>
-        <FB Name="ConControl" Type="PUBL_11" x="6150.0" y="72.22222" >
+        <FB Name="ConControl" Type="PUBL_11" x="6261.111" y="66.666664" >
           <Parameter Name="ID" Value="&#34;L5&#34;" />
         </FB>
         <FB Name="PE" Type="SUBL_11" x="1244.4443" y="1594.4443" >
@@ -217,7 +217,7 @@
         <FB Name="TokenChange" Type="VariableToEvent" x="7899.9995" y="2150.0" />
         <FB Name="NOT3" Type="NOT" x="6949.9995" y="2966.6665" />
         <FB Name="TokenChange2" Type="VariableToEvent" x="7761.111" y="2972.2222" />
-        <FB Name="CentralServer" Type="CentralServer" x="7394.4443" y="899.99994" />
+        <FB Name="CentralServer" Type="CentralServer" x="7344.4443" y="977.7777" />
         <EventConnections>
           <Connection Source="START.COLD" Destination="BagInOne.INIT" dx1="27.777777" dx2="20.0" dy="-60.0" />
           <Connection Source="BagInThree.IND" Destination="BagIn3.REQ" dx1="61.111107" />
@@ -266,11 +266,9 @@
           <Connection Source="PE.INITO" Destination="TokenChange2.INIT" dx1="3383.3333" />
           <Connection Source="PE.IND" Destination="CentralServer.REQ" dx1="2488.8887" />
           <Connection Source="PE.INITO" Destination="CentralServer.INIT" dx1="2366.6665" />
-          <Connection Source="CentralServer.CNF" Destination="ConControl.REQ" dx1="27.777777" dx2="0.0" dy="-1083.3333" />
+          <Connection Source="CentralServer.CNF" Destination="ConControl.REQ" dx1="655.55554" dx2="122.22221" dy="-1083.3333" />
         </EventConnections>
         <DataConnections>
-          <Connection Source="FCTwo.BlockCon" Destination="TCOne.Block" dx1="266.66666" />
-          <Connection Source="TCOne.BlockCon" Destination="FCTwo.Block" dx1="1711.1111" dx2="255.55554" dy="161.1111" />
           <Connection Source="TCOne.MotoRotate1" Destination="ConControl.SD_3" dx1="994.4444" />
           <Connection Source="TCOne.MotoRotate2" Destination="ConControl.SD_4" dx1="1027.7777" />
           <Connection Source="TCOne.MotoRotate3" Destination="ConControl.SD_5" dx1="1061.1111" />
@@ -305,6 +303,8 @@
           <Connection Source="PE.RD_5" Destination="CentralServer.req7" dx1="3111.111" />
           <Connection Source="PE.RD_2" Destination="CentralServer.req4" dx1="2777.7776" />
           <Connection Source="PE.RD_8" Destination="CentralServer.exit" dx1="3444.4443" />
+          <Connection Source="CentralServer.grant4" Destination="FCTwo.Block" dx1="27.777777" dx2="11.111111" dy="3233.3333" />
+          <Connection Source="CentralServer.grant7" Destination="TCOne.Block" dx1="27.777777" dx2="11.111111" dy="3122.2222" />
         </DataConnections>
       </FBNetwork>
     </Resource>

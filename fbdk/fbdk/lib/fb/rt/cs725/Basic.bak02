@@ -117,15 +117,10 @@ public Basic(){
   public void service_REQ(){
     if ((eccState == index_START) && (req4.value)) state_REQ();
   }
-  /** ALGORITHM INIT IN Java*/
+  /** ALGORITHM INIT IN ST*/
 public void alg_INIT(){
-grant4.value=false;
-grant7.value=false;
-
 }
-  /** ALGORITHM REQ IN Java*/
+  /** ALGORITHM REQ IN ST*/
 public void alg_REQ(){
-System.out.println("Test");
-
 }
 }

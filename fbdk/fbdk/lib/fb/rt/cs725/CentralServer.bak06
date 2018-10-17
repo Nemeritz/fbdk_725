@@ -3,11 +3,11 @@ package fb.rt.cs725;
 import fb.datatype.*;
 import fb.rt.*;
 import fb.rt.events.*;
-/** FUNCTION_BLOCK Basic
+/** FUNCTION_BLOCK CentralServer
   * @author JHC
   * @version 20181017/JHC
   */
-public class Basic extends FBInstance
+public class CentralServer extends FBInstance
 {
 /** Input event qualifier */
   public BOOL req4 = new BOOL();
@@ -17,6 +17,10 @@ public class Basic extends FBInstance
   public BOOL grant4 = new BOOL();
 /** VAR grant7 */
   public BOOL grant7 = new BOOL();
+/** VAR firstReq */
+  public INT firstReq = new INT();
+/** VAR secReq */
+  public INT secReq = new INT();
 /** Initialization Request */
  public EventServer INIT = new EventInput(this);
 /** Normal Execution Request */
@@ -100,8 +104,10 @@ private void state_REQ(){
 state_START();
 }
 /** The default constructor. */
-public Basic(){
+public CentralServer(){
     super();
+    firstReq.initializeNoException("0");
+    secReq.initializeNoException("0");
   }
 /** {@inheritDoc}
 * @param e {@inheritDoc} */
@@ -125,7 +131,22 @@ grant7.value=false;
 }
   /** ALGORITHM REQ IN Java*/
 public void alg_REQ(){
-System.out.println("Test");
+if (req4.value) {
+    if (firstReq.value == 0) {
+        firstReq.value = 4;
+    }
+    else { 
+        secReq.value = 4;
+    }
+}
+if (req7.value) {
+    if (firstReq.value == 0) {
+        firstReq.value = 7;
+    }
+    else { 
+        secReq.value = 7;
+    }
+}
 
 }
 }

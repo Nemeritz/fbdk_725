@@ -10,13 +10,7 @@ import fb.rt.events.*;
 public class Basic extends FBInstance
 {
 /** Input event qualifier */
-  public BOOL req4 = new BOOL();
-/** VAR req7 */
-  public BOOL req7 = new BOOL();
-/** VAR grant4 */
-  public BOOL grant4 = new BOOL();
-/** VAR grant7 */
-  public BOOL grant7 = new BOOL();
+  public BOOL QI = new BOOL();
 /** Initialization Request */
  public EventServer INIT = new EventInput(this);
 /** Normal Execution Request */
@@ -47,39 +41,22 @@ public class Basic extends FBInstance
 * @throws FBRManagementException {@inheritDoc}
 */
   public ANY ivNamed(String s) throws FBRManagementException{
-    if("req4".equals(s)) return req4;
-    if("req7".equals(s)) return req7;
+    if("QI".equals(s)) return QI;
     return super.ivNamed(s);}
-/** {@inheritDoc}
-* @param s {@inheritDoc}
-* @return {@inheritDoc}
-* @throws FBRManagementException {@inheritDoc}
-*/
-  public ANY ovNamed(String s) throws FBRManagementException{
-    if("grant4".equals(s)) return grant4;
-    if("grant7".equals(s)) return grant7;
-    return super.ovNamed(s);}
 /** {@inheritDoc}
 * @param ivName {@inheritDoc}
 * @param newIV {@inheritDoc}
 * @throws FBRManagementException {@inheritDoc} */
   public void connectIV(String ivName, ANY newIV)
     throws FBRManagementException{
-    if("req4".equals(ivName)) connect_req4((BOOL)newIV);
-    else if("req7".equals(ivName)) connect_req7((BOOL)newIV);
+    if("QI".equals(ivName)) connect_QI((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
-/** Connect the given variable to the input variable req4
+/** Connect the given variable to the input variable QI
   * @param newIV The variable to connect
  */
-  public void connect_req4(BOOL newIV){
-    req4 = newIV;
-    }
-/** Connect the given variable to the input variable req7
-  * @param newIV The variable to connect
- */
-  public void connect_req7(BOOL newIV){
-    req7 = newIV;
+  public void connect_QI(BOOL newIV){
+    QI = newIV;
     }
 private static final int index_START = 0;
 private void state_START(){
@@ -115,17 +92,12 @@ public Basic(){
   }
 /** Services the REQ event. */
   public void service_REQ(){
-    if ((eccState == index_START) && (req4.value)) state_REQ();
+    if ((eccState == index_START) && (QI.value)) state_REQ();
   }
-  /** ALGORITHM INIT IN Java*/
+  /** ALGORITHM INIT IN ST*/
 public void alg_INIT(){
-grant4.value=false;
-grant7.value=false;
-
 }
-  /** ALGORITHM REQ IN Java*/
+  /** ALGORITHM REQ IN ST*/
 public void alg_REQ(){
-System.out.println("Test");
-
 }
 }

@@ -3,11 +3,11 @@ package fb.rt.cs725;
 import fb.datatype.*;
 import fb.rt.*;
 import fb.rt.events.*;
-/** FUNCTION_BLOCK Basic
+/** FUNCTION_BLOCK CentralServer
   * @author JHC
   * @version 20181017/JHC
   */
-public class Basic extends FBInstance
+public class CentralServer extends FBInstance
 {
 /** Input event qualifier */
   public BOOL req4 = new BOOL();
@@ -100,7 +100,7 @@ private void state_REQ(){
 state_START();
 }
 /** The default constructor. */
-public Basic(){
+public CentralServer(){
     super();
   }
 /** {@inheritDoc}
