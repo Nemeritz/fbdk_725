@@ -61,33 +61,32 @@
     </OutputVars>
   </InterfaceList>
   <FBNetwork >
-    <FB Name="FC11" Type="ConveyorCTL" x="329.41174" y="452.94116" >
+    <FB Name="FC11" Type="ConveyorCTL" x="327.77777" y="449.99997" >
       <Parameter Name="PE" Value="1" />
     </FB>
-    <FB Name="FCRing" Type="RingTokenConveyerCTLMember" x="5741.1763" y="435.2941" />
+    <FB Name="FCRing" Type="RingTokenConveyerCTLMember" x="5738.8887" y="433.3333" />
     <EventConnections>
-      <Connection Source="INIT" Destination="FC11.INIT" dx1="223.5294" />
-      <Connection Source="REQ" Destination="FC11.REQ" dx1="217.64705" />
-      <Connection Source="FCRing.INITO" Destination="INITO" dx1="6811.7646" />
-      <Connection Source="FCRing.CNF" Destination="CNF" dx1="6800.0" />
-      <Connection Source="FC11.INITO" Destination="FCRing.INIT" dx1="3805.8823" />
-      <Connection Source="FCRing.STOP_OUT" Destination="FC11.CAS_STOP" dx1="105.882355" dx2="105.882355" dy="-547.05884" />
-      <Connection Source="FCRing.START_OUT" Destination="FC11.CAS_START" dx1="135.29411" dx2="135.29411" dy="-700.0" />
-      <Connection Source="REQ" Destination="FCRing.REQ" dx1="5629.4116" />
+      <Connection Source="INIT" Destination="FC11.INIT" dx1="222.22221" />
+      <Connection Source="REQ" Destination="FC11.REQ" dx1="216.66666" />
+      <Connection Source="FCRing.INITO" Destination="INITO" dx1="6744.4443" />
+      <Connection Source="FCRing.CNF" Destination="CNF" dx1="6722.222" />
+      <Connection Source="FC11.INITO" Destination="FCRing.INIT" dx1="3805.5554" />
+      <Connection Source="FCRing.STOP_OUT" Destination="FC11.CAS_STOP" dx1="105.55555" dx2="105.55555" dy="-550.0" />
+      <Connection Source="FCRing.START_OUT" Destination="FC11.CAS_START" dx1="133.33333" dx2="133.33333" dy="-700.0" />
+      <Connection Source="REQ" Destination="FCRing.REQ" dx1="5627.7773" />
     </EventConnections>
     <DataConnections>
-      <Connection Source="FC11.MotoRotate" Destination="MotoRotate1" dx1="1135.2941" />
-      <Connection Source="Candidate" Destination="FC11.Candidate" dx1="135.29411" />
-      <Connection Source="FC11.BlockCon" Destination="BlockCon" dx1="1076.4706" />
-      <Connection Source="PE" Destination="FCRing.PERequest" dx1="5652.941" />
-      <Connection Source="TokenIn" Destination="FCRing.TokenIn" dx1="5582.353" />
-      <Connection Source="Candidate" Destination="FCRing.Candidate" dx1="5547.0586" />
-      <Connection Source="PE" Destination="FCRing.PE" dx1="5652.941" />
-      <Connection Source="FCRing.TokenOut" Destination="TokenOut" dx1="6870.588" />
-      <Connection Source="FCRing.MotoRotate" Destination="MotoRotate2" dx1="6923.5293" />
-      <Connection Source="FCRing.BlockCon" Destination="FC11.Block" dx1="194.11765" dx2="100.0" dy="864.7059" />
-      <Connection Source="PEExit" Destination="FCRing.PEExit" dx1="5594.1177" />
-      <Connection Source="TokenJustChanged" Destination="FCRing.TokenJustChanged" dx1="5429.4116" />
+      <Connection Source="FC11.MotoRotate" Destination="MotoRotate1" dx1="1127.7777" />
+      <Connection Source="Candidate" Destination="FC11.Candidate" dx1="138.88889" />
+      <Connection Source="FC11.BlockCon" Destination="BlockCon" dx1="1083.3333" />
+      <Connection Source="PE" Destination="FCRing.PERequest" dx1="5650.0" />
+      <Connection Source="TokenIn" Destination="FCRing.TokenIn" dx1="5583.333" />
+      <Connection Source="Candidate" Destination="FCRing.Candidate" dx1="5550.0" />
+      <Connection Source="PE" Destination="FCRing.PE" dx1="5650.0" />
+      <Connection Source="FCRing.TokenOut" Destination="TokenOut" dx1="6794.4443" />
+      <Connection Source="FCRing.MotoRotate" Destination="MotoRotate2" dx1="6833.333" />
+      <Connection Source="FCRing.BlockCon" Destination="FC11.Block" dx1="194.44444" dx2="100.0" dy="866.6666" />
+      <Connection Source="PEExit" Destination="FCRing.PEExit" dx1="5600.0" />
     </DataConnections>
   </FBNetwork>
 </FBType>

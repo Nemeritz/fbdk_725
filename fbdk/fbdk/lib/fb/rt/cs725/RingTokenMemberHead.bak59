@@ -3,11 +3,11 @@ package fb.rt.cs725;
 import fb.datatype.*;
 import fb.rt.*;
 import fb.rt.events.*;
-/** FUNCTION_BLOCK RingTokenMember
+/** FUNCTION_BLOCK RingTokenMemberHead
   * @author JHC
   * @version 20181017/JHC
   */
-public class RingTokenMember extends FBInstance
+public class RingTokenMemberHead extends FBInstance
 {
 /** Input event qualifier */
   public BOOL PERequest = new BOOL();
@@ -124,7 +124,7 @@ private void state_REQ(){
 state_START();
 }
 /** The default constructor. */
-public RingTokenMember(){
+public RingTokenMemberHead(){
     super();
     lastTokenIn.initializeNoException("0");
     lastPEExit.initializeNoException("1");
@@ -146,7 +146,7 @@ public RingTokenMember(){
   /** ALGORITHM INIT IN Java*/
 public void alg_INIT(){
 Block.value=false;
-TokenOut.value=false;
+TokenOut.value=true;
 System.out.println("init head, grant false, token true");
 
 }
@@ -157,26 +157,26 @@ if (TokenJustChanged.value) {
  if (!PERequest.value) {
   Block.value = false;
   TokenOut.value = false;
-  System.out.println("Conv 3: I just got token, request is coming let bag go and keep token");
+  System.out.println("Conv 1: I just got token, request is coming let bag go and keep token");
  } else {
   Block.value = false;
   TokenOut.value = true;
-  System.out.println("Conv3: I just got token, no request so run conveyer but let token go");
+  System.out.println("Conv 1: I just got token, no request so run conveyer but let token go");
  }
 } else {
  if (!PERequest.value) {
-  System.out.println("Conv 3: I had token for a while, request here and bag passed eye, keep running conv and keep token");
+  System.out.println("Conv 1: I had token for a while, request here and bag passed eye, keep running conv and keep token");
   Block.value = false;
   TokenOut.value = false;
  } else {
   if (PEExit.value) {
    Block.value = false;
    TokenOut.value = true;
-   System.out.println("Conv 3: I had token for a while, no requests and bag passed eye, let token go");
+   System.out.println("Conv 1: I had token for a while, no requests and bag passed eye, let token go");
   } else {
    Block.value = false;
    TokenOut.value = false;
-   System.out.println("Conv 3: I have token, no requests and bag not passed eye yet, keep token");
+   System.out.println("Conv 1: I have token, no requests and bag not passed eye yet, keep token");
   }
  }
 }
@@ -185,14 +185,14 @@ if (TokenJustChanged.value) {
 else {
     if (!PERequest.value) {
  Block.value = true;
- System.out.println("Conv 3: No token, rquest here. Wait");
+ System.out.println("Conv 1: No token, rquest here. Wait");
     }
 else {
-System.out.println("Conv 3: No token no request");
+System.out.println("Conv 1: No token no request");
 }
 }
 
-System.out.println("Conv 3: " + TokenJustChanged.value);
+System.out.println("Conv 1: " + TokenJustChanged.value)
 
 }
 }
