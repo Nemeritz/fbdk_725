@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK TwoConCtlRingHead
   * @author JHC
-  * @version 20181015/JHC
+  * @version 20181017/JHC
   */
 public class TwoConCtlRingHead extends FBInstance
 {
@@ -19,6 +19,8 @@ public class TwoConCtlRingHead extends FBInstance
   public BOOL TokenIn = new BOOL();
 /** VAR PEExit */
   public BOOL PEExit = new BOOL();
+/** VAR TokenJustChanged */
+  public BOOL TokenJustChanged = new BOOL();
 /** VAR MotoRotate1 */
   public BOOL MotoRotate1 = new BOOL();
 /** VAR MotoRotate2 */
@@ -68,6 +70,7 @@ public class TwoConCtlRingHead extends FBInstance
     if("PE".equals(s)) return PE;
     if("TokenIn".equals(s)) return TokenIn;
     if("PEExit".equals(s)) return PEExit;
+    if("TokenJustChanged".equals(s)) return TokenJustChanged;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -91,6 +94,7 @@ public class TwoConCtlRingHead extends FBInstance
     else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
     else if("TokenIn".equals(ivName)) connect_TokenIn((BOOL)newIV);
     else if("PEExit".equals(ivName)) connect_PEExit((BOOL)newIV);
+    else if("TokenJustChanged".equals(ivName)) connect_TokenJustChanged((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable Candidate
@@ -133,6 +137,14 @@ public class TwoConCtlRingHead extends FBInstance
     PEExit = newIV;
     C2.connectIVNoException("PEExit",PEExit);
     }
+/** Connect the given variable to the input variable TokenJustChanged
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_TokenJustChanged(BOOL newIV) throws FBRManagementException{
+    TokenJustChanged = newIV;
+    C2.connectIVNoException("TokenJustChanged",TokenJustChanged);
+    }
 /** FB FC11 */
   protected ConveyorCTL FC11 = new ConveyorCTL() ;
 /** FB C2 */
@@ -161,6 +173,7 @@ public TwoConCtlRingHead(){
     C2.connectIVNoException("TokenIn",TokenIn);
     TokenOut = (BOOL)C2.ovNamedNoException("TokenOut");
     C2.connectIVNoException("PEExit",PEExit);
+    C2.connectIVNoException("TokenJustChanged",TokenJustChanged);
     FC11.PE.initializeNoException("1");
   }
 /** {@inheritDoc}

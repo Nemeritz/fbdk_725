@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK FB_NOT
   * @author JHC
-  * @version 20181012/JHC
+  * @version 20181017/JHC
   */
 class FB_NOT extends FBFunction1{
 /** VAR IN */

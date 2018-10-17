@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="VariableToEvent" Comment="Basic Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-04" Remarks="Renamed for better indexing." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-11-05" Remarks="Corrected missing ST element in Algorithm REQ." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-30" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="QI" />
+        <With Var="NOTQI" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="QI" />
+        <With Var="NOTQI" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="CNFVar" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="CNFVar" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="QI" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="NOTQI" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="CNFVar" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <ECC >
+      <ECState Name="START" Comment="Initial State" x="716.6666" y="700.0" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECState Name="REQ" Comment="Normal execution" x="794.4444" y="1677.7777" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECState Name="REQ_RESET" x="783.3333" y="2311.111" >
+        <ECAction Algorithm="RESET" Output="CNF" />
+      </ECState>
+      <ECState Name="START_QI" x="2911.111" y="455.55554" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECState Name="RESET1" x="2755.5554" y="1066.6666" >
+        <ECAction Algorithm="RESET" Output="CNF" />
+      </ECState>
+      <ECState Name="REQ1" x="3983.3333" y="1038.8888" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="REQ" Condition="REQ&#38;NOTQI" x="1166.6666" y="1300.0" />
+      <ECTransition Source="REQ" Destination="START" Condition="REQ&#38;QI" x="605.55554" y="1316.6666" />
+      <ECTransition Source="REQ" Destination="REQ_RESET" Condition="REQ&#38;NOTQI" x="1016.6666" y="1994.4443" />
+      <ECTransition Source="REQ_RESET" Destination="START" Condition="REQ&#38;QI" x="200.0" y="1344.4443" />
+      <ECTransition Source="START" Destination="START_QI" Condition="REQ&#38;QI" x="2233.3333" y="111.11111" />
+      <ECTransition Source="START_QI" Destination="RESET1" Condition="REQ&#38;QI" x="2772.2222" y="805.55554" />
+      <ECTransition Source="START_QI" Destination="REQ1" Condition="REQ&#38;NOTQI" x="3633.3333" y="855.55554" />
+      <ECTransition Source="RESET1" Destination="REQ1" Condition="REQ&#38;NOTQI" x="3299.9998" y="1427.7777" />
+      <ECTransition Source="REQ1" Destination="START" Condition="REQ&#38;QI" x="3050.0" y="2244.4443" />
+      <ECTransition Source="REQ1" Destination="RESET1" Condition="REQ&#38;NOTQI" x="3122.2222" y="1066.6666" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <Other Language="Java" Text="CNFVar.value = true;&#10;" />
+  </Algorithm>
+  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
+    <Other Language="Java" Text="CNFVar.value = true;&#10;System.out.println(this + &#34;                  PE CHANGED!!!&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="RESET" >
+    <Other Language="Java" Text="CNFVar.value=false;&#10;System.out.println(this+&#34;                            PE RESET/NOT CHANGED!!!&#34;);&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

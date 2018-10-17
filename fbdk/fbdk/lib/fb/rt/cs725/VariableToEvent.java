@@ -13,6 +13,8 @@ public class VariableToEvent extends FBInstance
   public BOOL QI = new BOOL();
 /** VAR NOTQI */
   public BOOL NOTQI = new BOOL();
+/** VAR CNFVar */
+  public BOOL CNFVar = new BOOL();
 /** Initialization Request */
  public EventServer INIT = new EventInput(this);
 /** Normal Execution Request */
@@ -47,6 +49,14 @@ public class VariableToEvent extends FBInstance
     if("NOTQI".equals(s)) return NOTQI;
     return super.ivNamed(s);}
 /** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc}
+*/
+  public ANY ovNamed(String s) throws FBRManagementException{
+    if("CNFVar".equals(s)) return CNFVar;
+    return super.ovNamed(s);}
+/** {@inheritDoc}
 * @param ivName {@inheritDoc}
 * @param newIV {@inheritDoc}
 * @throws FBRManagementException {@inheritDoc} */
@@ -71,23 +81,44 @@ public class VariableToEvent extends FBInstance
 private static final int index_START = 0;
 private void state_START(){
   eccState = index_START;
-}
-private static final int index_INIT = 1;
-private void state_INIT(){
-  eccState = index_INIT;
-  alg_INIT();
-  INITO.serviceEvent(this);
-state_START();
-}
-private static final int index_REQ = 2;
-private void state_REQ(){
-  eccState = index_REQ;
   alg_REQ();
   CNF.serviceEvent(this);
 }
-private static final int index_REQ_Down = 3;
-private void state_REQ_Down(){
-  eccState = index_REQ_Down;
+private static final int index_REQ_QI = 1;
+private void state_REQ_QI(){
+  eccState = index_REQ_QI;
+  alg_REQ();
+  CNF.serviceEvent(this);
+}
+private static final int index_RESET_QINOT = 2;
+private void state_RESET_QINOT(){
+  eccState = index_RESET_QINOT;
+  alg_RESET();
+  CNF.serviceEvent(this);
+}
+private static final int index_REQ_QINOT = 3;
+private void state_REQ_QINOT(){
+  eccState = index_REQ_QINOT;
+  alg_REQ();
+  CNF.serviceEvent(this);
+}
+private static final int index_RESET_QI = 4;
+private void state_RESET_QI(){
+  eccState = index_RESET_QI;
+  alg_RESET();
+  CNF.serviceEvent(this);
+}
+private static final int index_INTERMEDIATE_QI = 5;
+private void state_INTERMEDIATE_QI(){
+  eccState = index_INTERMEDIATE_QI;
+  alg_REQ();
+  CNF.serviceEvent(this);
+}
+private static final int index_INTERMEDIATE_NOTQI = 6;
+private void state_INTERMEDIATE_NOTQI(){
+  eccState = index_INTERMEDIATE_NOTQI;
+  alg_REQ();
+  CNF.serviceEvent(this);
 }
 /** The default constructor. */
 public VariableToEvent(){
@@ -101,16 +132,39 @@ public VariableToEvent(){
   }
 /** Services the INIT event. */
   public void service_INIT(){
-    if ((eccState == index_START)) state_INIT();
   }
 /** Services the REQ event. */
   public void service_REQ(){
-    if ((eccState == index_START) && (QI.value)) state_REQ();
+    if ((eccState == index_START) && (QI.value)) state_REQ_QI();
+    else if ((eccState == index_START) && (NOTQI.value)) state_REQ_QINOT();
+    else if ((eccState == index_REQ_QI) && (QI.value)) state_RESET_QI();
+    else if ((eccState == index_REQ_QINOT) && (NOTQI.value)) state_RESET_QINOT();
+    else if ((eccState == index_RESET_QI) && (QI.value)) state_RESET_QI();
+    else if ((eccState == index_RESET_QINOT) && (NOTQI.value)) state_RESET_QINOT();
+    else if ((eccState == index_REQ_QI) && (NOTQI.value)) state_INTERMEDIATE_QI();
+    else if ((eccState == index_REQ_QINOT) && (QI.value)) state_INTERMEDIATE_NOTQI();
+    else if ((eccState == index_INTERMEDIATE_NOTQI) && (NOTQI.value)) state_INTERMEDIATE_QI();
+    else if ((eccState == index_INTERMEDIATE_QI) && (QI.value)) state_INTERMEDIATE_NOTQI();
+    else if ((eccState == index_INTERMEDIATE_NOTQI) && (QI.value)) state_RESET_QI();
+    else if ((eccState == index_INTERMEDIATE_QI) && (NOTQI.value)) state_RESET_QINOT();
+    else if ((eccState == index_RESET_QI) && (NOTQI.value)) state_INTERMEDIATE_QI();
+    else if ((eccState == index_RESET_QINOT) && (QI.value)) state_INTERMEDIATE_NOTQI();
   }
-  /** ALGORITHM INIT IN ST*/
+  /** ALGORITHM INIT IN Java*/
 public void alg_INIT(){
+CNFVar.value = true;
+
 }
-  /** ALGORITHM REQ IN ST*/
+  /** ALGORITHM REQ IN Java*/
 public void alg_REQ(){
+CNFVar.value = true;
+System.out.println(this + "                  PE CHANGED!!!");
+
+}
+  /** ALGORITHM RESET IN Java*/
+public void alg_RESET(){
+CNFVar.value=false;
+System.out.println(this+"                            PE RESET/NOT CHANGED!!!");
+
 }
 }

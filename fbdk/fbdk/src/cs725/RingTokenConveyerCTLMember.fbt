@@ -15,6 +15,7 @@
         <With Var="PE" />
         <With Var="Candidate" />
         <With Var="PEExit" />
+        <With Var="TokenJustChanged" />
       </Event>
       <Event Name="REQ" Comment="Normal Execution Request" >
         <With Var="PERequest" />
@@ -22,6 +23,7 @@
         <With Var="Candidate" />
         <With Var="PE" />
         <With Var="PEExit" />
+        <With Var="TokenJustChanged" />
       </Event>
       <Event Name="START" >
       </Event>
@@ -50,6 +52,7 @@
       <VarDeclaration Name="Candidate" Type="BOOL" />
       <VarDeclaration Name="PE" Type="BOOL" />
       <VarDeclaration Name="PEExit" Type="BOOL" />
+      <VarDeclaration Name="TokenJustChanged" Type="BOOL" />
     </InputVars>
     <OutputVars>
       <VarDeclaration Name="TokenOut" Type="BOOL" />
@@ -82,6 +85,7 @@
       <Connection Source="TokenIn" Destination="M22.TokenIn" dx1="1172.2222" />
       <Connection Source="M22.TokenOut" Destination="TokenOut" dx1="2027.7777" />
       <Connection Source="PEExit" Destination="M22.PEExit" dx1="1188.8888" />
+      <Connection Source="TokenJustChanged" Destination="M22.TokenJustChanged" dx1="1027.7777" />
     </DataConnections>
   </FBNetwork>
 </FBType>

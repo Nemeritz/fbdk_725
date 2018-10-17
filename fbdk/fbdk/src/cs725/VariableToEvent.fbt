@@ -11,43 +11,75 @@
     <EventInputs>
       <Event Name="INIT" Comment="Initialization Request" >
         <With Var="QI" />
+        <With Var="NOTQI" />
       </Event>
       <Event Name="REQ" Comment="Normal Execution Request" >
         <With Var="QI" />
+        <With Var="NOTQI" />
       </Event>
     </EventInputs>
     <EventOutputs>
       <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="CNFVar" />
       </Event>
       <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="CNFVar" />
       </Event>
     </EventOutputs>
     <InputVars>
       <VarDeclaration Name="QI" Type="BOOL" Comment="Input event qualifier" />
       <VarDeclaration Name="NOTQI" Type="BOOL" />
     </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="CNFVar" Type="BOOL" />
+    </OutputVars>
   </InterfaceList>
   <BasicFB>
     <ECC >
-      <ECState Name="START" Comment="Initial State" x="552.94116" y="417.64706" >
-      </ECState>
-      <ECState Name="INIT" Comment="Initialization" x="923.5294" y="141.17647" >
-        <ECAction Algorithm="INIT" Output="INITO" />
-      </ECState>
-      <ECState Name="REQ" Comment="Normal execution" x="723.5294" y="1070.5883" >
+      <ECState Name="START" Comment="Initial State" x="7594.4443" y="800.0" >
         <ECAction Algorithm="REQ" Output="CNF" />
       </ECState>
-      <ECState Name="REQ_Down" x="247.05882" y="911.7647" >
+      <ECState Name="REQ_QI" Comment="Normal execution" x="6611.111" y="344.44443" >
+        <ECAction Algorithm="REQ" Output="CNF" />
       </ECState>
-      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="923.5294" y="417.64706" />
-      <ECTransition Source="INIT" Destination="START" Condition="1" x="552.94116" y="129.41176" />
-      <ECTransition Source="START" Destination="REQ" Condition="REQ&#38;QI" x="1058.8235" y="917.64703" />
+      <ECState Name="RESET_QINOT" x="6066.6665" y="1005.55554" >
+        <ECAction Algorithm="RESET" Output="CNF" />
+      </ECState>
+      <ECState Name="REQ_QINOT" x="6694.4443" y="1300.0" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECState Name="RESET_QI" x="6033.333" y="588.88885" >
+        <ECAction Algorithm="RESET" Output="CNF" />
+      </ECState>
+      <ECState Name="INTERMEDIATE_QI" x="4600.0" y="477.77777" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECState Name="INTERMEDIATE_NOTQI" x="4766.6665" y="1272.2222" >
+        <ECAction Algorithm="REQ" Output="CNF" />
+      </ECState>
+      <ECTransition Source="START" Destination="REQ_QI" Condition="REQ&#38;QI" x="7077.7773" y="594.4444" />
+      <ECTransition Source="START" Destination="REQ_QINOT" Condition="REQ&#38;NOTQI" x="7111.111" y="1044.4445" />
+      <ECTransition Source="REQ_QI" Destination="RESET_QI" Condition="REQ&#38;QI" x="6033.333" y="400.0" />
+      <ECTransition Source="REQ_QINOT" Destination="RESET_QINOT" Condition="REQ&#38;NOTQI" x="6066.6665" y="1211.1111" />
+      <ECTransition Source="RESET_QI" Destination="RESET_QI" Condition="REQ&#38;QI" x="6233.333" y="788.88885" />
+      <ECTransition Source="RESET_QINOT" Destination="RESET_QINOT" Condition="REQ&#38;NOTQI" x="6266.6665" y="1205.5555" />
+      <ECTransition Source="REQ_QI" Destination="INTERMEDIATE_QI" Condition="REQ&#38;NOTQI" x="5394.4443" y="77.77777" />
+      <ECTransition Source="REQ_QINOT" Destination="INTERMEDIATE_NOTQI" Condition="REQ&#38;QI" x="5522.222" y="1705.5555" />
+      <ECTransition Source="INTERMEDIATE_NOTQI" Destination="INTERMEDIATE_QI" Condition="REQ&#38;NOTQI" x="4700.0" y="899.99994" />
+      <ECTransition Source="INTERMEDIATE_QI" Destination="INTERMEDIATE_NOTQI" Condition="REQ&#38;QI" x="4288.8887" y="899.99994" />
+      <ECTransition Source="INTERMEDIATE_NOTQI" Destination="RESET_QI" Condition="REQ&#38;QI" x="5366.6665" y="861.1111" />
+      <ECTransition Source="INTERMEDIATE_QI" Destination="RESET_QINOT" Condition="REQ&#38;NOTQI" x="5327.7773" y="711.1111" />
+      <ECTransition Source="RESET_QI" Destination="INTERMEDIATE_QI" Condition="REQ&#38;NOTQI" x="5061.111" y="505.55554" />
+      <ECTransition Source="RESET_QINOT" Destination="INTERMEDIATE_NOTQI" Condition="REQ&#38;QI" x="5205.555" y="1177.7777" />
     </ECC>
   <Algorithm Name="INIT" Comment="Initialization algorithm" >
-    <ST Text="" />
+    <Other Language="Java" Text="CNFVar.value = true;&#10;" />
   </Algorithm>
   <Algorithm Name="REQ" Comment="Normally executed algorithm" >
-    <ST Text="" />
+    <Other Language="Java" Text="CNFVar.value = true;&#10;System.out.println(this + &#34;                  PE CHANGED!!!&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="RESET" >
+    <Other Language="Java" Text="CNFVar.value=false;&#10;System.out.println(this+&#34;                            PE RESET/NOT CHANGED!!!&#34;);&#10;" />
   </Algorithm>
   </BasicFB>
 </FBType>

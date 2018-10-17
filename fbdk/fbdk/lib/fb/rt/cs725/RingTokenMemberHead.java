@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK RingTokenMemberHead
   * @author JHC
-  * @version 20181015/JHC
+  * @version 20181017/JHC
   */
 public class RingTokenMemberHead extends FBInstance
 {
@@ -15,6 +15,8 @@ public class RingTokenMemberHead extends FBInstance
   public BOOL TokenIn = new BOOL();
 /** VAR PEExit */
   public BOOL PEExit = new BOOL();
+/** VAR TokenJustChanged */
+  public BOOL TokenJustChanged = new BOOL();
 /** Output event qualifier */
   public BOOL Block = new BOOL();
 /** VAR TokenOut */
@@ -56,6 +58,7 @@ public class RingTokenMemberHead extends FBInstance
     if("PERequest".equals(s)) return PERequest;
     if("TokenIn".equals(s)) return TokenIn;
     if("PEExit".equals(s)) return PEExit;
+    if("TokenJustChanged".equals(s)) return TokenJustChanged;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -75,6 +78,7 @@ public class RingTokenMemberHead extends FBInstance
     if("PERequest".equals(ivName)) connect_PERequest((BOOL)newIV);
     else if("TokenIn".equals(ivName)) connect_TokenIn((BOOL)newIV);
     else if("PEExit".equals(ivName)) connect_PEExit((BOOL)newIV);
+    else if("TokenJustChanged".equals(ivName)) connect_TokenJustChanged((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable PERequest
@@ -94,6 +98,12 @@ public class RingTokenMemberHead extends FBInstance
  */
   public void connect_PEExit(BOOL newIV){
     PEExit = newIV;
+    }
+/** Connect the given variable to the input variable TokenJustChanged
+  * @param newIV The variable to connect
+ */
+  public void connect_TokenJustChanged(BOOL newIV){
+    TokenJustChanged = newIV;
     }
 private static final int index_START = 0;
 private void state_START(){
@@ -142,37 +152,44 @@ System.out.println("init head, grant false, token true");
 }
   /** ALGORITHM REQ IN Java*/
 public void alg_REQ(){
-boolean TokenChanged;
-if (TokenIn.value != lastTokenIn.value) {
- TokenChanged = true;
+if(TokenIn.value) {
+if (TokenJustChanged.value) {
+ if (!PERequest.value) {
+  Block.value = false;
+  TokenOut.value = false;
+  System.out.println("Conv 1: I just got token, request is coming let bag go and keep token");
+ } else {
+  Block.value = false;
+  TokenOut.value = true;
+  System.out.println("Conv 1: I just got token, no request so run conveyer but let token go");
+ }
 } else {
- TokenChanged = false;
-}
-
-if (TokenChanged) {
- if (TokenIn.value) {
-  if (!PERequest.value) {
-   if (PEExit.value != lastPEExit.value) {
-    if (!PEExit.value) {
-     Block.value = false;
-     TokenOut.value = true;
-     System.out.println("Conv 3 exiting critical section");
-    }
-   } else {
-    Block.value = true;
-    TokenOut.value = false;
-    System.out.println("Conv 3 entering/in critical section");
-   }
-  } else {
+ if (!PERequest.value) {
+  System.out.println("Conv 1: I had token for a while, request here and bag passed eye, keep running conv and keep token");
+  Block.value = false;
+  TokenOut.value = false;
+ } else {
+  if (PEExit.value) {
    Block.value = false;
    TokenOut.value = true;
-   System.out.println("2 Conv 3");
+   System.out.println("Conv 1: I had token for a while, no requests and bag passed eye, let token go");
+  } else {
+   Block.value = false;
+   TokenOut.value = false;
+   System.out.println("Conv 1: I have token, no requests and bag not passed eye yet, keep token");
   }
- } else {
-  TokenOut.value = false;
-  Block.value = true;
-  System.out.println("TokenChanged: " + this + " " + TokenIn.value);
  }
+}
+}
+
+else {
+    if (!PERequest.value) {
+ Block.value = true;
+ System.out.println("Conv 1: No token, rquest here. Wait");
+    }
+else {
+System.out.println("Conv 1: No token no request");
+}
 }
 
 }

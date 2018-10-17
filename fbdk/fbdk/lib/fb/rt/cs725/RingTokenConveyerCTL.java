@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK RingTokenConveyerCTL
   * @author JHC
-  * @version 20181015/JHC
+  * @version 20181017/JHC
   */
 public class RingTokenConveyerCTL extends FBInstance
 {
@@ -19,6 +19,8 @@ public class RingTokenConveyerCTL extends FBInstance
   public BOOL PE = new BOOL();
 /** VAR PEExit */
   public BOOL PEExit = new BOOL();
+/** VAR TokenJustChanged */
+  public BOOL TokenJustChanged = new BOOL();
 /** VAR TokenOut */
   public BOOL TokenOut = new BOOL();
 /** VAR BlockCon */
@@ -72,6 +74,7 @@ public class RingTokenConveyerCTL extends FBInstance
     if("Candidate".equals(s)) return Candidate;
     if("PE".equals(s)) return PE;
     if("PEExit".equals(s)) return PEExit;
+    if("TokenJustChanged".equals(s)) return TokenJustChanged;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -94,6 +97,7 @@ public class RingTokenConveyerCTL extends FBInstance
     else if("Candidate".equals(ivName)) connect_Candidate((BOOL)newIV);
     else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
     else if("PEExit".equals(ivName)) connect_PEExit((BOOL)newIV);
+    else if("TokenJustChanged".equals(ivName)) connect_TokenJustChanged((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable PERequest
@@ -136,6 +140,14 @@ public class RingTokenConveyerCTL extends FBInstance
     PEExit = newIV;
     RTM1.connectIVNoException("PEExit",PEExit);
     }
+/** Connect the given variable to the input variable TokenJustChanged
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_TokenJustChanged(BOOL newIV) throws FBRManagementException{
+    TokenJustChanged = newIV;
+    RTM1.connectIVNoException("TokenJustChanged",TokenJustChanged);
+    }
 /** FB RTM1 */
   protected RingTokenMemberHead RTM1 = new RingTokenMemberHead() ;
 /** FB c2 */
@@ -162,6 +174,7 @@ public RingTokenConveyerCTL(){
     RTM1.connectIVNoException("PERequest",PERequest);
     c2.connectIVNoException("Block",RTM1.ovNamedNoException("Block"));
     RTM1.connectIVNoException("PEExit",PEExit);
+    RTM1.connectIVNoException("TokenJustChanged",TokenJustChanged);
   }
 /** {@inheritDoc}
  * @param fbName {@inheritDoc}
