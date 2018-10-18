@@ -1,0 +1,165 @@
+/* Copyright (c)2018 Rockwell Automation. All rights reserved. */
+package fb.rt.cs725;
+import fb.datatype.*;
+import fb.rt.*;
+import fb.rt.events.*;
+/** FUNCTION_BLOCK Multicast_TwoCTL
+  * @author JHC
+  * @version 20181018/JHC
+  */
+public class Multicast_TwoCTL extends FBInstance
+{
+/** Input event qualifier */
+  public BOOL PE8 = new BOOL();
+/** VAR PE11 */
+  public BOOL PE11 = new BOOL();
+/** VAR PE14 */
+  public BOOL PE14 = new BOOL();
+/** Output event qualifier */
+  public BOOL MotoRot8 = new BOOL();
+/** VAR MotoRot11 */
+  public BOOL MotoRot11 = new BOOL();
+/** VAR blockOut */
+  public BOOL blockOut = new BOOL();
+/** Initialization Request */
+ public EventOutput INIT = new EventOutput();
+/** Normal Execution Request */
+ public EventOutput REQ = new EventOutput();
+/** Initialization Confirm */
+ public EventOutput INITO = new EventOutput();
+/** Execution Confirmation */
+ public EventOutput CNF = new EventOutput();
+/** EVENT Stop */
+ public EventOutput Stop = new EventOutput();
+/** EVENT Start */
+ public EventOutput Start = new EventOutput();
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+*/
+  public EventServer eiNamed(String s){
+    if("INIT".equals(s)) return INIT;
+    if("REQ".equals(s)) return REQ;
+    return super.eiNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+*/
+  public EventOutput eoNamed(String s){
+    if("INITO".equals(s)) return INITO;
+    if("CNF".equals(s)) return CNF;
+    if("Stop".equals(s)) return Stop;
+    if("Start".equals(s)) return Start;
+    return super.eoNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc}
+*/
+  public ANY ivNamed(String s) throws FBRManagementException{
+    if("PE8".equals(s)) return PE8;
+    if("PE11".equals(s)) return PE11;
+    if("PE14".equals(s)) return PE14;
+    return super.ivNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc}
+*/
+  public ANY ovNamed(String s) throws FBRManagementException{
+    if("MotoRot8".equals(s)) return MotoRot8;
+    if("MotoRot11".equals(s)) return MotoRot11;
+    if("blockOut".equals(s)) return blockOut;
+    return super.ovNamed(s);}
+/** {@inheritDoc}
+* @param ivName {@inheritDoc}
+* @param newIV {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc} */
+  public void connectIV(String ivName, ANY newIV)
+    throws FBRManagementException{
+    if("PE8".equals(ivName)) connect_PE8((BOOL)newIV);
+    else if("PE11".equals(ivName)) connect_PE11((BOOL)newIV);
+    else if("PE14".equals(ivName)) connect_PE14((BOOL)newIV);
+    else super.connectIV(ivName, newIV);
+    }
+/** Connect the given variable to the input variable PE8
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PE8(BOOL newIV) throws FBRManagementException{
+    PE8 = newIV;
+    MC_8.connectIVNoException("PE",PE8);
+    }
+/** Connect the given variable to the input variable PE11
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PE11(BOOL newIV) throws FBRManagementException{
+    PE11 = newIV;
+    MC_11.connectIVNoException("PE",PE11);
+    }
+/** Connect the given variable to the input variable PE14
+  * @param newIV The variable to connect
+  * @throws FBRManagementException An internal connection failed.
+ */
+  public void connect_PE14(BOOL newIV) throws FBRManagementException{
+    PE14 = newIV;
+    MC_11.connectIVNoException("PEexit",PE14);
+    MC_8.connectIVNoException("PEexit",PE14);
+    }
+/** FB MC_8 */
+  protected ConveyorCTL_Multicast MC_8 = new ConveyorCTL_Multicast() ;
+/** FB MC_11 */
+  protected ConveyorCTL_Multicast MC_11 = new ConveyorCTL_Multicast() ;
+/** The default constructor. */
+public Multicast_TwoCTL(){
+    super();
+    MC_11.STOP.connectTo(Stop);
+    MC_11.START.connectTo(Start);
+    MC_8.INITO.connectTo(INITO);
+    MC_8.CNF.connectTo(CNF);
+    REQ.connectTo(MC_8.REQ);
+    REQ.connectTo(MC_11.REQ);
+    INIT.connectTo(MC_11.INIT);
+    INIT.connectTo(MC_8.INIT);
+    MC_11.INITO.connectTo(INITO);
+    MC_11.CNF.connectTo(CNF);
+    MC_11.connectIVNoException("PE",PE11);
+    MC_8.connectIVNoException("PE",PE8);
+    MC_11.connectIVNoException("PEexit",PE14);
+    MC_8.connectIVNoException("PEexit",PE14);
+    MotoRot11 = (BOOL)MC_11.ovNamedNoException("MotoRotate");
+    MotoRot8 = (BOOL)MC_8.ovNamedNoException("MotoRotate");
+    MC_8.connectIVNoException("Block",MC_8.ovNamedNoException("BlockCon"));
+    MC_11.connectIVNoException("Block",MC_11.ovNamedNoException("BlockCon"));
+    MC_11.connectIVNoException("inReq",MC_8.ovNamedNoException("outReq"));
+    MC_11.connectIVNoException("inResponse",MC_8.ovNamedNoException("outResponse"));
+    MC_11.connectIVNoException("reqTime",MC_8.ovNamedNoException("outTime"));
+    MC_8.connectIVNoException("reqTime",MC_11.ovNamedNoException("outTime"));
+    MC_8.connectIVNoException("inReq",MC_11.ovNamedNoException("outReq"));
+    MC_8.connectIVNoException("inResponse",MC_11.ovNamedNoException("outResponse"));
+    blockOut = (BOOL)MC_8.ovNamedNoException("BlockCon");
+    MC_8.Candidate.initializeNoException("1");
+    MC_11.Candidate.initializeNoException("1");
+  }
+/** {@inheritDoc}
+ * @param fbName {@inheritDoc}
+ * @param r {@inheritDoc}
+ * @throws FBRManagementException {@inheritDoc} */
+  public void initialize(String fbName, Resource r)
+  throws FBRManagementException{
+    super.initialize(fbName,r);
+    MC_8.initialize("MC_8",r);
+    MC_11.initialize("MC_11",r);
+}
+/** Start the FB instances. */
+public void start( ){
+  MC_8.start();
+  MC_11.start();
+}
+/** Stop the FB instances. */
+public void stop( ){
+  MC_8.stop();
+  MC_11.stop();
+}
+}

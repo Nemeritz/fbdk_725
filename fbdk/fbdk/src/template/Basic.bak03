@@ -24,8 +24,6 @@
     </EventOutputs>
     <InputVars>
       <VarDeclaration Name="QI" Type="BOOL" Comment="Input event qualifier" />
-      <VarDeclaration Name="req8" Type="BOOL" />
-      <VarDeclaration Name="req11" Type="BOOL" />
     </InputVars>
   </InterfaceList>
   <BasicFB>

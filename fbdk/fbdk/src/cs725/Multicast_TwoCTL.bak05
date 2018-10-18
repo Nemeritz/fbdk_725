@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Multicast_TwoCTL" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="PE8" />
+        <With Var="PE11" />
+        <With Var="PE14" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="PE8" />
+        <With Var="PE14" />
+        <With Var="PE11" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="MotoRot8" />
+        <With Var="MotoRot11" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="MotoRot8" />
+        <With Var="MotoRot11" />
+      </Event>
+      <Event Name="Stop" >
+      </Event>
+      <Event Name="Start" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PE8" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PE11" Type="BOOL" />
+      <VarDeclaration Name="PE14" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotoRot8" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="MotoRot11" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="MC_8" Type="ConveyorCTL_Multicast" x="4372.222" y="1322.2222" >
+      <Parameter Name="Candidate" Value="1" />
+    </FB>
+    <FB Name="MC_11" Type="ConveyorCTL_Multicast" x="1133.3333" y="388.8889" >
+      <Parameter Name="Candidate" Value="1" />
+    </FB>
+    <EventConnections>
+      <Connection Source="MC_11.STOP" Destination="Stop" dx1="1888.8888" />
+      <Connection Source="MC_11.START" Destination="Start" dx1="1888.8888" />
+      <Connection Source="MC_8.INITO" Destination="INITO" dx1="5150.0" />
+      <Connection Source="MC_8.CNF" Destination="CNF" dx1="5127.7773" />
+      <Connection Source="REQ" Destination="MC_8.REQ" dx1="4261.111" />
+      <Connection Source="REQ" Destination="MC_11.REQ" dx1="1022.22217" />
+      <Connection Source="INIT" Destination="MC_11.INIT" dx1="1027.7777" />
+      <Connection Source="INIT" Destination="MC_8.INIT" dx1="4266.6665" />
+      <Connection Source="MC_11.INITO" Destination="INITO" dx1="1911.1111" />
+      <Connection Source="MC_11.CNF" Destination="CNF" dx1="1888.8888" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="PE11" Destination="MC_11.PE" dx1="1011.1111" />
+      <Connection Source="PE8" Destination="MC_8.PE" dx1="4266.6665" />
+      <Connection Source="PE14" Destination="MC_11.PEexit" dx1="1011.1111" />
+      <Connection Source="PE14" Destination="MC_8.PEexit" dx1="4250.0" />
+      <Connection Source="MC_11.MotoRotate" Destination="MotoRot11" dx1="1972.2222" />
+      <Connection Source="MC_8.MotoRotate" Destination="MotoRot8" dx1="5194.4443" />
+      <Connection Source="MC_8.BlockCon" Destination="MC_8.Block" dx1="305.55554" dx2="327.77777" dy="1072.2222" />
+      <Connection Source="MC_11.BlockCon" Destination="MC_11.Block" dx1="249.99998" dx2="272.2222" dy="1116.6666" />
+      <Connection Source="MC_8.outReq" Destination="MC_11.inReq" dx1="111.11111" dx2="111.11111" dy="777.7778" />
+      <Connection Source="MC_8.outResponse" Destination="MC_11.inResponse" dx1="88.888885" dx2="88.888885" dy="377.77777" />
+      <Connection Source="MC_8.outTime" Destination="MC_11.reqTime" dx1="127.77777" dx2="127.77777" dy="538.88885" />
+      <Connection Source="MC_11.outTime" Destination="MC_8.reqTime" dx1="449.99997" />
+      <Connection Source="MC_11.outReq" Destination="MC_8.inReq" dx1="400.0" />
+      <Connection Source="MC_11.outResponse" Destination="MC_8.inResponse" dx1="355.55554" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

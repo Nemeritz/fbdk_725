@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Multicast_TwoCTL" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="PE8" />
+        <With Var="PE11" />
+        <With Var="PE14" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="PE8" />
+        <With Var="PE14" />
+        <With Var="PE11" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="MotoRot8" />
+        <With Var="MotoRot11" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="MotoRot8" />
+        <With Var="MotoRot11" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PE8" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PE11" Type="BOOL" />
+      <VarDeclaration Name="PE14" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotoRot8" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="MotoRot11" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="DLY" Type="E_DELAY" x="1105.5555" y="461.11108" />
+  </FBNetwork>
+</FBType>

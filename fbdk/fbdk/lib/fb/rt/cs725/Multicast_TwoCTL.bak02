@@ -1,0 +1,117 @@
+/* Copyright (c)2018 Rockwell Automation. All rights reserved. */
+package fb.rt.cs725;
+import fb.datatype.*;
+import fb.rt.*;
+import fb.rt.events.*;
+/** FUNCTION_BLOCK Multicast_TwoCTL
+  * @author JHC
+  * @version 20181018/JHC
+  */
+public class Multicast_TwoCTL extends FBInstance
+{
+/** Input event qualifier */
+  public BOOL PE8 = new BOOL();
+/** VAR PE11 */
+  public BOOL PE11 = new BOOL();
+/** VAR PE14 */
+  public BOOL PE14 = new BOOL();
+/** Output event qualifier */
+  public BOOL MotoRot8 = new BOOL();
+/** VAR MotoRot11 */
+  public BOOL MotoRot11 = new BOOL();
+/** Initialization Request */
+ public EventOutput INIT = new EventOutput();
+/** Normal Execution Request */
+ public EventOutput REQ = new EventOutput();
+/** Initialization Confirm */
+ public EventOutput INITO = new EventOutput();
+/** Execution Confirmation */
+ public EventOutput CNF = new EventOutput();
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+*/
+  public EventServer eiNamed(String s){
+    if("INIT".equals(s)) return INIT;
+    if("REQ".equals(s)) return REQ;
+    return super.eiNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+*/
+  public EventOutput eoNamed(String s){
+    if("INITO".equals(s)) return INITO;
+    if("CNF".equals(s)) return CNF;
+    return super.eoNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc}
+*/
+  public ANY ivNamed(String s) throws FBRManagementException{
+    if("PE8".equals(s)) return PE8;
+    if("PE11".equals(s)) return PE11;
+    if("PE14".equals(s)) return PE14;
+    return super.ivNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc}
+*/
+  public ANY ovNamed(String s) throws FBRManagementException{
+    if("MotoRot8".equals(s)) return MotoRot8;
+    if("MotoRot11".equals(s)) return MotoRot11;
+    return super.ovNamed(s);}
+/** {@inheritDoc}
+* @param ivName {@inheritDoc}
+* @param newIV {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc} */
+  public void connectIV(String ivName, ANY newIV)
+    throws FBRManagementException{
+    if("PE8".equals(ivName)) connect_PE8((BOOL)newIV);
+    else if("PE11".equals(ivName)) connect_PE11((BOOL)newIV);
+    else if("PE14".equals(ivName)) connect_PE14((BOOL)newIV);
+    else super.connectIV(ivName, newIV);
+    }
+/** Connect the given variable to the input variable PE8
+  * @param newIV The variable to connect
+ */
+  public void connect_PE8(BOOL newIV){
+    PE8 = newIV;
+    }
+/** Connect the given variable to the input variable PE11
+  * @param newIV The variable to connect
+ */
+  public void connect_PE11(BOOL newIV){
+    PE11 = newIV;
+    }
+/** Connect the given variable to the input variable PE14
+  * @param newIV The variable to connect
+ */
+  public void connect_PE14(BOOL newIV){
+    PE14 = newIV;
+    }
+/** FB DLY */
+  protected E_DELAY DLY = new E_DELAY() ;
+/** The default constructor. */
+public Multicast_TwoCTL(){
+    super();
+  }
+/** {@inheritDoc}
+ * @param fbName {@inheritDoc}
+ * @param r {@inheritDoc}
+ * @throws FBRManagementException {@inheritDoc} */
+  public void initialize(String fbName, Resource r)
+  throws FBRManagementException{
+    super.initialize(fbName,r);
+    DLY.initialize("DLY",r);
+}
+/** Start the FB instances. */
+public void start( ){
+  DLY.start();
+}
+/** Stop the FB instances. */
+public void stop( ){
+  DLY.stop();
+}
+}

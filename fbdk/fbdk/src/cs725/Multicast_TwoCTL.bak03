@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Multicast_TwoCTL" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="PE8" />
+        <With Var="PE11" />
+        <With Var="PE14" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="PE8" />
+        <With Var="PE14" />
+        <With Var="PE11" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="MotoRot8" />
+        <With Var="MotoRot11" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="MotoRot8" />
+        <With Var="MotoRot11" />
+      </Event>
+      <Event Name="Stop" >
+      </Event>
+      <Event Name="Start" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PE8" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="PE11" Type="BOOL" />
+      <VarDeclaration Name="PE14" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotoRot8" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="MotoRot11" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="MC_8" Type="ConveyorCTL_Multicast" x="2722.2222" y="700.0" >
+      <Parameter Name="Candidate" Value="1" />
+    </FB>
+    <FB Name="MC_11" Type="ConveyorCTL_Multicast" x="1133.3333" y="388.8889" >
+      <Parameter Name="Candidate" Value="1" />
+    </FB>
+    <DataConnections>
+      <Connection Source="PE11" Destination="MC_11.PE" dx1="1011.1111" />
+      <Connection Source="PE8" Destination="MC_8.PE" dx1="2616.6665" />
+      <Connection Source="PE14" Destination="MC_11.PEexit" dx1="1011.1111" />
+      <Connection Source="PE14" Destination="MC_8.PEexit" dx1="2600.0" />
+      <Connection Source="MC_11.MotoRotate" Destination="MotoRot11" dx1="1972.2222" />
+      <Connection Source="MC_8.MotoRotate" Destination="MotoRot8" dx1="3544.4443" />
+      <Connection Source="MC_8.BlockCon" Destination="MC_8.Block" dx1="305.55554" dx2="327.77777" dy="1072.2222" />
+      <Connection Source="MC_11.BlockCon" Destination="MC_11.Block" dx1="249.99998" dx2="272.2222" dy="1116.6666" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>
