@@ -114,6 +114,8 @@ public class Multicast_TwoCTL extends FBInstance
 /** The default constructor. */
 public Multicast_TwoCTL(){
     super();
+    MC_11.STOP.connectTo(Stop);
+    MC_11.START.connectTo(Start);
     MC_8.INITO.connectTo(INITO);
     MC_8.CNF.connectTo(CNF);
     REQ.connectTo(MC_8.REQ);
@@ -122,8 +124,6 @@ public Multicast_TwoCTL(){
     INIT.connectTo(MC_8.INIT);
     MC_11.INITO.connectTo(INITO);
     MC_11.CNF.connectTo(CNF);
-    MC_8.START.connectTo(Start);
-    MC_8.STOP.connectTo(Stop);
     MC_11.connectIVNoException("PE",PE11);
     MC_8.connectIVNoException("PE",PE8);
     MC_11.connectIVNoException("PEexit",PE14);

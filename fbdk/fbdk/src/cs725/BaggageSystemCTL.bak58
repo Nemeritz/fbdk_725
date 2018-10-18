@@ -261,8 +261,6 @@
           <Connection Source="MC_TWOCTL.CNF" Destination="ConControl.REQ" dx1="27.777777" dx2="5.5555553" dy="-3961.1108" />
           <Connection Source="MC_TWOCTL.Stop" Destination="FCTwo.STOP" dx1="244.44443" dx2="5.5555553" dy="-4072.2222" />
           <Connection Source="MC_TWOCTL.Start" Destination="FCTwo.START" dx1="455.55554" dx2="5.5555553" dy="-4183.333" />
-          <Connection Source="MC_TWOCTL.Stop" Destination="TCOne.Stop" dx1="27.777777" dx2="5.5555553" dy="-4072.2222" />
-          <Connection Source="MC_TWOCTL.Start" Destination="TCOne.Start" dx1="27.777777" dx2="5.5555553" dy="-4183.333" />
         </EventConnections>
         <DataConnections>
           <Connection Source="TCOne.MotoRotate1" Destination="ConControl.SD_3" dx1="994.4444" />

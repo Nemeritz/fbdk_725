@@ -55,6 +55,8 @@
       <Parameter Name="Candidate" Value="1" />
     </FB>
     <EventConnections>
+      <Connection Source="MC_11.STOP" Destination="Stop" dx1="1888.8888" />
+      <Connection Source="MC_11.START" Destination="Start" dx1="1888.8888" />
       <Connection Source="MC_8.INITO" Destination="INITO" dx1="5150.0" />
       <Connection Source="MC_8.CNF" Destination="CNF" dx1="5127.7773" />
       <Connection Source="REQ" Destination="MC_8.REQ" dx1="4261.111" />
@@ -63,8 +65,6 @@
       <Connection Source="INIT" Destination="MC_8.INIT" dx1="4266.6665" />
       <Connection Source="MC_11.INITO" Destination="INITO" dx1="1911.1111" />
       <Connection Source="MC_11.CNF" Destination="CNF" dx1="1888.8888" />
-      <Connection Source="MC_8.START" Destination="Start" dx1="5127.7773" />
-      <Connection Source="MC_8.STOP" Destination="Stop" dx1="5127.7773" />
     </EventConnections>
     <DataConnections>
       <Connection Source="PE11" Destination="MC_11.PE" dx1="1011.1111" />

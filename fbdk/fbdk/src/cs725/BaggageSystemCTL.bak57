@@ -220,7 +220,7 @@
           <Connection Source="BagInOne.INITO" Destination="BagIn1.INIT" dx1="161.1111" dx2="46.666664" dy="-773.3333" />
           <Connection Source="BagInOne.IND" Destination="BagIn1.REQ" dx1="155.55554" dx2="46.666664" dy="-886.6666" />
           <Connection Source="BagInThree.INITO" Destination="BagIn3.INIT" dx1="61.111107" />
-          <Connection Source="BagIn1.INITO" Destination="BagInTwo.INIT" dx1="27.777777" dx2="0.0" dy="-72.22222" />
+          <Connection Source="BagIn1.INITO" Destination="BagInTwo.INIT" dx1="27.777777" />
           <Connection Source="BagInTwo.INITO" Destination="BagIn2.INIT" dx1="44.444443" />
           <Connection Source="PE.IND" Destination="FCTwo.REQ" dx1="311.11108" dx2="129.41176" dy="-2205.8823" />
           <Connection Source="PE.IND" Destination="TCOne.REQ" dx1="1294.4443" dx2="126.666664" dy="-2206.6665" />
@@ -233,7 +233,7 @@
           <Connection Source="BagIn4.CNF" Destination="FCFour.REQ" dx1="1661.1111" dx2="126.666664" dy="-3313.3333" />
           <Connection Source="FCFour.CNF" Destination="ConControl.REQ" dx1="1111.1111" dx2="153.33333" dy="-2646.6665" />
           <Connection Source="FCTwo.CNF" Destination="ConControl.REQ" dx1="2022.2222" />
-          <Connection Source="BagIn2.INITO" Destination="BagInThree.INIT" dx1="27.777777" dx2="0.0" dy="-961.1111" />
+          <Connection Source="BagIn2.INITO" Destination="BagInThree.INIT" dx1="27.777777" />
           <Connection Source="BagIn3.INITO" Destination="BagInFour.INIT" dx1="27.777777" dx2="5.5555553" dy="-1877.7777" />
           <Connection Source="BagIn4.INITO" Destination="PE.INIT" dx1="227.77777" dx2="26.666666" dy="693.3333" />
           <Connection Source="FCTwo.INITO" Destination="FCFour.INIT" dx1="122.22221" />
@@ -259,10 +259,8 @@
           <Connection Source="PE.IND" Destination="MC_TWOCTL.REQ" dx1="1899.9999" />
           <Connection Source="MC_TWOCTL.INITO" Destination="ConControl.INIT" dx1="88.888885" dx2="5.5555553" dy="-3844.4443" />
           <Connection Source="MC_TWOCTL.CNF" Destination="ConControl.REQ" dx1="27.777777" dx2="5.5555553" dy="-3961.1108" />
-          <Connection Source="MC_TWOCTL.Stop" Destination="FCTwo.STOP" dx1="244.44443" dx2="5.5555553" dy="-4072.2222" />
-          <Connection Source="MC_TWOCTL.Start" Destination="FCTwo.START" dx1="455.55554" dx2="5.5555553" dy="-4183.333" />
-          <Connection Source="MC_TWOCTL.Stop" Destination="TCOne.Stop" dx1="27.777777" dx2="5.5555553" dy="-4072.2222" />
-          <Connection Source="MC_TWOCTL.Start" Destination="TCOne.Start" dx1="27.777777" dx2="5.5555553" dy="-4183.333" />
+          <Connection Source="MC_TWOCTL.Stop" Destination="FCTwo.STOP" dx1="27.777777" dx2="5.5555553" dy="-4072.2222" />
+          <Connection Source="MC_TWOCTL.Start" Destination="FCTwo.START" dx1="27.777777" dx2="5.5555553" dy="-4183.333" />
         </EventConnections>
         <DataConnections>
           <Connection Source="TCOne.MotoRotate1" Destination="ConControl.SD_3" dx1="994.4444" />

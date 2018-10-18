@@ -148,8 +148,6 @@ public TwoConCtlRingMember(){
     REQ.connectTo(FCRing.REQ);
     FC11.INITO.connectTo(INITO);
     FC11.CNF.connectTo(CNF);
-    START.connectTo(FCRing.START);
-    STOP.connectTo(FCRing.STOP);
     FC11.connectIVNoException("Candidate",Candidate);
     BlockCon = (BOOL)FC11.ovNamedNoException("BlockCon");
     FCRing.connectIVNoException("PERequest",PE);

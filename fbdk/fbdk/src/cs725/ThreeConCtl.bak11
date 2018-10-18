@@ -89,8 +89,6 @@
       <Connection Source="REQ" Destination="FC13.REQ" dx1="2300.0" />
       <Connection Source="FC11.CNF" Destination="CNF" dx1="1294.4443" />
       <Connection Source="FC12.CNF" Destination="CNF" dx1="1300.0" />
-      <Connection Source="Stop" Destination="FC11.CAS_STOP" dx1="494.44443" />
-      <Connection Source="Start" Destination="FC11.CAS_START" dx1="494.44443" />
     </EventConnections>
     <DataConnections>
       <Connection Source="FC13.MotoRotate" Destination="MotoRotate3" dx1="3211.111" />

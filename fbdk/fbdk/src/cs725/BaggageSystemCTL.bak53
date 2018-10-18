@@ -183,7 +183,7 @@
         <FB Name="BagIn1" Type="PUBL_0" x="1055.5555" y="16.666666" />
         <FB Name="BagIn3" Type="PUBL_0" x="638.88885" y="1783.3333" />
         <FB Name="BagIn2" Type="PUBL_0" x="661.1111" y="888.88885" />
-        <FB Name="FCTwo" Type="TwoConCtl" x="2822.2222" y="3011.111" >
+        <FB Name="FCTwo" Type="TwoConCtl" x="2544.4443" y="3005.5554" >
           <Parameter Name="Candidate" Value="1" />
         </FB>
         <FB Name="TCOne" Type="ThreeConCtl" x="5427.7773" y="2661.111" >
@@ -200,14 +200,14 @@
           <Parameter Name="LABEL" Value="&#34;BAG IN 4&#34;" />
         </FB>
         <FB Name="BagIn4" Type="PUBL_0" x="622.22217" y="2666.6665" />
-        <FB Name="FCFour" Type="TwoConCtl" x="4066.6665" y="3316.6665" >
+        <FB Name="FCFour" Type="TwoConCtl" x="3894.4443" y="2744.4443" >
           <Parameter Name="Candidate" Value="1" />
         </FB>
         <FB Name="FC1" Type="TwoConCtlRingHead" x="2627.7776" y="127.77777" >
           <Parameter Name="Candidate" Value="1" />
           <Parameter Name="Block" Value="0" />
         </FB>
-        <FB Name="FC3" Type="TwoConCtlRingMember" x="4138.8887" y="422.2222" >
+        <FB Name="FC3" Type="TwoConCtlRingMember" x="3594.4443" y="405.55554" >
           <Parameter Name="Candidate" Value="1" />
           <Parameter Name="Block" Value="0" />
         </FB>
@@ -241,10 +241,10 @@
           <Connection Source="TCOne.INITO" Destination="ConControl.INIT" dx1="66.666664" dx2="5.5555553" dy="-3444.4443" />
           <Connection Source="PE.INITO" Destination="FC1.INIT" dx1="2900.0" />
           <Connection Source="TCOne.START" Destination="FC1.START" dx1="27.777777" dx2="227.77777" dy="-2677.7776" />
-          <Connection Source="TCOne.STOP" Destination="FC1.STOP" dx1="249.99998" dx2="566.6666" dy="-2788.8887" />
+          <Connection Source="TCOne.STOP" Destination="FC1.STOP" dx1="27.777777" dx2="566.6666" dy="-2788.8887" />
           <Connection Source="FC1.CNF" Destination="ConControl.REQ" dx1="27.777777" dx2="0.0" dy="-1550.0" />
           <Connection Source="TCOne.START" Destination="FC3.START" dx1="27.777777" dx2="600.0" dy="-2727.7776" />
-          <Connection Source="TCOne.STOP" Destination="FC3.STOP" dx1="522.2222" dx2="555.55554" dy="-2838.8887" />
+          <Connection Source="TCOne.STOP" Destination="FC3.STOP" dx1="27.777777" dx2="555.55554" dy="-2838.8887" />
           <Connection Source="FC3.CNF" Destination="ConControl.REQ" dx1="311.11108" dx2="0.0" dy="-955.55554" />
           <Connection Source="FC3.INITO" Destination="FCTwo.INIT" dx1="233.33333" dx2="388.8889" dy="-1494.4443" />
           <Connection Source="FC1.INITO" Destination="FC3.INIT" dx1="4133.333" />
@@ -257,12 +257,10 @@
           <Connection Source="CentralServer.CNF" Destination="ConControl.REQ" dx1="655.55554" dx2="122.22221" dy="-1083.3333" />
           <Connection Source="FCFour.INITO" Destination="MC_TWOCTL.INIT" dx1="94.44444" />
           <Connection Source="PE.IND" Destination="MC_TWOCTL.REQ" dx1="1899.9999" />
-          <Connection Source="MC_TWOCTL.INITO" Destination="ConControl.INIT" dx1="88.888885" dx2="5.5555553" dy="-3844.4443" />
+          <Connection Source="MC_TWOCTL.INITO" Destination="ConControl.INIT" dx1="27.777777" dx2="5.5555553" dy="-3844.4443" />
           <Connection Source="MC_TWOCTL.CNF" Destination="ConControl.REQ" dx1="27.777777" dx2="5.5555553" dy="-3961.1108" />
-          <Connection Source="MC_TWOCTL.Stop" Destination="FCTwo.STOP" dx1="244.44443" dx2="5.5555553" dy="-4072.2222" />
-          <Connection Source="MC_TWOCTL.Start" Destination="FCTwo.START" dx1="455.55554" dx2="5.5555553" dy="-4183.333" />
-          <Connection Source="MC_TWOCTL.Stop" Destination="TCOne.Stop" dx1="27.777777" dx2="5.5555553" dy="-4072.2222" />
-          <Connection Source="MC_TWOCTL.Start" Destination="TCOne.Start" dx1="27.777777" dx2="5.5555553" dy="-4183.333" />
+          <Connection Source="MC_TWOCTL.Stop" Destination="FCFour.STOP" dx1="183.33333" dx2="83.33333" dy="-3988.8887" />
+          <Connection Source="MC_TWOCTL.Start" Destination="FCFour.START" dx1="288.8889" dx2="5.5555553" dy="-4100.0" />
         </EventConnections>
         <DataConnections>
           <Connection Source="TCOne.MotoRotate1" Destination="ConControl.SD_3" dx1="994.4444" />
@@ -296,6 +294,7 @@
           <Connection Source="PE.RD_9" Destination="MC_TWOCTL.PE14" dx1="1177.7777" />
           <Connection Source="MC_TWOCTL.MotoRot8" Destination="ConControl.SD_4" dx1="27.777777" dx2="5.5555553" dy="305.55554" />
           <Connection Source="MC_TWOCTL.MotoRot11" Destination="ConControl.SD_11" dx1="27.777777" dx2="5.5555553" dy="194.44444" />
+          <Connection Source="MC_TWOCTL.blockOut" Destination="FCFour.Block" dx1="27.777777" dx2="5.5555553" dy="83.33333" />
         </DataConnections>
       </FBNetwork>
     </Resource>

@@ -23,10 +23,6 @@
         <With Var="PE9" />
         <With Var="PE8" />
       </Event>
-      <Event Name="Start" >
-      </Event>
-      <Event Name="Stop" >
-      </Event>
     </EventInputs>
     <EventOutputs>
       <Event Name="INITO" Comment="Initialization Confirm" >
@@ -77,29 +73,27 @@
       <Parameter Name="Candidate" Value="0" />
     </FB>
     <EventConnections>
-      <Connection Source="INIT" Destination="FC11.INIT" dx1="499.99997" />
-      <Connection Source="REQ" Destination="FC11.REQ" dx1="494.44443" />
+      <Connection Source="INIT" Destination="FC11.INIT" dx1="505.55554" />
+      <Connection Source="REQ" Destination="FC11.REQ" dx1="499.99997" />
       <Connection Source="FC11.INITO" Destination="FC12.INIT" dx1="66.666664" dx2="427.77777" dy="-183.33333" />
       <Connection Source="FC12.INITO" Destination="FC13.INIT" dx1="722.22217" />
       <Connection Source="FC13.INITO" Destination="INITO" dx1="3122.2222" />
       <Connection Source="FC13.CNF" Destination="CNF" dx1="3100.0" />
-      <Connection Source="FC11.STOP" Destination="STOP" dx1="1316.6666" />
-      <Connection Source="FC11.START" Destination="START" dx1="1333.3333" />
+      <Connection Source="FC11.STOP" Destination="STOP" dx1="1322.2222" />
+      <Connection Source="FC11.START" Destination="START" dx1="1338.8888" />
       <Connection Source="REQ" Destination="FC12.REQ" dx1="499.99997" />
       <Connection Source="REQ" Destination="FC13.REQ" dx1="2300.0" />
-      <Connection Source="FC11.CNF" Destination="CNF" dx1="1294.4443" />
+      <Connection Source="FC11.CNF" Destination="CNF" dx1="1300.0" />
       <Connection Source="FC12.CNF" Destination="CNF" dx1="1300.0" />
-      <Connection Source="Stop" Destination="FC11.CAS_STOP" dx1="494.44443" />
-      <Connection Source="Start" Destination="FC11.CAS_START" dx1="494.44443" />
     </EventConnections>
     <DataConnections>
       <Connection Source="FC13.MotoRotate" Destination="MotoRotate3" dx1="3211.111" />
       <Connection Source="FC12.MotoRotate" Destination="MotoRotate2" dx1="1411.1111" />
-      <Connection Source="FC11.MotoRotate" Destination="MotoRotate1" dx1="1405.5555" />
-      <Connection Source="PE" Destination="FC11.PE" dx1="516.6666" />
-      <Connection Source="Block" Destination="FC11.Block" dx1="483.3333" />
-      <Connection Source="FC11.BlockCon" Destination="BlockCon" dx1="1361.1111" />
-      <Connection Source="Candidate" Destination="FC11.Candidate" dx1="416.66666" />
+      <Connection Source="FC11.MotoRotate" Destination="MotoRotate1" dx1="1411.1111" />
+      <Connection Source="PE" Destination="FC11.PE" dx1="522.2222" />
+      <Connection Source="Block" Destination="FC11.Block" dx1="488.88885" />
+      <Connection Source="FC11.BlockCon" Destination="BlockCon" dx1="1366.6666" />
+      <Connection Source="Candidate" Destination="FC11.Candidate" dx1="422.2222" />
       <Connection Source="PE8" Destination="FC12.PE" dx1="505.55554" />
       <Connection Source="PE9" Destination="FC13.PE" dx1="2305.5554" />
       <Connection Source="FC13.BlockCon" Destination="BlockCon9" dx1="3183.3333" />

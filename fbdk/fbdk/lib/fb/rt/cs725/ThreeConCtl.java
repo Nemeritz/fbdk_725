@@ -35,6 +35,10 @@ public class ThreeConCtl extends FBInstance
  public EventOutput INIT = new EventOutput();
 /** Normal Execution Request */
  public EventOutput REQ = new EventOutput();
+/** EVENT Start */
+ public EventOutput Start = new EventOutput();
+/** EVENT Stop */
+ public EventOutput Stop = new EventOutput();
 /** Initialization Confirm */
  public EventOutput INITO = new EventOutput();
 /** Execution Confirmation */
@@ -50,6 +54,8 @@ public class ThreeConCtl extends FBInstance
   public EventServer eiNamed(String s){
     if("INIT".equals(s)) return INIT;
     if("REQ".equals(s)) return REQ;
+    if("Start".equals(s)) return Start;
+    if("Stop".equals(s)) return Stop;
     return super.eiNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -160,6 +166,8 @@ public ThreeConCtl(){
     REQ.connectTo(FC13.REQ);
     FC11.CNF.connectTo(CNF);
     FC12.CNF.connectTo(CNF);
+    Stop.connectTo(FC11.CAS_STOP);
+    Start.connectTo(FC11.CAS_START);
     MotoRotate3 = (BOOL)FC13.ovNamedNoException("MotoRotate");
     MotoRotate2 = (BOOL)FC12.ovNamedNoException("MotoRotate");
     MotoRotate1 = (BOOL)FC11.ovNamedNoException("MotoRotate");
