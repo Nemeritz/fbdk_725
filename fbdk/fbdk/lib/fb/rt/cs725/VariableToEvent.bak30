@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK VariableToEvent
   * @author JHC
-  * @version 20181018/JHC
+  * @version 20181017/JHC
   */
 public class VariableToEvent extends FBInstance
 {

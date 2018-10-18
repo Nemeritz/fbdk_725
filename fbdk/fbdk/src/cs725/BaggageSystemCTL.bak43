@@ -295,9 +295,11 @@
           <Connection Source="FC3.TokenOut" Destination="TokenChange.NOTQI" dx1="622.22217" />
           <Connection Source="FC3.TokenOut" Destination="NOT2.QI" dx1="1772.2222" />
           <Connection Source="NOT2.QO" Destination="TokenChange.QI" dx1="155.55554" />
+          <Connection Source="TokenChange.CNFVar" Destination="FC1.TokenJustChanged" dx1="205.55554" dx2="172.22221" dy="1561.1111" />
           <Connection Source="NOT3.QO" Destination="TokenChange2.QI" dx1="216.66666" />
           <Connection Source="FC1.TokenOut" Destination="NOT3.QI" dx1="400.0" />
           <Connection Source="FC1.TokenOut" Destination="TokenChange2.NOTQI" dx1="2950.0" />
+          <Connection Source="TokenChange2.CNFVar" Destination="FC3.TokenJustChanged" dx1="133.33333" dx2="116.666664" dy="672.22217" />
           <Connection Source="NOT1.QO" Destination="FC1.PEExit" dx1="366.66666" />
           <Connection Source="NOT1.QO" Destination="FC3.PEExit" dx1="927.7778" />
           <Connection Source="PE.RD_5" Destination="CentralServer.req7" dx1="3111.111" />

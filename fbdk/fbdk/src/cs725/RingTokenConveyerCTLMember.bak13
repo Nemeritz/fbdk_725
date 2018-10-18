@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="RingTokenConveyerCTLMember" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="PERequest" />
+        <With Var="TokenIn" />
+        <With Var="PE" />
+        <With Var="Candidate" />
+        <With Var="PEExit" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="PERequest" />
+        <With Var="TokenIn" />
+        <With Var="Candidate" />
+        <With Var="PE" />
+        <With Var="PEExit" />
+      </Event>
+      <Event Name="START" >
+      </Event>
+      <Event Name="STOP" >
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="TokenOut" />
+        <With Var="MotoRotate" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="TokenOut" />
+        <With Var="BlockCon" />
+        <With Var="MotoRotate" />
+      </Event>
+      <Event Name="STOP_OUT" >
+      </Event>
+      <Event Name="START_OUT" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PERequest" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="TokenIn" Type="BOOL" />
+      <VarDeclaration Name="Candidate" Type="BOOL" />
+      <VarDeclaration Name="PE" Type="BOOL" />
+      <VarDeclaration Name="PEExit" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="TokenOut" Type="BOOL" />
+      <VarDeclaration Name="BlockCon" Type="BOOL" />
+      <VarDeclaration Name="MotoRotate" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="c2" Type="ConveyorCTL" x="3105.5554" y="827.7778" />
+    <FB Name="M22" Type="RingTokenMember" x="1327.7777" y="761.1111" />
+    <FB Name="NOT" Type="NOT" x="455.55554" y="1094.4445" />
+    <EventConnections>
+      <Connection Source="c2.START" Destination="START_OUT" dx1="3877.7776" />
+      <Connection Source="c2.STOP" Destination="STOP_OUT" dx1="3866.6665" />
+      <Connection Source="c2.CNF" Destination="CNF" dx1="3772.2222" />
+      <Connection Source="c2.INITO" Destination="INITO" dx1="3788.8887" />
+      <Connection Source="INIT" Destination="c2.INIT" dx1="3005.5554" />
+      <Connection Source="REQ" Destination="c2.REQ" dx1="2994.4443" />
+      <Connection Source="STOP" Destination="c2.CAS_STOP" dx1="2977.7776" />
+      <Connection Source="START" Destination="c2.CAS_START" dx1="2966.6665" />
+      <Connection Source="INIT" Destination="M22.INIT" dx1="1227.7777" />
+      <Connection Source="REQ" Destination="M22.REQ" dx1="1216.6666" />
+      <Connection Source="REQ" Destination="NOT.REQ" dx1="344.44443" />
+      <Connection Source="INIT" Destination="NOT.INIT" dx1="355.55554" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="c2.MotoRotate" Destination="MotoRotate" dx1="3866.6665" />
+      <Connection Source="c2.BlockCon" Destination="BlockCon" dx1="3838.8887" />
+      <Connection Source="PE" Destination="c2.PE" dx1="3016.6665" />
+      <Connection Source="Candidate" Destination="c2.Candidate" dx1="2927.7776" />
+      <Connection Source="M22.Block" Destination="c2.Block" dx1="672.22217" />
+      <Connection Source="TokenIn" Destination="M22.TokenIn" dx1="1177.7777" />
+      <Connection Source="M22.TokenOut" Destination="TokenOut" dx1="2011.1111" />
+      <Connection Source="PEExit" Destination="M22.PEExit" dx1="1183.3333" />
+      <Connection Source="PERequest" Destination="NOT.QI" dx1="261.1111" />
+      <Connection Source="NOT.QO" Destination="M22.PERequest" dx1="416.66666" />
+      <Connection Source="PERequest" Destination="M22.NoPERequest" dx1="1133.3333" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

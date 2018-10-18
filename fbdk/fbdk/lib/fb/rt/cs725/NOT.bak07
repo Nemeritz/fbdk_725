@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK NOT
   * @author JHC
-  * @version 20181018/JHC
+  * @version 20181017/JHC
   */
 public class NOT extends FBInstance
 {
