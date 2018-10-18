@@ -1,0 +1,284 @@
+/* Copyright (c)2018 Rockwell Automation. All rights reserved. */
+package fb.rt.cs725;
+import fb.datatype.*;
+import fb.rt.*;
+import fb.rt.events.*;
+/** FUNCTION_BLOCK RingTokenMember
+  * @author JHC
+  * @version 20181017/JHC
+  */
+public class RingTokenMember extends FBInstance
+{
+/** Input event qualifier */
+  public BOOL PERequest = new BOOL();
+/** VAR TokenIn */
+  public BOOL TokenIn = new BOOL();
+/** VAR PEExit */
+  public BOOL PEExit = new BOOL();
+/** VAR TokenJustChanged */
+  public BOOL TokenJustChanged = new BOOL();
+/** Output event qualifier */
+  public BOOL Block = new BOOL();
+/** VAR TokenOut */
+  public BOOL TokenOut = new BOOL();
+/** VAR lastTokenIn */
+  public BOOL lastTokenIn = new BOOL();
+/** VAR lastPEExit */
+  public BOOL lastPEExit = new BOOL();
+/** Initialization Request */
+ public EventServer INIT = new EventInput(this);
+/** Normal Execution Request */
+ public EventServer REQ = new EventInput(this);
+/** Initialization Confirm */
+ public EventOutput INITO = new EventOutput();
+/** Execution Confirmation */
+ public EventOutput CNF = new EventOutput();
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+*/
+  public EventServer eiNamed(String s){
+    if("INIT".equals(s)) return INIT;
+    if("REQ".equals(s)) return REQ;
+    return super.eiNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+*/
+  public EventOutput eoNamed(String s){
+    if("INITO".equals(s)) return INITO;
+    if("CNF".equals(s)) return CNF;
+    return super.eoNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc}
+*/
+  public ANY ivNamed(String s) throws FBRManagementException{
+    if("PERequest".equals(s)) return PERequest;
+    if("TokenIn".equals(s)) return TokenIn;
+    if("PEExit".equals(s)) return PEExit;
+    if("TokenJustChanged".equals(s)) return TokenJustChanged;
+    return super.ivNamed(s);}
+/** {@inheritDoc}
+* @param s {@inheritDoc}
+* @return {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc}
+*/
+  public ANY ovNamed(String s) throws FBRManagementException{
+    if("Block".equals(s)) return Block;
+    if("TokenOut".equals(s)) return TokenOut;
+    return super.ovNamed(s);}
+/** {@inheritDoc}
+* @param ivName {@inheritDoc}
+* @param newIV {@inheritDoc}
+* @throws FBRManagementException {@inheritDoc} */
+  public void connectIV(String ivName, ANY newIV)
+    throws FBRManagementException{
+    if("PERequest".equals(ivName)) connect_PERequest((BOOL)newIV);
+    else if("TokenIn".equals(ivName)) connect_TokenIn((BOOL)newIV);
+    else if("PEExit".equals(ivName)) connect_PEExit((BOOL)newIV);
+    else if("TokenJustChanged".equals(ivName)) connect_TokenJustChanged((BOOL)newIV);
+    else super.connectIV(ivName, newIV);
+    }
+/** Connect the given variable to the input variable PERequest
+  * @param newIV The variable to connect
+ */
+  public void connect_PERequest(BOOL newIV){
+    PERequest = newIV;
+    }
+/** Connect the given variable to the input variable TokenIn
+  * @param newIV The variable to connect
+ */
+  public void connect_TokenIn(BOOL newIV){
+    TokenIn = newIV;
+    }
+/** Connect the given variable to the input variable PEExit
+  * @param newIV The variable to connect
+ */
+  public void connect_PEExit(BOOL newIV){
+    PEExit = newIV;
+    }
+/** Connect the given variable to the input variable TokenJustChanged
+  * @param newIV The variable to connect
+ */
+  public void connect_TokenJustChanged(BOOL newIV){
+    TokenJustChanged = newIV;
+    }
+private static final int index_START = 0;
+private void state_START(){
+  eccState = index_START;
+}
+private static final int index_INIT = 1;
+private void state_INIT(){
+  eccState = index_INIT;
+  alg_INIT();
+  INITO.serviceEvent(this);
+state_START();
+}
+private static final int index_REQ = 2;
+private void state_REQ(){
+  eccState = index_REQ;
+  alg_REQ();
+  CNF.serviceEvent(this);
+state_START();
+}
+/** The default constructor. */
+public RingTokenMember(){
+    super();
+    TokenIn.initializeNoException("false");
+    lastTokenIn.initializeNoException("true");
+    lastPEExit.initializeNoException("0");
+  }
+/** {@inheritDoc}
+* @param e {@inheritDoc} */
+  public void serviceEvent(EventServer e){
+    if (e == INIT) service_INIT();
+    else if (e == REQ) service_REQ();
+  }
+/** Services the INIT event. */
+  public void service_INIT(){
+    if ((eccState == index_START)) state_INIT();
+  }
+/** Services the REQ event. */
+  public void service_REQ(){
+    if ((eccState == index_START)) state_REQ();
+  }
+  /** ALGORITHM INIT IN Java*/
+public void alg_INIT(){
+Block.value=false;
+TokenOut.value=false;
+System.out.println("init head, grant false, token true");
+
+}
+  /** ALGORITHM REQ IN Java*/
+public void alg_REQ(){
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<FBType Name="RingTokenMember" Comment="Basic Function Block Type">
+    <Identification Standard="61499-2" />
+    <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-04" Remarks="Renamed for better indexing." />
+    <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-11-05" Remarks="Corrected missing ST element in Algorithm REQ." />
+    <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-30" />
+    <CompilerInfo header="package fb.rt.cs725;">
+    </CompilerInfo>
+    <InterfaceList>
+        <EventInputs>
+            <Event Name="INIT" Comment="Initialization Request">
+                <With Var="PERequest" />
+                <With Var="TokenIn" />
+                <With Var="PEExit" />
+                <With Var="TokenJustChanged" />
+            </Event>
+            <Event Name="REQ" Comment="Normal Execution Request">
+                <With Var="PERequest" />
+                <With Var="TokenIn" />
+                <With Var="PEExit" />
+                <With Var="TokenJustChanged" />
+            </Event>
+        </EventInputs>
+        <EventOutputs>
+            <Event Name="INITO" Comment="Initialization Confirm">
+                <With Var="Block" />
+                <With Var="TokenOut" />
+            </Event>
+            <Event Name="CNF" Comment="Execution Confirmation">
+                <With Var="Block" />
+                <With Var="TokenOut" />
+            </Event>
+        </EventOutputs>
+        <InputVars>
+            <VarDeclaration Name="PERequest" Type="BOOL" Comment="Input event qualifier" />
+            <VarDeclaration Name="TokenIn" Type="BOOL" InitialValue="false" />
+            <VarDeclaration Name="PEExit" Type="BOOL" />
+            <VarDeclaration Name="TokenJustChanged" Type="BOOL" />
+        </InputVars>
+        <OutputVars>
+            <VarDeclaration Name="Block" Type="BOOL" Comment="Output event qualifier" />
+            <VarDeclaration Name="TokenOut" Type="BOOL" />
+        </OutputVars>
+    </InterfaceList>
+    <BasicFB>
+        <InternalVars>
+            <VarDeclaration Name="lastTokenIn" Type="BOOL" InitialValue="true" />
+            <VarDeclaration Name="lastPEExit" Type="BOOL" InitialValue="0" />
+            <VarDeclaration Name="TokenChanged" Type="BOOL" InitialValue="true" />
+        </InternalVars>
+        <ECC>
+            <ECState Name="START" Comment="Initial State" x="555.55554" y="427.77777">
+            </ECState>
+            <ECState Name="INIT" Comment="Initialization" x="922.22217" y="138.88889">
+                <ECAction Algorithm="INIT" Output="INITO" />
+            </ECState>
+            <ECState Name="REQ" Comment="Normal execution" x="216.66666" y="755.55554">
+                <ECAction Algorithm="REQ" Output="CNF" />
+            </ECState>
+            <ECTransition Source="START" Destination="INIT" Condition="INIT" x="922.22217" y="427.77777" />
+            <ECTransition Source="INIT" Destination="START" Condition="1" x="555.55554" y="138.88889" />
+            <ECTransition Source="START" Destination="REQ" Condition="REQ" x="555.55554" y="588.88885" />
+            <ECTransition Source="REQ" Destination="START" Condition="1" x="216.66666" y="427.77777" />
+        </ECC>
+        <Algorithm Name="INIT" Comment="Initialization algorithm">
+            <Other Language="Java" Text="Block.value=false;&#10;TokenOut.value=false;&#10;System.out.println(&#34;init head, grant false, token true&#34;);&#10;" />
+        </Algorithm>
+        <Algorithm Name="REQ" Comment="Normally executed algorithm">
+            <Other Language="Java" Text="System.out.println(&#34;3LastTokenIn, TokenIn, TokenOut:&#34; + lastTokenIn.value + TokenIn.value + TokenOut.value);&#10;&#10;if(lastTokenIn.value) {&#10;if (lastTokenIn.value != TokenIn.value) {&#10; if (!PERequest.value) {&#10;  Block.value = false;&#10;  TokenOut.value = false;&#10;  System.out.println(&#34;Conv 3: I just got token, request is coming let bag go and keep token&#34;);&#10; } else {&#10;  Block.value = false;&#10;  TokenOut.value = true;&#10;  System.out.println(&#34;Conv 3: I just got token, no request so run conveyer but let token go&#34;);&#10; }&#10;} else {&#10; if (!PERequest.value) {&#10;  System.out.println(&#34;Conv 3: I had token for a while, request here and bag passed eye, keep running conv and keep token&#34;);&#10;  Block.value = false;&#10;  TokenOut.value = false;&#10; } else {&#10;  if (PEExit.value) {&#10;   Block.value = false;&#10;   TokenOut.value = true;&#10;   System.out.println(&#34;Conv 3: I had token for a while, no requests and bag passed eye, let token go&#34;);&#10;  } else {&#10;   Block.value = false;&#10;   TokenOut.value = false;&#10;   System.out.println(&#34;Conv 3: I have token, no requests and bag not passed eye yet, keep token&#34;);&#10;  }&#10; }&#10;}&#10;}&#10;&#10;else {&#10;    if (!PERequest.value) {&#10; Block.value = true;&#10;TokenOut.value = true;&#10; System.out.println(&#34;Conv 3: No token, rquest here. Wait&#34;);&#10;    }&#10;else {&#10;Block.value = false;&#10;System.out.println(&#34;Conv 3: No token no request&#34;);&#10;}&#10;}&#10;lastTokenIn.value = TokenIn.value;&#10;" />
+        </Algorithm>
+    </BasicFB>
+</FBType>
+
+
+System.out.println("3LastTokenIn, TokenIn, TokenOut:" + lastTokenIn.value + TokenIn.value + TokenOut.value);
+
+if(lastTokenIn.value) {
+if (TokenChanged) {
+ if (!PERequest.value) {
+  Block.value = false;
+  TokenOut.value = false;
+  System.out.println("Conv 3: I just got token, request is coming let bag go and keep token");
+ } else {
+  Block.value = false;
+  TokenOut.value = true;
+  System.out.println("Conv 3: I just got token, no request so run conveyer but let token go");
+ }
+} else {
+ if (!PERequest.value) {
+  System.out.println("Conv 3: I had token for a while, request here and bag passed eye, keep running conv and keep token");
+  Block.value = false;
+  TokenOut.value = false;
+ } else {
+  if (PEExit.value) {
+   Block.value = false;
+   TokenOut.value = true;
+   System.out.println("Conv 3: I had token for a while, no requests and bag passed eye, let token go");
+  } else {
+   Block.value = false;
+   TokenOut.value = false;
+   System.out.println("Conv 3: I have token, no requests and bag not passed eye yet, keep token");
+  }
+ }
+}
+}
+
+else {
+    if (!PERequest.value) {
+ Block.value = true;
+TokenOut.value = true;
+ System.out.println("Conv 3: No token, rquest here. Wait");
+    }
+else {
+Block.value = false;
+System.out.println("Conv 3: No token no request");
+}
+}
+
+if(lastTokenIn.value != TokenIn.value) {
+    TokenChanged = true;
+}
+else {
+    TokenChanged = false;
+}
+lastTokenIn.value = TokenIn.value;
+
+}
+}

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="Composite" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="QI" />
+        <With Var="TokenIn" />
+        <With Var="PE" />
+        <With Var="PEExit" />
+        <With Var="TJC" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="QI" />
+        <With Var="TokenIn" />
+        <With Var="PE" />
+        <With Var="PEExit" />
+        <With Var="TJC" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="QO" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="QO" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="QI" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="TokenIn" Type="BOOL" />
+      <VarDeclaration Name="PE" Type="BOOL" />
+      <VarDeclaration Name="PEExit" Type="BOOL" />
+      <VarDeclaration Name="TJC" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" Comment="Output event qualifier" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="test1" Type="TwoConCtlRingMember" x="1027.7777" y="222.22221" >
+      <Parameter Name="Candidate" Value="1" />
+      <Parameter Name="Block" Value="0" />
+    </FB>
+    <FB Name="not1" Type="NOT" x="2577.7776" y="416.66666" />
+    <FB Name="d1" Type="Delay" x="3399.9998" y="683.3333" />
+    <EventConnections>
+      <Connection Source="REQ" Destination="test1.REQ" dx1="916.6666" />
+      <Connection Source="INIT" Destination="test1.INIT" dx1="927.7778" />
+      <Connection Source="test1.CNF" Destination="CNF" dx1="1761.1111" />
+      <Connection Source="test1.INITO" Destination="INITO" dx1="1777.7777" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="test1.TokenOut" Destination="not1.QI" dx1="666.6666" />
+      <Connection Source="not1.QO" Destination="d1.NOTQI" dx1="266.66666" />
+      <Connection Source="test1.TokenOut" Destination="d1.QI" dx1="1261.1111" />
+      <Connection Source="d1.QO" Destination="QO" dx1="3783.3333" />
+      <Connection Source="PE" Destination="test1.PE" dx1="938.88885" />
+      <Connection Source="TokenIn" Destination="test1.TokenIn" dx1="877.7778" />
+      <Connection Source="PEExit" Destination="test1.PEExit" dx1="883.3333" />
+      <Connection Source="TJC" Destination="test1.TokenJustChanged" dx1="927.7778" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

@@ -71,7 +71,7 @@
           <Connection Source="ThreeCon.CNF" Destination="PE.REQ" dx1="144.44444" dx2="138.88889" dy="-788.88885" />
           <Connection Source="PE.INITO" Destination="View.INIT" dx1="127.77777" />
           <Connection Source="PE.CNF" Destination="View.REQ" dx1="361.11108" />
-          <Connection Source="View.INITO" Destination="Clock.START" dx1="27.777777" dx2="0.0" dy="-1261.1111" />
+          <Connection Source="View.INITO" Destination="Clock.START" dx1="27.777777" />
           <Connection Source="TwoCon1.BagOut" Destination="ThreeCon.BagMerge1" dx1="233.33333" />
           <Connection Source="TwoCon3.BagOut" Destination="ThreeCon.BagMerge3" dx1="249.99998" />
           <Connection Source="TwoCon2.BagOut" Destination="ThreeCon.BagMerge2" dx1="166.66666" />
@@ -257,9 +257,7 @@
           <Connection Source="PE.IND" Destination="NOT1.REQ" dx1="144.44444" />
           <Connection Source="PE.INITO" Destination="NOT1.INIT" dx1="150.0" />
           <Connection Source="PE.INITO" Destination="NOT2.INIT" dx1="3144.4443" />
-          <Connection Source="PE.INITO" Destination="TokenChange.INIT" dx1="4772.222" />
           <Connection Source="PE.IND" Destination="NOT2.REQ" dx1="3022.2222" />
-          <Connection Source="PE.IND" Destination="TokenChange.REQ" dx1="3405.5554" />
           <Connection Source="PE.IND" Destination="NOT3.REQ" dx1="2972.2222" />
           <Connection Source="PE.IND" Destination="TokenChange2.REQ" dx1="3299.9998" />
           <Connection Source="PE.INITO" Destination="NOT3.INIT" dx1="5088.8887" />
@@ -278,7 +276,7 @@
           <Connection Source="TCOne.MotoRotate1" Destination="ConControl.SD_3" dx1="994.4444" />
           <Connection Source="TCOne.MotoRotate3" Destination="ConControl.SD_5" dx1="1061.1111" />
           <Connection Source="PE.RD_2" Destination="FCTwo.PE" dx1="244.44443" dx2="82.352936" dy="1141.1764" />
-          <Connection Source="FCTwo.MotoRotate1" Destination="ConControl.SD_8" dx1="1111.1111" />
+          <Connection Source="FCTwo.MotoRotate1" Destination="ConControl.SD_8" dx1="1077.7777" />
           <Connection Source="FCTwo.MotoRotate2" Destination="ConControl.SD_9" dx1="1244.4443" />
           <Connection Source="FCFour.MotoRotate1" Destination="ConControl.SD_10" dx1="1316.6666" dx2="53.333332" dy="586.6666" />
           <Connection Source="PE.RD_5" Destination="TCOne.PE" dx1="144.44444" dx2="66.666664" dy="793.3333" />

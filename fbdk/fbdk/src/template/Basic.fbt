@@ -11,15 +11,19 @@
     <EventInputs>
       <Event Name="INIT" Comment="Initialization Request" >
         <With Var="QI" />
+        <With Var="NOTQI" />
       </Event>
       <Event Name="REQ" Comment="Normal Execution Request" >
         <With Var="QI" />
+        <With Var="NOTQI" />
       </Event>
     </EventInputs>
     <EventOutputs>
       <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="QO" />
       </Event>
       <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="QO" />
       </Event>
     </EventOutputs>
     <InputVars>
@@ -27,27 +31,40 @@
       <VarDeclaration Name="req8" Type="BOOL" />
       <VarDeclaration Name="req11" Type="BOOL" />
     </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="QO" Type="BOOL" />
+    </OutputVars>
   </InterfaceList>
   <BasicFB>
     <ECC >
-      <ECState Name="START" Comment="Initial State" x="552.94116" y="429.41174" >
+      <ECState Name="START" Comment="Initial State" x="561.1111" y="516.6666" >
+        <ECAction Algorithm="RESET" Output="CNF" />
       </ECState>
-      <ECState Name="INIT" Comment="Initialization" x="923.5294" y="141.17647" >
+      <ECState Name="INIT" Comment="Initialization" x="922.22217" y="138.88889" >
         <ECAction Algorithm="INIT" Output="INITO" />
       </ECState>
-      <ECState Name="REQ" Comment="Normal execution" x="217.64705" y="752.94116" >
+      <ECState Name="REQ" Comment="Normal execution" x="522.2222" y="1577.7777" >
         <ECAction Algorithm="REQ" Output="CNF" />
       </ECState>
-      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="923.5294" y="429.41174" />
-      <ECTransition Source="INIT" Destination="START" Condition="1" x="552.94116" y="141.17647" />
-      <ECTransition Source="START" Destination="REQ" Condition="REQ&#38;QI" x="552.94116" y="611.7647" />
-      <ECTransition Source="REQ" Destination="START" Condition="1" x="217.64705" y="429.41174" />
+      <ECState Name="DELAY" x="911.1111" y="933.3333" >
+      </ECState>
+      <ECState Name="DELAYBACK" x="288.8889" y="916.6666" >
+      </ECState>
+      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="927.7778" y="516.6666" />
+      <ECTransition Source="INIT" Destination="START" Condition="1" x="561.1111" y="227.77777" />
+      <ECTransition Source="DELAY" Destination="REQ" Condition="1" x="911.1111" y="1311.1111" />
+      <ECTransition Source="START" Destination="DELAY" Condition="REQ&#38;QI" x="733.3333" y="738.88885" />
+      <ECTransition Source="DELAYBACK" Destination="START" Condition="1" x="466.66666" y="677.7778" />
+      <ECTransition Source="REQ" Destination="DELAYBACK" Condition="REQ&#38;NOTQI" x="288.8889" y="1261.1111" />
     </ECC>
   <Algorithm Name="INIT" Comment="Initialization algorithm" >
     <ST Text="" />
   </Algorithm>
   <Algorithm Name="REQ" Comment="Normally executed algorithm" >
-    <ST Text="" />
+    <Other Language="Java" Text="QO.value = true;&#10;" />
+  </Algorithm>
+  <Algorithm Name="RESET" >
+    <Other Language="Java" Text="QO.value = false;&#10;" />
   </Algorithm>
   </BasicFB>
 </FBType>

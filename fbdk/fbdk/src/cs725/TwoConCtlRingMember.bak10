@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="TwoConCtlRingMember" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="Candidate" />
+        <With Var="Block" />
+        <With Var="PE" />
+        <With Var="TokenIn" />
+        <With Var="PEExit" />
+        <With Var="TokenJustChanged" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="Candidate" />
+        <With Var="PE" />
+        <With Var="TokenIn" />
+        <With Var="PEExit" />
+        <With Var="TokenJustChanged" />
+      </Event>
+      <Event Name="START" >
+        <With Var="Block" />
+      </Event>
+      <Event Name="STOP" >
+        <With Var="Block" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="MotoRotate1" />
+        <With Var="MotoRotate2" />
+        <With Var="BlockCon" />
+        <With Var="TokenOut" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="MotoRotate1" />
+        <With Var="MotoRotate2" />
+        <With Var="BlockCon" />
+        <With Var="TokenOut" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="Candidate" Type="BOOL" />
+      <VarDeclaration Name="Block" Type="BOOL" />
+      <VarDeclaration Name="PE" Type="BOOL" />
+      <VarDeclaration Name="TokenIn" Type="BOOL" />
+      <VarDeclaration Name="PEExit" Type="BOOL" />
+      <VarDeclaration Name="TokenJustChanged" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="MotoRotate1" Type="BOOL" />
+      <VarDeclaration Name="MotoRotate2" Type="BOOL" />
+      <VarDeclaration Name="BlockCon" Type="BOOL" />
+      <VarDeclaration Name="TokenOut" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="FC11" Type="ConveyorCTL" x="329.41174" y="452.94116" >
+      <Parameter Name="PE" Value="1" />
+    </FB>
+    <FB Name="FCRing" Type="RingTokenConveyerCTLMember" x="5741.1763" y="435.2941" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="FC11.INIT" dx1="223.5294" />
+      <Connection Source="REQ" Destination="FC11.REQ" dx1="217.64705" />
+      <Connection Source="FCRing.INITO" Destination="INITO" dx1="6811.7646" />
+      <Connection Source="FCRing.CNF" Destination="CNF" dx1="6800.0" />
+      <Connection Source="FC11.INITO" Destination="FCRing.INIT" dx1="3805.8823" />
+      <Connection Source="FCRing.STOP_OUT" Destination="FC11.CAS_STOP" dx1="105.882355" dx2="105.882355" dy="-547.05884" />
+      <Connection Source="FCRing.START_OUT" Destination="FC11.CAS_START" dx1="135.29411" dx2="135.29411" dy="-700.0" />
+      <Connection Source="REQ" Destination="FCRing.REQ" dx1="5629.4116" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="FC11.MotoRotate" Destination="MotoRotate1" dx1="1135.2941" />
+      <Connection Source="Candidate" Destination="FC11.Candidate" dx1="135.29411" />
+      <Connection Source="FC11.BlockCon" Destination="BlockCon" dx1="1076.4706" />
+      <Connection Source="PE" Destination="FCRing.PERequest" dx1="5652.941" />
+      <Connection Source="TokenIn" Destination="FCRing.TokenIn" dx1="5582.353" />
+      <Connection Source="Candidate" Destination="FCRing.Candidate" dx1="5547.0586" />
+      <Connection Source="PE" Destination="FCRing.PE" dx1="5652.941" />
+      <Connection Source="FCRing.TokenOut" Destination="TokenOut" dx1="6870.588" />
+      <Connection Source="FCRing.MotoRotate" Destination="MotoRotate2" dx1="6923.5293" />
+      <Connection Source="FCRing.BlockCon" Destination="FC11.Block" dx1="194.11765" dx2="100.0" dy="864.7059" />
+      <Connection Source="PEExit" Destination="FCRing.PEExit" dx1="5594.1177" />
+      <Connection Source="TokenJustChanged" Destination="FCRing.TokenJustChanged" dx1="5429.4116" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

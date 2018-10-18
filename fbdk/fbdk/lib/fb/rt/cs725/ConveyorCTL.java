@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK ConveyorCTL
   * @author JHC
-  * @version 20181015/JHC
+  * @version 20181018/JHC
   */
 public class ConveyorCTL extends FBInstance
 {
@@ -145,6 +145,7 @@ state_START();
 /** The default constructor. */
 public ConveyorCTL(){
     super();
+    MotoRotate.initializeNoException("true");
     lastPE.initializeNoException("1");
     lastBlock.initializeNoException("0");
   }
@@ -186,22 +187,23 @@ if (Candidate.value) {
  if (lastPE.value != PE.value) {
   if (!PE.value) {
    BlockCon.value = true;
-   System.out.println("BlockCon = true");
+   //System.out.println("BlockCon = true");
   } else {
    BlockCon.value = false;
-   System.out.println("BlockCon = false");
+   //System.out.println("BlockCon = false");
   }
   lastPE.value = PE.value;
  }
  if (lastBlock.value != Block.value) {
+System.out.println("lastblock: " + lastBlock.value + " block: " + Block.value);
   if (Block.value) {
    STOP.serviceEvent(this);
    MotoRotate.value = false;
-   System.out.println("Cas Stop");
+   //System.out.println("Cas Stop");
   } else {
    START.serviceEvent(this);
    MotoRotate.value = true;
-   System.out.println("Cas Start");
+   //System.out.println("Cas Start");
   }
   lastBlock.value = Block.value;
  }

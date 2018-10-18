@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK RingTokenMember
   * @author JHC
-  * @version 20181017/JHC
+  * @version 20181018/JHC
   */
 public class RingTokenMember extends FBInstance
 {
@@ -15,8 +15,8 @@ public class RingTokenMember extends FBInstance
   public BOOL TokenIn = new BOOL();
 /** VAR PEExit */
   public BOOL PEExit = new BOOL();
-/** VAR TokenJustChanged */
-  public BOOL TokenJustChanged = new BOOL();
+/** VAR NoPERequest */
+  public BOOL NoPERequest = new BOOL();
 /** Output event qualifier */
   public BOOL Block = new BOOL();
 /** VAR TokenOut */
@@ -25,6 +25,8 @@ public class RingTokenMember extends FBInstance
   public BOOL lastTokenIn = new BOOL();
 /** VAR lastPEExit */
   public BOOL lastPEExit = new BOOL();
+/** VAR TokenChanged */
+  public BOOL TokenChanged = new BOOL();
 /** Initialization Request */
  public EventServer INIT = new EventInput(this);
 /** Normal Execution Request */
@@ -58,7 +60,7 @@ public class RingTokenMember extends FBInstance
     if("PERequest".equals(s)) return PERequest;
     if("TokenIn".equals(s)) return TokenIn;
     if("PEExit".equals(s)) return PEExit;
-    if("TokenJustChanged".equals(s)) return TokenJustChanged;
+    if("NoPERequest".equals(s)) return NoPERequest;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -78,7 +80,7 @@ public class RingTokenMember extends FBInstance
     if("PERequest".equals(ivName)) connect_PERequest((BOOL)newIV);
     else if("TokenIn".equals(ivName)) connect_TokenIn((BOOL)newIV);
     else if("PEExit".equals(ivName)) connect_PEExit((BOOL)newIV);
-    else if("TokenJustChanged".equals(ivName)) connect_TokenJustChanged((BOOL)newIV);
+    else if("NoPERequest".equals(ivName)) connect_NoPERequest((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable PERequest
@@ -99,35 +101,65 @@ public class RingTokenMember extends FBInstance
   public void connect_PEExit(BOOL newIV){
     PEExit = newIV;
     }
-/** Connect the given variable to the input variable TokenJustChanged
+/** Connect the given variable to the input variable NoPERequest
   * @param newIV The variable to connect
  */
-  public void connect_TokenJustChanged(BOOL newIV){
-    TokenJustChanged = newIV;
+  public void connect_NoPERequest(BOOL newIV){
+    NoPERequest = newIV;
     }
 private static final int index_START = 0;
 private void state_START(){
   eccState = index_START;
+    if(PERequest.value) state_HasRequest();
+    else if(NoPERequest.value) state_NoRequest();
 }
-private static final int index_INIT = 1;
-private void state_INIT(){
-  eccState = index_INIT;
-  alg_INIT();
-  INITO.serviceEvent(this);
-state_START();
-}
-private static final int index_REQ = 2;
-private void state_REQ(){
-  eccState = index_REQ;
-  alg_REQ();
+private static final int index_HasRequest = 1;
+private void state_HasRequest(){
+  eccState = index_HasRequest;
+  alg_HOLDTOKEN();
   CNF.serviceEvent(this);
-state_START();
+  alg_RUNCONVEYER();
+  CNF.serviceEvent(this);
+}
+private static final int index_NoRequest = 2;
+private void state_NoRequest(){
+  eccState = index_NoRequest;
+  alg_PASSTOKEN();
+  CNF.serviceEvent(this);
+  alg_RUNCONVEYER();
+  CNF.serviceEvent(this);
+state_IDLE();
+}
+private static final int index_IDLE = 3;
+private void state_IDLE(){
+  eccState = index_IDLE;
+  alg_PASSTOKEN();
+  CNF.serviceEvent(this);
+  alg_RUNCONVEYER();
+  CNF.serviceEvent(this);
+}
+private static final int index_BagPassedEye = 4;
+private void state_BagPassedEye(){
+  eccState = index_BagPassedEye;
+    if(NoPERequest.value) state_IDLE();
+    else if(PERequest.value) state_HasRequest();
+}
+private static final int index_NoTokenButRequest = 5;
+private void state_NoTokenButRequest(){
+  eccState = index_NoTokenButRequest;
+  alg_PASSTOKEN();
+  CNF.serviceEvent(this);
+  alg_BLOCKCONVEYER();
+  CNF.serviceEvent(this);
 }
 /** The default constructor. */
 public RingTokenMember(){
     super();
-    lastTokenIn.initializeNoException("0");
-    lastPEExit.initializeNoException("1");
+    TokenIn.initializeNoException("true");
+    TokenOut.initializeNoException("true");
+    lastTokenIn.initializeNoException("true");
+    lastPEExit.initializeNoException("0");
+    TokenChanged.initializeNoException("true");
   }
 /** {@inheritDoc}
 * @param e {@inheritDoc} */
@@ -137,11 +169,14 @@ public RingTokenMember(){
   }
 /** Services the INIT event. */
   public void service_INIT(){
-    if ((eccState == index_START)) state_INIT();
   }
 /** Services the REQ event. */
   public void service_REQ(){
-    if ((eccState == index_START)) state_REQ();
+    if ((eccState == index_HasRequest) && (PEExit.value)) state_BagPassedEye();
+    else if ((eccState == index_IDLE) && (TokenIn.value)) state_START();
+    else if ((eccState == index_IDLE) && (PERequest.value)) state_NoTokenButRequest();
+    else if ((eccState == index_NoTokenButRequest) && (TokenIn.value)) state_START();
+    else if ((eccState == index_START) && (NoPERequest.value)) state_IDLE();
   }
   /** ALGORITHM INIT IN Java*/
 public void alg_INIT(){
@@ -152,8 +187,10 @@ System.out.println("init head, grant false, token true");
 }
   /** ALGORITHM REQ IN Java*/
 public void alg_REQ(){
-if(TokenIn.value) {
-if (TokenJustChanged.value) {
+System.out.println("3LastTokenIn, TokenIn, TokenOut:" + lastTokenIn.value + TokenIn.value + TokenOut.value);
+
+if(lastTokenIn.value) {
+if (TokenChanged.value) {
  if (!PERequest.value) {
   Block.value = false;
   TokenOut.value = false;
@@ -161,7 +198,7 @@ if (TokenJustChanged.value) {
  } else {
   Block.value = false;
   TokenOut.value = true;
-  System.out.println("Conv3: I just got token, no request so run conveyer but let token go");
+  System.out.println("Conv 3: I just got token, no request so run conveyer but let token go");
  }
 } else {
  if (!PERequest.value) {
@@ -185,14 +222,47 @@ if (TokenJustChanged.value) {
 else {
     if (!PERequest.value) {
  Block.value = true;
+TokenOut.value = true;
  System.out.println("Conv 3: No token, rquest here. Wait");
     }
 else {
+Block.value = false;
+TokenOut.value = false;
 System.out.println("Conv 3: No token no request");
 }
 }
 
-System.out.println("Conv 3: " + TokenJustChanged.value);
+if(lastTokenIn.value != TokenIn.value) {
+    TokenChanged.value = true;
+}
+else {
+    TokenChanged.value = false;
+}
+lastTokenIn.value = TokenIn.value;
+
+}
+  /** ALGORITHM PASSTOKEN IN Java*/
+public void alg_PASSTOKEN(){
+TokenOut.value=true;
+System.out.println("pass");
+
+}
+  /** ALGORITHM HOLDTOKEN IN Java*/
+public void alg_HOLDTOKEN(){
+TokenOut.value=false;
+System.out.println("hold");
+
+}
+  /** ALGORITHM BLOCKCONVEYER IN Java*/
+public void alg_BLOCKCONVEYER(){
+Block.value=true;
+System.out.println("block");
+
+}
+  /** ALGORITHM RUNCONVEYER IN Java*/
+public void alg_RUNCONVEYER(){
+Block.value=false;
+System.out.println("run");
 
 }
 }

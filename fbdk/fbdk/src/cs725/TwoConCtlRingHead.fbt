@@ -15,14 +15,12 @@
         <With Var="PE" />
         <With Var="TokenIn" />
         <With Var="PEExit" />
-        <With Var="TokenJustChanged" />
       </Event>
       <Event Name="REQ" Comment="Normal Execution Request" >
         <With Var="Candidate" />
         <With Var="PE" />
         <With Var="TokenIn" />
         <With Var="PEExit" />
-        <With Var="TokenJustChanged" />
       </Event>
       <Event Name="START" >
         <With Var="Block" />
@@ -51,7 +49,6 @@
       <VarDeclaration Name="PE" Type="BOOL" />
       <VarDeclaration Name="TokenIn" Type="BOOL" />
       <VarDeclaration Name="PEExit" Type="BOOL" />
-      <VarDeclaration Name="TokenJustChanged" Type="BOOL" />
     </InputVars>
     <OutputVars>
       <VarDeclaration Name="MotoRotate1" Type="BOOL" />
@@ -66,30 +63,28 @@
     </FB>
     <FB Name="C2" Type="RingTokenConveyerCTL" x="3566.6665" y="438.8889" />
     <EventConnections>
-      <Connection Source="INIT" Destination="FC11.INIT" dx1="222.22221" />
+      <Connection Source="INIT" Destination="FC11.INIT" dx1="227.77777" />
       <Connection Source="REQ" Destination="FC11.REQ" dx1="216.66666" />
-      <Connection Source="FC11.INITO" Destination="C2.INIT" dx1="377.77777" />
-      <Connection Source="C2.INITO" Destination="INITO" dx1="4355.555" />
-      <Connection Source="C2.CNF" Destination="CNF" dx1="4333.333" />
+      <Connection Source="C2.CNF" Destination="CNF" dx1="4305.555" />
       <Connection Source="C2.STOP_OUT" Destination="FC11.CAS_STOP" dx1="77.77777" dx2="77.77777" dy="-433.3333" />
-      <Connection Source="C2.START_OUT" Destination="FC11.CAS_START" dx1="100.0" dx2="100.0" dy="-588.88885" />
-      <Connection Source="START" Destination="C2.START" dx1="3416.6665" />
-      <Connection Source="STOP" Destination="C2.STOP" dx1="3433.3333" />
+      <Connection Source="C2.START_OUT" Destination="FC11.CAS_START" dx1="194.44444" dx2="222.22221" dy="-588.88885" />
+      <Connection Source="START" Destination="C2.START" dx1="3422.2222" />
+      <Connection Source="STOP" Destination="C2.STOP" dx1="3438.8887" />
       <Connection Source="REQ" Destination="C2.REQ" dx1="3455.5554" />
+      <Connection Source="FC11.INITO" Destination="INITO" dx1="1011.1111" />
     </EventConnections>
     <DataConnections>
-      <Connection Source="FC11.MotoRotate" Destination="MotoRotate1" dx1="1127.7777" />
-      <Connection Source="Candidate" Destination="FC11.Candidate" dx1="138.88889" />
-      <Connection Source="FC11.BlockCon" Destination="BlockCon" dx1="1083.3333" />
-      <Connection Source="C2.MotoRotate" Destination="MotoRotate2" dx1="4444.4443" />
+      <Connection Source="Candidate" Destination="FC11.Candidate" dx1="150.0" />
+      <Connection Source="FC11.BlockCon" Destination="BlockCon" dx1="1061.1111" />
+      <Connection Source="C2.MotoRotate" Destination="MotoRotate2" dx1="4505.555" />
       <Connection Source="C2.BlockCon" Destination="FC11.Block" dx1="833.3333" dx2="77.77777" dy="972.22217" />
       <Connection Source="PE" Destination="C2.PE" dx1="3477.7776" />
-      <Connection Source="Candidate" Destination="C2.Candidate" dx1="3377.7776" />
+      <Connection Source="Candidate" Destination="C2.Candidate" dx1="3388.8887" />
       <Connection Source="PE" Destination="C2.PERequest" dx1="3477.7776" />
-      <Connection Source="TokenIn" Destination="C2.TokenIn" dx1="3411.111" />
-      <Connection Source="C2.TokenOut" Destination="TokenOut" dx1="4405.555" />
-      <Connection Source="PEExit" Destination="C2.PEExit" dx1="3427.7776" />
-      <Connection Source="TokenJustChanged" Destination="C2.TokenJustChanged" dx1="3266.6665" />
+      <Connection Source="TokenIn" Destination="C2.TokenIn" dx1="3416.6665" />
+      <Connection Source="C2.TokenOut" Destination="TokenOut" dx1="4372.222" />
+      <Connection Source="PEExit" Destination="C2.PEExit" dx1="3422.2222" />
+      <Connection Source="C2.MotoRotate" Destination="MotoRotate1" dx1="4661.111" />
     </DataConnections>
   </FBNetwork>
 </FBType>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="RingTokenConveyerCTL" Comment="Composite Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-05" Remarks="Renamed from NEWCOMPFB." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-01-08" Remarks="Added DLY FB as example." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-27" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="PERequest" />
+        <With Var="TokenIn" />
+        <With Var="PE" />
+        <With Var="Candidate" />
+        <With Var="PEExit" />
+        <With Var="TokenJustChanged" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="PERequest" />
+        <With Var="TokenIn" />
+        <With Var="Candidate" />
+        <With Var="PE" />
+        <With Var="PEExit" />
+        <With Var="TokenJustChanged" />
+      </Event>
+      <Event Name="START" >
+      </Event>
+      <Event Name="STOP" >
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="TokenOut" />
+        <With Var="MotoRotate" />
+        <With Var="BlockCon" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="TokenOut" />
+        <With Var="BlockCon" />
+        <With Var="MotoRotate" />
+      </Event>
+      <Event Name="STOP_OUT" >
+      </Event>
+      <Event Name="START_OUT" >
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PERequest" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="TokenIn" Type="BOOL" />
+      <VarDeclaration Name="Candidate" Type="BOOL" />
+      <VarDeclaration Name="PE" Type="BOOL" />
+      <VarDeclaration Name="PEExit" Type="BOOL" />
+      <VarDeclaration Name="TokenJustChanged" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="TokenOut" Type="BOOL" />
+      <VarDeclaration Name="BlockCon" Type="BOOL" />
+      <VarDeclaration Name="MotoRotate" Type="BOOL" />
+    </OutputVars>
+  </InterfaceList>
+  <FBNetwork >
+    <FB Name="RTM1" Type="RingTokenMemberHead" x="1511.1111" y="866.6666" />
+    <FB Name="c2" Type="ConveyorCTL" x="3105.5554" y="827.7778" />
+    <EventConnections>
+      <Connection Source="INIT" Destination="RTM1.INIT" dx1="1405.5555" />
+      <Connection Source="REQ" Destination="RTM1.REQ" dx1="1400.0" />
+      <Connection Source="c2.START" Destination="START_OUT" dx1="3911.1108" />
+      <Connection Source="c2.STOP" Destination="STOP_OUT" dx1="3894.4443" />
+      <Connection Source="c2.CNF" Destination="CNF" dx1="3794.4443" />
+      <Connection Source="c2.INITO" Destination="INITO" dx1="3816.6665" />
+      <Connection Source="INIT" Destination="c2.INIT" dx1="3000.0" />
+      <Connection Source="REQ" Destination="c2.REQ" dx1="2994.4443" />
+      <Connection Source="STOP" Destination="c2.CAS_STOP" dx1="2977.7776" />
+      <Connection Source="START" Destination="c2.CAS_START" dx1="2961.111" />
+    </EventConnections>
+    <DataConnections>
+      <Connection Source="c2.MotoRotate" Destination="MotoRotate" dx1="3888.8887" />
+      <Connection Source="c2.BlockCon" Destination="BlockCon" dx1="3861.111" />
+      <Connection Source="RTM1.TokenOut" Destination="TokenOut" dx1="2350.0" />
+      <Connection Source="TokenIn" Destination="RTM1.TokenIn" dx1="1355.5555" />
+      <Connection Source="PE" Destination="c2.PE" dx1="3016.6665" />
+      <Connection Source="Candidate" Destination="c2.Candidate" dx1="2916.6665" />
+      <Connection Source="PERequest" Destination="RTM1.PERequest" dx1="1316.6666" />
+      <Connection Source="RTM1.Block" Destination="c2.Block" dx1="449.99997" />
+      <Connection Source="PEExit" Destination="RTM1.PEExit" dx1="1372.2222" />
+      <Connection Source="TokenJustChanged" Destination="RTM1.TokenJustChanged" dx1="1211.1111" />
+    </DataConnections>
+  </FBNetwork>
+</FBType>

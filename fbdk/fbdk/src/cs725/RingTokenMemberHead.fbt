@@ -11,15 +11,15 @@
     <EventInputs>
       <Event Name="INIT" Comment="Initialization Request" >
         <With Var="PERequest" />
-        <With Var="PEExit" />
         <With Var="TokenIn" />
-        <With Var="TokenJustChanged" />
+        <With Var="PEExit" />
+        <With Var="NoPERequest" />
       </Event>
       <Event Name="REQ" Comment="Normal Execution Request" >
         <With Var="PERequest" />
-        <With Var="PEExit" />
         <With Var="TokenIn" />
-        <With Var="TokenJustChanged" />
+        <With Var="PEExit" />
+        <With Var="NoPERequest" />
       </Event>
     </EventInputs>
     <EventOutputs>
@@ -34,39 +34,99 @@
     </EventOutputs>
     <InputVars>
       <VarDeclaration Name="PERequest" Type="BOOL" Comment="Input event qualifier" />
-      <VarDeclaration Name="TokenIn" Type="BOOL" />
+      <VarDeclaration Name="TokenIn" Type="BOOL" InitialValue="true" />
       <VarDeclaration Name="PEExit" Type="BOOL" />
-      <VarDeclaration Name="TokenJustChanged" Type="BOOL" />
+      <VarDeclaration Name="NoPERequest" Type="BOOL" />
     </InputVars>
     <OutputVars>
       <VarDeclaration Name="Block" Type="BOOL" Comment="Output event qualifier" />
-      <VarDeclaration Name="TokenOut" Type="BOOL" />
+      <VarDeclaration Name="TokenOut" Type="BOOL" InitialValue="true" />
     </OutputVars>
   </InterfaceList>
   <BasicFB>
     <InternalVars>
-      <VarDeclaration Name="lastTokenIn" Type="BOOL" InitialValue="0" />
-      <VarDeclaration Name="lastPEExit" Type="BOOL" InitialValue="1" />
+      <VarDeclaration Name="lastTokenIn" Type="BOOL" InitialValue="true" />
+      <VarDeclaration Name="lastPEExit" Type="BOOL" InitialValue="0" />
+      <VarDeclaration Name="TokenChanged" Type="BOOL" InitialValue="true" />
+      <VarDeclaration Name="Counter" Type="REAL" InitialValue="0" />
     </InternalVars>
     <ECC >
-      <ECState Name="START" Comment="Initial State" x="555.55554" y="427.77777" >
+      <ECState Name="START" x="1305.5555" y="1872.2222" >
+        <ECAction Algorithm="PASSTOKEN" Output="CNF" />
+        <ECAction Algorithm="RUNCONVEYER" Output="CNF" />
+        <ECAction Algorithm="S4" Output="CNF" />
       </ECState>
-      <ECState Name="INIT" Comment="Initialization" x="922.22217" y="138.88889" >
-        <ECAction Algorithm="INIT" Output="INITO" />
+      <ECState Name="IDLE" x="1883.3333" y="544.4444" >
+        <ECAction Algorithm="S1" Output="CNF" />
+        <ECAction Algorithm="RUNCONVEYER" Output="CNF" />
       </ECState>
-      <ECState Name="REQ" Comment="Normal execution" x="216.66666" y="755.55554" >
-        <ECAction Algorithm="REQ" Output="CNF" />
+      <ECState Name="HasRequest" x="2827.7776" y="1138.8888" >
+        <ECAction Algorithm="HOLDTOKEN" Output="CNF" />
+        <ECAction Algorithm="S2" Output="CNF" />
+        <ECAction Algorithm="RUNCONVEYER" Output="CNF" />
+        <ECAction Algorithm="RESETCOUNT" Output="CNF" />
       </ECState>
-      <ECTransition Source="START" Destination="INIT" Condition="INIT" x="922.22217" y="427.77777" />
-      <ECTransition Source="INIT" Destination="START" Condition="1" x="555.55554" y="138.88889" />
-      <ECTransition Source="START" Destination="REQ" Condition="REQ" x="555.55554" y="600.0" />
-      <ECTransition Source="REQ" Destination="START" Condition="1" x="216.66666" y="427.77777" />
+      <ECState Name="BagPassedEye" x="2666.6665" y="2683.3333" >
+        <ECAction Algorithm="S3" Output="CNF" />
+      </ECState>
+      <ECState Name="NoTokenButRequest" x="300.0" y="2211.111" >
+        <ECAction Algorithm="PASSTOKEN" Output="CNF" />
+        <ECAction Algorithm="BLOCKCONVEYER" Output="CNF" />
+        <ECAction Algorithm="S5" Output="CNF" />
+      </ECState>
+      <ECState Name="BAGPASSEDFIRST" x="2405.5554" y="1883.3333" >
+        <ECAction Algorithm="HOLDTOKEN" Output="CNF" />
+        <ECAction Algorithm="BLOCKAFTERDELAY" Output="CNF" />
+      </ECState>
+      <ECTransition Source="IDLE" Destination="HasRequest" Condition="REQ&#38;PERequest" x="2827.7776" y="727.7778" />
+      <ECTransition Source="START" Destination="IDLE" Condition="REQ&#38;TokenIn" x="1883.3333" y="1355.5555" />
+      <ECTransition Source="BagPassedEye" Destination="START" Condition="REQ&#38;NoPERequest" x="2044.4443" y="3144.4443" />
+      <ECTransition Source="BagPassedEye" Destination="HasRequest" Condition="REQ&#38;PERequest" x="4466.6665" y="1872.2222" />
+      <ECTransition Source="START" Destination="NoTokenButRequest" Condition="REQ&#38;PERequest" x="633.3333" y="1994.4443" />
+      <ECTransition Source="NoTokenButRequest" Destination="IDLE" Condition="REQ&#38;TokenIn" x="455.55554" y="822.22217" />
+      <ECTransition Source="IDLE" Destination="START" Condition="REQ&#38;NoPERequest" x="1105.5555" y="1083.3333" />
+      <ECTransition Source="BAGPASSEDFIRST" Destination="BagPassedEye" Condition="REQ&#38;PEExit" x="2405.5554" y="2305.5554" />
+      <ECTransition Source="HasRequest" Destination="BAGPASSEDFIRST" Condition="REQ&#38;NoPERequest" x="2416.6665" y="1511.1111" />
+      <ECTransition Source="BAGPASSEDFIRST" Destination="BAGPASSEDFIRST" Condition="REQ&#38;!PEExit" x="2738.8887" y="2100.0" />
     </ECC>
   <Algorithm Name="INIT" Comment="Initialization algorithm" >
-    <Other Language="Java" Text="Block.value=false;&#10;TokenOut.value=true;&#10;System.out.println(&#34;init head, grant false, token true&#34;);&#10;" />
+    <Other Language="Java" Text="Block.value=false;&#10;TokenOut.value=false;&#10;System.out.println(&#34;init head, grant false, token true&#34;);&#10;" />
   </Algorithm>
-  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
-    <Other Language="Java" Text="if(TokenIn.value) {&#10;if (TokenJustChanged.value) {&#10; if (!PERequest.value) {&#10;  Block.value = false;&#10;  TokenOut.value = false;&#10;  System.out.println(&#34;Conv 1: I just got token, request is coming let bag go and keep token&#34;);&#10; } else {&#10;  Block.value = false;&#10;  TokenOut.value = true;&#10;  System.out.println(&#34;Conv 1: I just got token, no request so run conveyer but let token go&#34;);&#10; }&#10;} else {&#10; if (!PERequest.value) {&#10;  System.out.println(&#34;Conv 1: I had token for a while, request here and bag passed eye, keep running conv and keep token&#34;);&#10;  Block.value = false;&#10;  TokenOut.value = false;&#10; } else {&#10;  if (PEExit.value) {&#10;   Block.value = false;&#10;   TokenOut.value = true;&#10;   System.out.println(&#34;Conv 1: I had token for a while, no requests and bag passed eye, let token go&#34;);&#10;  } else {&#10;   Block.value = false;&#10;   TokenOut.value = false;&#10;   System.out.println(&#34;Conv 1: I have token, no requests and bag not passed eye yet, keep token&#34;);&#10;  }&#10; }&#10;}&#10;}&#10;&#10;else {&#10;    if (!PERequest.value) {&#10; Block.value = true;&#10; System.out.println(&#34;Conv 1: No token, rquest here. Wait&#34;);&#10;    }&#10;else {&#10;System.out.println(&#34;Conv 1: No token no request&#34;);&#10;}&#10;}&#10;&#10;System.out.println(&#34;Conv 1: &#34; + TokenJustChanged.value);&#10;" />
+  <Algorithm Name="PASSTOKEN" >
+    <Other Language="Java" Text="TokenOut.value=true;&#10;//System.out.println(&#34;pass&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="HOLDTOKEN" >
+    <Other Language="Java" Text="TokenOut.value=false;&#10;//System.out.println(&#34;hold&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="BLOCKCONVEYER" >
+    <Other Language="Java" Text="Block.value=true;&#10;//System.out.println(&#34;block&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="RUNCONVEYER" >
+    <Other Language="Java" Text="Block.value=false;&#10;//System.out.println(&#34;run&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S1" >
+    <ST Text="System.out.println(&#34;hSTATE 1&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S2" >
+    <ST Text="System.out.println(&#34;hSTATE 2&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S3" >
+    <ST Text="System.out.println(&#34;hSTATE 3&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S4" >
+    <ST Text="System.out.println(&#34;hSTATE 4&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S5" >
+    <ST Text="System.out.println(&#34;hSTATE 5&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="BLOCKAFTERDELAY" >
+    <Other Language="Java" Text="if(Counter.value >= 3) {&#10;Block.value = true;&#10;Counter.value = 0;&#10;System.out.println(&#34;Actually blocks xD&#34;);&#10;}&#10;else {&#10;Counter.value = Counter.value + 1;&#10;}&#10;&#10;System.out.println(&#34;Block.value&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="STOPS" >
+    <ST Text="System.out.println(&#34;Head stop while on conv&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="RESETCOUNT" >
+    <Other Language="Java" Text="Counter.value=0;&#10;" />
   </Algorithm>
   </BasicFB>
 </FBType>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE FBType SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd" >
+<FBType Name="RingTokenMemberHead" Comment="Basic Function Block Type" >
+  <Identification Standard="61499-2" />
+  <VersionInfo Organization="Rockwell Automation" Version="0.2" Author="JHC" Date="2003-12-04" Remarks="Renamed for better indexing." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.1" Author="JHC" Date="2002-11-05" Remarks="Corrected missing ST element in Algorithm REQ." />
+  <VersionInfo Organization="Rockwell Automation" Version="0.0" Author="JHC" Date="2000-05-30" />
+  <CompilerInfo header="package fb.rt.cs725;" >
+  </CompilerInfo>
+  <InterfaceList>
+    <EventInputs>
+      <Event Name="INIT" Comment="Initialization Request" >
+        <With Var="PERequest" />
+        <With Var="TokenIn" />
+        <With Var="PEExit" />
+        <With Var="NoPERequest" />
+      </Event>
+      <Event Name="REQ" Comment="Normal Execution Request" >
+        <With Var="PERequest" />
+        <With Var="TokenIn" />
+        <With Var="PEExit" />
+        <With Var="NoPERequest" />
+      </Event>
+    </EventInputs>
+    <EventOutputs>
+      <Event Name="INITO" Comment="Initialization Confirm" >
+        <With Var="Block" />
+        <With Var="TokenOut" />
+      </Event>
+      <Event Name="CNF" Comment="Execution Confirmation" >
+        <With Var="Block" />
+        <With Var="TokenOut" />
+      </Event>
+    </EventOutputs>
+    <InputVars>
+      <VarDeclaration Name="PERequest" Type="BOOL" Comment="Input event qualifier" />
+      <VarDeclaration Name="TokenIn" Type="BOOL" InitialValue="true" />
+      <VarDeclaration Name="PEExit" Type="BOOL" />
+      <VarDeclaration Name="NoPERequest" Type="BOOL" />
+    </InputVars>
+    <OutputVars>
+      <VarDeclaration Name="Block" Type="BOOL" Comment="Output event qualifier" />
+      <VarDeclaration Name="TokenOut" Type="BOOL" InitialValue="true" />
+    </OutputVars>
+  </InterfaceList>
+  <BasicFB>
+    <InternalVars>
+      <VarDeclaration Name="lastTokenIn" Type="BOOL" InitialValue="true" />
+      <VarDeclaration Name="lastPEExit" Type="BOOL" InitialValue="0" />
+      <VarDeclaration Name="TokenChanged" Type="BOOL" InitialValue="true" />
+      <VarDeclaration Name="Counter" Type="INT" InitialValue="0" />
+    </InternalVars>
+    <ECC >
+      <ECState Name="START" x="1305.5555" y="1872.2222" >
+        <ECAction Algorithm="PASSTOKEN" Output="CNF" />
+        <ECAction Algorithm="RUNCONVEYER" Output="CNF" />
+        <ECAction Algorithm="S4" Output="CNF" />
+      </ECState>
+      <ECState Name="IDLE" x="1883.3333" y="544.4444" >
+        <ECAction Algorithm="S1" Output="CNF" />
+        <ECAction Algorithm="RUNCONVEYER" Output="CNF" />
+      </ECState>
+      <ECState Name="HasRequest" x="2794.4443" y="1283.3333" >
+        <ECAction Algorithm="HOLDTOKEN" Output="CNF" />
+        <ECAction Algorithm="S2" Output="CNF" />
+        <ECAction Algorithm="RUNCONVEYER" Output="CNF" />
+      </ECState>
+      <ECState Name="BagPassedEye" x="2438.889" y="2122.2222" >
+        <ECAction Algorithm="S3" Output="CNF" />
+      </ECState>
+      <ECState Name="NoTokenButRequest" x="300.0" y="2211.111" >
+        <ECAction Algorithm="PASSTOKEN" Output="CNF" />
+        <ECAction Algorithm="BLOCKCONVEYER" Output="CNF" />
+        <ECAction Algorithm="S5" Output="CNF" />
+      </ECState>
+      <ECState Name="BAGPASSEDFIRST" x="2572.2222" y="1716.6666" >
+        <ECAction Algorithm="HOLDTOKEN" Output="CNF" />
+        <ECAction Algorithm="BLOCKCONVEYER" Output="CNF" />
+        <ECAction Algorithm="BLOCKAFTERDELAY" Output="CNF" />
+      </ECState>
+      <ECTransition Source="IDLE" Destination="HasRequest" Condition="REQ&#38;PERequest" x="2794.4443" y="872.22217" />
+      <ECTransition Source="START" Destination="IDLE" Condition="REQ&#38;TokenIn" x="1883.3333" y="1355.5555" />
+      <ECTransition Source="BagPassedEye" Destination="START" Condition="REQ&#38;NoPERequest" x="1816.6666" y="2583.3333" />
+      <ECTransition Source="BagPassedEye" Destination="HasRequest" Condition="REQ&#38;PERequest" x="4816.6665" y="1927.7777" />
+      <ECTransition Source="START" Destination="NoTokenButRequest" Condition="REQ&#38;PERequest" x="633.3333" y="1994.4443" />
+      <ECTransition Source="NoTokenButRequest" Destination="IDLE" Condition="REQ&#38;TokenIn" x="455.55554" y="822.22217" />
+      <ECTransition Source="IDLE" Destination="START" Condition="REQ&#38;NoPERequest" x="1105.5555" y="1083.3333" />
+      <ECTransition Source="BAGPASSEDFIRST" Destination="BagPassedEye" Condition="REQ&#38;PEExit" x="2461.111" y="1911.1111" />
+      <ECTransition Source="HasRequest" Destination="BAGPASSEDFIRST" Condition="REQ&#38;NoPERequest" x="2572.2222" y="1477.7777" />
+    </ECC>
+  <Algorithm Name="INIT" Comment="Initialization algorithm" >
+    <Other Language="Java" Text="Block.value=false;&#10;TokenOut.value=false;&#10;System.out.println(&#34;init head, grant false, token true&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="REQ" Comment="Normally executed algorithm" >
+    <Other Language="Java" Text="System.out.println(&#34;3LastTokenIn, TokenIn, TokenOut:&#34; + lastTokenIn.value + TokenIn.value + TokenOut.value);&#10;&#10;if(lastTokenIn.value) {&#10;if (TokenChanged.value) {&#10; if (!PERequest.value) {&#10;  Block.value = false;&#10;  TokenOut.value = false;&#10;  System.out.println(&#34;Conv 3: I just got token, request is coming let bag go and keep token&#34;);&#10; } else {&#10;  Block.value = false;&#10;  TokenOut.value = true;&#10;  System.out.println(&#34;Conv 3: I just got token, no request so run conveyer but let token go&#34;);&#10; }&#10;} else {&#10; if (!PERequest.value) {&#10;  System.out.println(&#34;Conv 3: I had token for a while, request here and bag passed eye, keep running conv and keep token&#34;);&#10;  Block.value = false;&#10;  TokenOut.value = false;&#10; } else {&#10;  if (PEExit.value) {&#10;   Block.value = false;&#10;   TokenOut.value = true;&#10;   System.out.println(&#34;Conv 3: I had token for a while, no requests and bag passed eye, let token go&#34;);&#10;  } else {&#10;   Block.value = false;&#10;   TokenOut.value = false;&#10;   System.out.println(&#34;Conv 3: I have token, no requests and bag not passed eye yet, keep token&#34;);&#10;  }&#10; }&#10;}&#10;}&#10;&#10;else {&#10;    if (!PERequest.value) {&#10; Block.value = true;&#10;TokenOut.value = true;&#10; System.out.println(&#34;Conv 3: No token, rquest here. Wait&#34;);&#10;    }&#10;else {&#10;Block.value = false;&#10;TokenOut.value = false;&#10;System.out.println(&#34;Conv 3: No token no request&#34;);&#10;}&#10;}&#10;&#10;if(lastTokenIn.value != TokenIn.value) {&#10;    TokenChanged.value = true;&#10;}&#10;else {&#10;    TokenChanged.value = false;&#10;}&#10;lastTokenIn.value = TokenIn.value;&#10;" />
+  </Algorithm>
+  <Algorithm Name="PASSTOKEN" >
+    <Other Language="Java" Text="TokenOut.value=true;&#10;//System.out.println(&#34;pass&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="HOLDTOKEN" >
+    <Other Language="Java" Text="TokenOut.value=false;&#10;//System.out.println(&#34;hold&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="BLOCKCONVEYER" >
+    <Other Language="Java" Text="Block.value=true;&#10;//System.out.println(&#34;block&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="RUNCONVEYER" >
+    <Other Language="Java" Text="Block.value=false;&#10;//System.out.println(&#34;run&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S1" >
+    <ST Text="System.out.println(&#34;hSTATE 1&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S2" >
+    <ST Text="System.out.println(&#34;hSTATE 2&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S3" >
+    <ST Text="System.out.println(&#34;hSTATE 3&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S4" >
+    <ST Text="System.out.println(&#34;hSTATE 4&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="S5" >
+    <ST Text="System.out.println(&#34;hSTATE 5&#34;);&#10;" />
+  </Algorithm>
+  <Algorithm Name="BLOCKAFTERDELAY" >
+    <Other Language="Java" Text="int x = 1;&#10;&#10;if(Counter.value >= 3) {&#10;Block.value = true;&#10;Counter.value = 0;&#10;}&#10;else {&#10;Block.value = false;&#10;Counter.value = x;&#10;}&#10;" />
+  </Algorithm>
+  </BasicFB>
+</FBType>

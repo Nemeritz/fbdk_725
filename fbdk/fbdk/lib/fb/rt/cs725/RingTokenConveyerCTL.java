@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK RingTokenConveyerCTL
   * @author JHC
-  * @version 20181017/JHC
+  * @version 20181018/JHC
   */
 public class RingTokenConveyerCTL extends FBInstance
 {
@@ -19,8 +19,6 @@ public class RingTokenConveyerCTL extends FBInstance
   public BOOL PE = new BOOL();
 /** VAR PEExit */
   public BOOL PEExit = new BOOL();
-/** VAR TokenJustChanged */
-  public BOOL TokenJustChanged = new BOOL();
 /** VAR TokenOut */
   public BOOL TokenOut = new BOOL();
 /** VAR BlockCon */
@@ -74,7 +72,6 @@ public class RingTokenConveyerCTL extends FBInstance
     if("Candidate".equals(s)) return Candidate;
     if("PE".equals(s)) return PE;
     if("PEExit".equals(s)) return PEExit;
-    if("TokenJustChanged".equals(s)) return TokenJustChanged;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -97,7 +94,6 @@ public class RingTokenConveyerCTL extends FBInstance
     else if("Candidate".equals(ivName)) connect_Candidate((BOOL)newIV);
     else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
     else if("PEExit".equals(ivName)) connect_PEExit((BOOL)newIV);
-    else if("TokenJustChanged".equals(ivName)) connect_TokenJustChanged((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable PERequest
@@ -106,7 +102,8 @@ public class RingTokenConveyerCTL extends FBInstance
  */
   public void connect_PERequest(BOOL newIV) throws FBRManagementException{
     PERequest = newIV;
-    RTM1.connectIVNoException("PERequest",PERequest);
+    RTM1.connectIVNoException("NoPERequest",PERequest);
+    NOT.connectIVNoException("QI",PERequest);
     }
 /** Connect the given variable to the input variable TokenIn
   * @param newIV The variable to connect
@@ -140,18 +137,12 @@ public class RingTokenConveyerCTL extends FBInstance
     PEExit = newIV;
     RTM1.connectIVNoException("PEExit",PEExit);
     }
-/** Connect the given variable to the input variable TokenJustChanged
-  * @param newIV The variable to connect
-  * @throws FBRManagementException An internal connection failed.
- */
-  public void connect_TokenJustChanged(BOOL newIV) throws FBRManagementException{
-    TokenJustChanged = newIV;
-    RTM1.connectIVNoException("TokenJustChanged",TokenJustChanged);
-    }
 /** FB RTM1 */
   protected RingTokenMemberHead RTM1 = new RingTokenMemberHead() ;
 /** FB c2 */
   protected ConveyorCTL c2 = new ConveyorCTL() ;
+/** FB NOT */
+  protected NOT NOT = new NOT() ;
 /** The default constructor. */
 public RingTokenConveyerCTL(){
     super();
@@ -165,16 +156,21 @@ public RingTokenConveyerCTL(){
     REQ.connectTo(c2.REQ);
     STOP.connectTo(c2.CAS_STOP);
     START.connectTo(c2.CAS_START);
+    INIT.connectTo(NOT.INIT);
+    REQ.connectTo(NOT.REQ);
+    NOT.CNF.connectTo(CNF);
+    RTM1.CNF.connectTo(CNF);
     MotoRotate = (BOOL)c2.ovNamedNoException("MotoRotate");
     BlockCon = (BOOL)c2.ovNamedNoException("BlockCon");
     TokenOut = (BOOL)RTM1.ovNamedNoException("TokenOut");
     RTM1.connectIVNoException("TokenIn",TokenIn);
     c2.connectIVNoException("PE",PE);
     c2.connectIVNoException("Candidate",Candidate);
-    RTM1.connectIVNoException("PERequest",PERequest);
     c2.connectIVNoException("Block",RTM1.ovNamedNoException("Block"));
     RTM1.connectIVNoException("PEExit",PEExit);
-    RTM1.connectIVNoException("TokenJustChanged",TokenJustChanged);
+    RTM1.connectIVNoException("NoPERequest",PERequest);
+    NOT.connectIVNoException("QI",PERequest);
+    RTM1.connectIVNoException("PERequest",NOT.ovNamedNoException("QO"));
   }
 /** {@inheritDoc}
  * @param fbName {@inheritDoc}
@@ -185,15 +181,18 @@ public RingTokenConveyerCTL(){
     super.initialize(fbName,r);
     RTM1.initialize("RTM1",r);
     c2.initialize("c2",r);
+    NOT.initialize("NOT",r);
 }
 /** Start the FB instances. */
 public void start( ){
   RTM1.start();
   c2.start();
+  NOT.start();
 }
 /** Stop the FB instances. */
 public void stop( ){
   RTM1.stop();
   c2.stop();
+  NOT.stop();
 }
 }

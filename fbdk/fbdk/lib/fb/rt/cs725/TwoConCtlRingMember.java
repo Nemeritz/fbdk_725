@@ -5,7 +5,7 @@ import fb.rt.*;
 import fb.rt.events.*;
 /** FUNCTION_BLOCK TwoConCtlRingMember
   * @author JHC
-  * @version 20181017/JHC
+  * @version 20181018/JHC
   */
 public class TwoConCtlRingMember extends FBInstance
 {
@@ -19,8 +19,6 @@ public class TwoConCtlRingMember extends FBInstance
   public BOOL TokenIn = new BOOL();
 /** VAR PEExit */
   public BOOL PEExit = new BOOL();
-/** VAR TokenJustChanged */
-  public BOOL TokenJustChanged = new BOOL();
 /** VAR MotoRotate1 */
   public BOOL MotoRotate1 = new BOOL();
 /** VAR MotoRotate2 */
@@ -70,7 +68,6 @@ public class TwoConCtlRingMember extends FBInstance
     if("PE".equals(s)) return PE;
     if("TokenIn".equals(s)) return TokenIn;
     if("PEExit".equals(s)) return PEExit;
-    if("TokenJustChanged".equals(s)) return TokenJustChanged;
     return super.ivNamed(s);}
 /** {@inheritDoc}
 * @param s {@inheritDoc}
@@ -94,7 +91,6 @@ public class TwoConCtlRingMember extends FBInstance
     else if("PE".equals(ivName)) connect_PE((BOOL)newIV);
     else if("TokenIn".equals(ivName)) connect_TokenIn((BOOL)newIV);
     else if("PEExit".equals(ivName)) connect_PEExit((BOOL)newIV);
-    else if("TokenJustChanged".equals(ivName)) connect_TokenJustChanged((BOOL)newIV);
     else super.connectIV(ivName, newIV);
     }
 /** Connect the given variable to the input variable Candidate
@@ -137,14 +133,6 @@ public class TwoConCtlRingMember extends FBInstance
     PEExit = newIV;
     FCRing.connectIVNoException("PEExit",PEExit);
     }
-/** Connect the given variable to the input variable TokenJustChanged
-  * @param newIV The variable to connect
-  * @throws FBRManagementException An internal connection failed.
- */
-  public void connect_TokenJustChanged(BOOL newIV) throws FBRManagementException{
-    TokenJustChanged = newIV;
-    FCRing.connectIVNoException("TokenJustChanged",TokenJustChanged);
-    }
 /** FB FC11 */
   protected ConveyorCTL FC11 = new ConveyorCTL() ;
 /** FB FCRing */
@@ -154,13 +142,12 @@ public TwoConCtlRingMember(){
     super();
     INIT.connectTo(FC11.INIT);
     REQ.connectTo(FC11.REQ);
-    FCRing.INITO.connectTo(INITO);
     FCRing.CNF.connectTo(CNF);
-    FC11.INITO.connectTo(FCRing.INIT);
     FCRing.STOP_OUT.connectTo(FC11.CAS_STOP);
     FCRing.START_OUT.connectTo(FC11.CAS_START);
     REQ.connectTo(FCRing.REQ);
-    MotoRotate1 = (BOOL)FC11.ovNamedNoException("MotoRotate");
+    FC11.INITO.connectTo(INITO);
+    FC11.CNF.connectTo(CNF);
     FC11.connectIVNoException("Candidate",Candidate);
     BlockCon = (BOOL)FC11.ovNamedNoException("BlockCon");
     FCRing.connectIVNoException("PERequest",PE);
@@ -171,7 +158,7 @@ public TwoConCtlRingMember(){
     MotoRotate2 = (BOOL)FCRing.ovNamedNoException("MotoRotate");
     FC11.connectIVNoException("Block",FCRing.ovNamedNoException("BlockCon"));
     FCRing.connectIVNoException("PEExit",PEExit);
-    FCRing.connectIVNoException("TokenJustChanged",TokenJustChanged);
+    MotoRotate1 = (BOOL)FCRing.ovNamedNoException("MotoRotate");
     FC11.PE.initializeNoException("1");
   }
 /** {@inheritDoc}
